@@ -1,159 +1,240 @@
+// src/app/auth/signup/page.tsx
 "use client";
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import styles from './signup.module.css';
+import { Eye, EyeOff } from 'lucide-react';
 
-export default function SignupPage() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+const SignupPage: React.FC = () => {
+    const [formData, setFormData] = useState({
+        fullName: '',
+        email: '',
+        mobile: '',
+        password: '',
+        confirmPassword: '',
+        otp: '',
+        agreedToTerms: false,
+    });
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [showOtpField, setShowOtpField] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value, type, checked } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value,
+        }));
+        setError('');
+    };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      setLoading(false);
-      return;
-    }
-    
-    try {
-      console.log('Signup attempt with:', { 
-        name: formData.name, 
-        email: formData.email 
-      });
-      await new Promise(resolve => setTimeout(resolve, 1000));
-    } catch (err) {
-      setError('Failed to create account. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
+    const handleGetOtp = (e: React.FormEvent) => {
+        e.preventDefault();
+        // Basic validation
+        if (!formData.mobile || !/^\d{10}$/.test(formData.mobile)) {
+            setError('Please enter a valid 10-digit mobile number');
+            return;
+        }
+        // Show OTP field
+        setShowOtpField(true);
+        // In a real app, you would send OTP to the mobile number here
+        console.log('OTP sent to:', formData.mobile);
+    };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create a new account
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
-            <Link href="/auth/login" className="font-medium text-indigo-600 hover:text-indigo-500">
-              sign in to your account
-            </Link>
-          </p>
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        setError('');
+
+        // Validation
+        if (formData.password.length < 8) {
+            setError('Password must be at least 8 characters long.');
+            return;
+        }
+        if (formData.password !== formData.confirmPassword) {
+            setError('Passwords do not match.');
+            return;
+        }
+        if (!formData.otp || formData.otp.length !== 6) {
+            setError('Please enter a valid 6-digit OTP.');
+            return;
+        }
+        if (!formData.agreedToTerms) {
+            setError('You must agree to the Terms of Service and Privacy Policy.');
+            return;
+        }
+
+        setIsLoading(true);
+        console.log('Attempting to create account:', formData);
+
+        // Simulate API call
+        setTimeout(() => {
+            setIsLoading(false);
+            alert('Account Created Successfully!');
+            // Redirect to login or dashboard
+        }, 2000);
+    };
+
+    return (
+        <div className={styles.signupContainer}>
+            <div className={styles.signupCard}>
+                <h2 className={styles.cardHeader}>Create Account</h2>
+
+                <form onSubmit={showOtpField ? handleSubmit : handleGetOtp} className={styles.signupForm}>
+                    {error && <div className={styles.errorMessage}>{error}</div>}
+
+                    {/* Full Name Field */}
+                    <div className={styles.inputGroup}>
+                        <label htmlFor="fullName">Full Name *</label>
+                        <input
+                            type="text"
+                            id="fullName"
+                            name="fullName"
+                            value={formData.fullName}
+                            onChange={handleChange}
+                            placeholder="Enter your full name"
+                            required
+                            className={styles.inputField}
+                        />
+                    </div>
+
+                    {/* Email Field */}
+                    <div className={styles.inputGroup}>
+                        <label htmlFor="email">Email Address *</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            placeholder="name@example.com"
+                            required
+                            className={styles.inputField}
+                        />
+                    </div>
+
+                    {/* Mobile Number Field */}
+                    <div className={styles.inputGroup}>
+                        <label htmlFor="mobile">Mobile Number (10 digits) *</label>
+                        <input
+                            type="tel"
+                            id="mobile"
+                            name="mobile"
+                            value={formData.mobile}
+                            onChange={handleChange}
+                            placeholder="1234567890"
+                            pattern="\d{10}"
+                            required
+                            className={styles.inputField}
+                            disabled={showOtpField}
+                        />
+                    </div>
+
+                    {showOtpField && (
+                        <div className={styles.inputGroup}>
+                            <label htmlFor="otp">Enter OTP (6 digits) *</label>
+                            <input
+                                type="text"
+                                id="otp"
+                                name="otp"
+                                value={formData.otp}
+                                onChange={handleChange}
+                                placeholder="123456"
+                                pattern="\d{6}"
+                                required
+                                className={styles.inputField}
+                            />
+                        </div>
+                    )}
+
+                    {/* Password Field */}
+                    <div className={styles.inputGroup}>
+                        <label htmlFor="password">Password (min 8 characters) *</label>
+                        <div className={styles.passwordContainer}>
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                id="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                placeholder="Minimum 8 characters"
+                                minLength={8}
+                                required
+                                className={styles.inputField}
+                            />
+                            <span 
+                                className={styles.passwordToggle} 
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Confirm Password Field */}
+                    <div className={styles.inputGroup}>
+                        <label htmlFor="confirmPassword">Confirm Password *</label>
+                        <div className={styles.passwordContainer}>
+                            <input
+                                type={showConfirmPassword ? 'text' : 'password'}
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                placeholder="Re-enter password"
+                                required
+                                className={styles.inputField}
+                            />
+                            <span 
+                                className={styles.passwordToggle} 
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            >
+                                {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Terms and Policy Checkbox */}
+                    <div className={styles.termsAgreement}>
+                        <input
+                            type="checkbox"
+                            id="agreedToTerms"
+                            name="agreedToTerms"
+                            checked={formData.agreedToTerms}
+                            onChange={handleChange}
+                            required
+                        />
+                        <label htmlFor="agreedToTerms">
+                            I agree to the <a href="/terms" className={styles.link}>Terms of Service</a> and <a href="/privacy" className={styles.link}>Privacy Policy</a> *
+                        </label>
+                    </div>
+
+                    {/* Submit Button */}
+                    <button 
+                        type="submit" 
+                        className={styles.signupButton} 
+                        disabled={isLoading}
+                    >
+                        {isLoading 
+                            ? 'Processing...' 
+                            : showOtpField 
+                                ? 'Create Account' 
+                                : 'Get OTP'}
+                    </button>
+                </form>
+
+                {/* Sign In Link */}
+                <p className={styles.loginText}>
+                    Already have an account?{' '}
+                    <Link href="/auth/login" className={styles.loginLink}>
+                        Sign in
+                    </Link>
+                </p>
+            </div>
         </div>
-        
-        {error && (
-          <div className="bg-red-50 border-l-4 border-red-400 p-4">
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <div className="ml-3">
-                <p className="text-sm text-red-700">{error}</p>
-              </div>
-            </div>
-          </div>
-        )}
+    );
+};
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="name" className="sr-only">
-                Full Name
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                autoComplete="name"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Full Name"
-                value={formData.name}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="email-address" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="email-address"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="new-password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="confirm-password" className="sr-only">
-                Confirm Password
-              </label>
-              <input
-                id="confirm-password"
-                name="confirmPassword"
-                type="password"
-                autoComplete="new-password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Confirm Password"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? 'Creating account...' : 'Create Account'}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-}
+export default SignupPage;

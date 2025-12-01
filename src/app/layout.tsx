@@ -1,26 +1,37 @@
 import React from 'react';
-// Use a global CSS file for base styles. You should rename loginModule.css 
-// to something like globals.css and place it in src/app/ if you want 
-// to use it here, or import a dedicated global style file.
-import './globals.css'; 
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import LayoutContent from './LayoutContent';
 
-// Define metadata for the head tag (SEO and basic info)
-export const metadata = {
-  title: 'Vibrant Login Project',
-  description: 'A modern, colorful login page inspired by a vibrant design.',
+const inter = Inter({ subsets: ['latin'] });
+
+export const metadata: Metadata = {
+  title: 'Authentication App',
+  description: 'Secure authentication system with login and signup functionality',
+  viewport: 'width=device-width, initial-scale=1',
+  themeColor: '#ffffff',
+  icons: {
+    icon: '/favicon.ico',
+  },
+  openGraph: {
+    title: 'Authentication App',
+    description: 'Secure authentication system with login and signup functionality',
+    type: 'website',
+    locale: 'en_US',
+  },
 };
 
-// Define the root layout component
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-  <html lang="en" className="h-full">
-    <body className="h-full overflow-y-auto">
-      {children}
-    </body>
-  </html>
-);
+    <html lang="en" className="h-full bg-gray-50">
+      <body className={inter.className}>
+        <LayoutContent>{children}</LayoutContent>
+      </body>
+    </html>
+  );
 }

@@ -263,17 +263,6 @@ const Hero: React.FC = () => {
           {/* --- LEFT COLUMN: TEXT --- */}
           <div className="hero-text" style={{ position: 'relative', paddingRight: '2rem' }}>
             
-            {/* Status Badge */}
-            <div className="tech-badge">
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <div style={{ width: 10, height: 10, background: '#dc2626', clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' }} />
-                  <div style={{ width: 2, height: 15, background: '#dc2626', opacity: 0.5 }} />
-              </div>
-              <span style={{ fontSize: '1rem', fontWeight: 700, letterSpacing: '3px', color: '#dc2626', animation: 'holo-flicker 5s infinite' }}>
-                SYSTEM: ONLINE // PROTOCOL_THALI_V2.4
-              </span>
-            </div>
-
             {/* Main Headline */}
             <h1
               style={{

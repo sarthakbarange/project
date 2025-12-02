@@ -29,8 +29,8 @@ const Navbar: React.FC = () => {
         top: 0,
         zIndex: 50,
         background: scrolled 
-          ? 'rgba(185, 28, 28, 0.98)'
-          : 'linear-gradient(135deg, rgba(220, 38, 38, 0.95) 0%, rgba(153, 27, 27, 0.95) 100%)',
+          ? 'rgba(230, 21, 0, 0.98)'
+          : 'linear-gradient(135deg, rgba(230, 21, 0, 0.95) 0%, rgba(179, 17, 0, 0.95) 100%)',
         backdropFilter: 'blur(10px)',
         WebkitBackdropFilter: 'blur(10px)',
         // Futuristic border bottom
@@ -190,7 +190,7 @@ const Navbar: React.FC = () => {
           }}
         >
           <span style={{ color: 'rgba(255,255,255,0.4)' }}>//</span>
-          <span>DABBA</span>
+          <span>HYGENIC...</span>
           <span style={{ 
             width: '8px', height: '18px', background: '#fff', display: 'inline-block',
             animation: 'blink-cursor 1s steps(2) infinite'

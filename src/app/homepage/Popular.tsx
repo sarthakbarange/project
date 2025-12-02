@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 
 type Provider = {
+  id: number;
   name: string;
   area: string;
   rating: number;
@@ -10,10 +11,12 @@ type Provider = {
   price: string;
   reviews: number;
   trending: boolean;
+  image: string;
 };
 
 const providers: Provider[] = [
   {
+    id: 1,
     name: 'Maa ke Haath Ka Khana',
     area: 'Andheri East',
     rating: 4.9,
@@ -21,8 +24,10 @@ const providers: Provider[] = [
     price: '₹120/day',
     reviews: 1240,
     trending: true,
+    image: 'https://images.unsplash.com/photo-1546833999-b9f581612b66?q=80&w=800&auto=format&fit=crop',
   },
   {
+    id: 2,
     name: 'Spice Route Tiffins',
     area: 'Powai',
     rating: 4.7,
@@ -30,8 +35,10 @@ const providers: Provider[] = [
     price: '₹150/day',
     reviews: 890,
     trending: false,
+    image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=800&auto=format&fit=crop',
   },
   {
+    id: 3,
     name: 'Healthy Bento Dabbas',
     area: 'BKC',
     rating: 4.8,
@@ -39,425 +46,399 @@ const providers: Provider[] = [
     price: '₹180/day',
     reviews: 1050,
     trending: true,
+    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=800&auto=format&fit=crop',
   },
 ];
 
 const Popular: React.FC = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [decodedText, setDecodedText] = useState('');
+  
+  const fullText = "SECTOR: POPULAR TIFFINS";
 
+  // Entry Animation & Text Decoding Effect
   useEffect(() => {
     setIsVisible(true);
+    let iteration = 0;
+    const interval = setInterval(() => {
+      setDecodedText(fullText
+        .split("")
+        .map((letter, index) => {
+          if (index < iteration) return letter;
+          return String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        })
+        .join("")
+      );
+      if (iteration >= fullText.length) clearInterval(interval);
+      iteration += 1 / 3;
+    }, 30);
+    return () => clearInterval(interval);
   }, []);
 
   // --- Styles ---
 
   const containerStyle: React.CSSProperties = {
     minHeight: '100vh',
-    // Original background preserved
+    // Preserved Original Background
     background: 'linear-gradient(135deg, #fef2f2 0%, #ffffff 50%, #fce7f3 100%)',
     padding: '80px 16px',
-    fontFamily: '"Rajdhani", "Segoe UI", sans-serif', // Assuming a tech font, falls back to sans
+    fontFamily: '"Rajdhani", "Segoe UI", sans-serif',
     position: 'relative',
     overflow: 'hidden',
   };
 
-  // Background floating tech particles (Ambient animation)
-  const particleStyle = (size: string, top: string, left: string, delay: string): React.CSSProperties => ({
-    position: 'absolute',
-    width: size,
-    height: size,
-    top: top,
-    left: left,
-    background: 'linear-gradient(45deg, rgba(213, 56, 56, 0.05), rgba(255, 255, 255, 0))',
-    border: '1px solid rgba(213, 56, 56, 0.1)',
-    borderRadius: '50%',
-    animation: `float 10s ease-in-out infinite ${delay}`,
-    zIndex: 0,
-    pointerEvents: 'none',
-  });
-
-  const innerContainerStyle: React.CSSProperties = {
-    maxWidth: '1280px',
-    margin: '0 auto',
-    position: 'relative',
-    zIndex: 1,
-  };
-
-  const headerContainerStyle: React.CSSProperties = {
-    marginBottom: '80px',
-    textAlign: 'center',
-    transform: isVisible ? 'translateY(0)' : 'translateY(-20px)',
-    opacity: isVisible ? 1 : 0,
-    transition: 'all 1s cubic-bezier(0.2, 0.8, 0.2, 1)',
-  };
-
-  const trendingBadgeStyle: React.CSSProperties = {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '8px',
-    padding: '8px 24px',
-    // Tech shape: cut corners
-    clipPath: 'polygon(10% 0, 100% 0, 100% 100%, 0% 100%, 0% 25%)',
-    background: 'rgba(213, 56, 56, 0.1)',
-    borderLeft: '4px solid #d53838',
-    color: '#d53838',
-    fontSize: '14px',
-    fontWeight: '700',
-    letterSpacing: '2px',
-    textTransform: 'uppercase',
-    marginBottom: '24px',
-    backdropFilter: 'blur(4px)',
-  };
-
-  const mainHeadingStyle: React.CSSProperties = {
-    fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
-    fontWeight: '800',
-    marginBottom: '16px',
-    background: 'linear-gradient(90deg, #d53838 0%, #111 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    letterSpacing: '-1px',
-    textTransform: 'uppercase',
-  };
-
-  const subtitleStyle: React.CSSProperties = {
-    fontSize: 'clamp(1rem, 2vw, 1.25rem)',
-    color: '#6b7280',
-    maxWidth: '600px',
-    margin: '0 auto',
-    lineHeight: '1.6',
-    letterSpacing: '0.5px',
-  };
-
-  const gridStyle: React.CSSProperties = {
-    display: 'grid',
-    gap: '40px',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-    padding: '20px',
-  };
-
-  const getCardWrapperStyle = (index: number): React.CSSProperties => ({
-    position: 'relative',
-    transform: isVisible ? 'translateY(0)' : 'translateY(100px)',
-    opacity: isVisible ? 1 : 0,
-    transition: 'all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
-    transitionDelay: `${index * 150}ms`,
-    // Ambient float animation for each card
-    animation: `float 6s ease-in-out infinite ${index * 1.5}s`,
-  });
-
-  const getCardStyle = (index: number): React.CSSProperties => ({
-    position: 'relative',
-    height: '100%',
-    // Futuristic Shape: Angled bottom-right corner
-    clipPath: 'polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%)',
-    background: 'rgba(255, 255, 255, 0.8)',
-    backdropFilter: 'blur(20px)',
-    border: hoveredCard === index ? '1px solid rgba(213, 56, 56, 0.6)' : '1px solid rgba(255, 255, 255, 0.8)',
-    boxShadow: hoveredCard === index 
-      ? '0 20px 60px -10px rgba(213, 56, 56, 0.3)' 
-      : '0 10px 30px -10px rgba(0, 0, 0, 0.05)',
-    transition: 'all 0.4s ease',
-    cursor: 'pointer',
-    transform: hoveredCard === index ? 'scale(1.03) translateY(-5px)' : 'scale(1)',
-  });
-
-  // The "Scanner" beam effect
-  const getScannerStyle = (index: number): React.CSSProperties => ({
+  // Tech Grid Overlay (New Background Detail)
+  const gridOverlayStyle: React.CSSProperties = {
     position: 'absolute',
     top: 0,
     left: 0,
     width: '100%',
     height: '100%',
-    background: 'linear-gradient(to bottom, transparent, rgba(213, 56, 56, 0.1), transparent)',
-    transform: hoveredCard === index ? 'translateY(100%)' : 'translateY(-100%)',
-    transition: hoveredCard === index ? 'transform 1.5s ease-in-out' : 'none',
+    backgroundImage: `
+      linear-gradient(rgba(213, 56, 56, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(213, 56, 56, 0.05) 1px, transparent 1px)
+    `,
+    backgroundSize: '40px 40px',
+    zIndex: 0,
     pointerEvents: 'none',
+  };
+
+  const headerContainerStyle: React.CSSProperties = {
+    marginBottom: '60px',
+    textAlign: 'center',
+    position: 'relative',
     zIndex: 2,
+    transform: isVisible ? 'translateY(0)' : 'translateY(-20px)',
+    opacity: isVisible ? 1 : 0,
+    transition: 'all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
+  };
+
+  const mainHeadingStyle: React.CSSProperties = {
+    fontSize: 'clamp(2.5rem, 6vw, 4rem)',
+    fontWeight: '800',
+    marginBottom: '8px',
+    color: '#d53838',
+    letterSpacing: '-1px',
+    textTransform: 'uppercase',
+    textShadow: '2px 2px 0px rgba(0,0,0,0.1)',
+  };
+
+  const subtitleStyle: React.CSSProperties = {
+    fontFamily: 'monospace',
+    color: '#d53838',
+    opacity: 0.8,
+    letterSpacing: '2px',
+    fontSize: '14px',
+  };
+
+  const gridStyle: React.CSSProperties = {
+    display: 'grid',
+    gap: '30px',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    maxWidth: '1280px',
+    margin: '0 auto',
+    position: 'relative',
+    zIndex: 2,
+  };
+
+  const getCardWrapperStyle = (index: number): React.CSSProperties => ({
+    animation: `float ${6 + index}s ease-in-out infinite ${index * 0.5}s`,
+    perspective: '1000px',
+    transform: isVisible ? 'translateY(0)' : 'translateY(100px)',
+    opacity: isVisible ? 1 : 0,
+    transition: 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+    transitionDelay: `${index * 150}ms`,
   });
 
-  const trendingBadgeContainerStyle: React.CSSProperties = {
-    position: 'absolute',
-    top: '0',
-    right: '0',
-    zIndex: 10,
-    background: '#d53838',
-    padding: '8px 16px',
-    // Inverted tech corner
-    clipPath: 'polygon(0 0, 100% 0, 100% 100%, 20% 100%)',
+  const getCardStyle = (index: number): React.CSSProperties => {
+    const isHovered = hoveredCard === index;
+    return {
+      position: 'relative',
+      background: 'rgba(255, 255, 255, 0.9)',
+      backdropFilter: 'blur(10px)',
+      // New Futuristic Shape: Notched corners
+      clipPath: 'polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%)',
+      border: isHovered ? '1px solid rgba(213, 56, 56, 0.8)' : '1px solid rgba(213, 56, 56, 0.2)',
+      boxShadow: isHovered 
+        ? '0 25px 50px -12px rgba(213, 56, 56, 0.25)' 
+        : '0 10px 15px -3px rgba(0, 0, 0, 0.05)',
+      transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+      transform: isHovered ? 'rotateX(2deg) rotateY(-2deg) scale(1.02)' : 'rotateX(0) rotateY(0) scale(1)',
+      overflow: 'hidden',
+      cursor: 'pointer',
+    };
   };
 
-  const trendingTextStyle: React.CSSProperties = {
-    color: 'white',
-    fontSize: '12px',
-    fontWeight: '800',
-    letterSpacing: '1px',
-    textTransform: 'uppercase',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '6px',
-  };
-
-  const cardContentStyle: React.CSSProperties = {
-    padding: '32px 24px 48px 24px', // Extra bottom padding for the cut corner
+  const imageContainerStyle: React.CSSProperties = {
+    height: '180px',
+    width: '100%',
     position: 'relative',
-    zIndex: 1,
+    overflow: 'hidden',
+    borderBottom: '2px solid #d53838',
   };
 
-  const providerNameStyle: React.CSSProperties = {
-    fontSize: '22px',
-    fontWeight: '800',
-    color: '#111827',
-    marginBottom: '4px',
-    letterSpacing: '-0.5px',
-    textTransform: 'uppercase',
+  const getImageStyle = (index: number): React.CSSProperties => ({
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    transition: 'transform 0.6s ease',
+    transform: hoveredCard === index ? 'scale(1.1)' : 'scale(1)',
+    filter: hoveredCard === index ? 'grayscale(0%)' : 'grayscale(20%)',
+  });
+
+  const contentStyle: React.CSSProperties = {
+    padding: '24px',
+    position: 'relative',
   };
 
-  const locationContainerStyle: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '6px',
-    fontSize: '13px',
+  // Scanning Line Animation
+  const getScanLineStyle = (index: number): React.CSSProperties => ({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '4px',
+    background: '#d53838',
+    opacity: 0.6,
+    boxShadow: '0 0 10px #d53838',
+    animation: hoveredCard === index ? 'scan 1.5s linear infinite' : 'none',
+    display: hoveredCard === index ? 'block' : 'none',
+    zIndex: 10,
+    pointerEvents: 'none',
+  });
+
+  // HUD Corner Markers
+  const cornerMarkerStyle = (top: boolean, left: boolean): React.CSSProperties => ({
+    position: 'absolute',
+    width: '10px',
+    height: '10px',
+    borderColor: '#d53838',
+    borderTopWidth: top ? '2px' : '0',
+    borderBottomWidth: !top ? '2px' : '0',
+    borderLeftWidth: left ? '2px' : '0',
+    borderRightWidth: !left ? '2px' : '0',
+    top: top ? '8px' : 'auto',
+    bottom: !top ? '8px' : 'auto',
+    left: left ? '8px' : 'auto',
+    right: !left ? '8px' : 'auto',
+    transition: 'all 0.3s ease',
+    opacity: 0.5,
+  });
+
+  const trendingBadgeStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    background: 'rgba(255, 255, 255, 0.9)',
     color: '#d53838',
-    fontWeight: '600',
-    letterSpacing: '1px',
+    padding: '4px 12px',
+    fontSize: '11px',
+    fontWeight: '800',
     textTransform: 'uppercase',
-    marginBottom: '16px',
+    letterSpacing: '1px',
+    clipPath: 'polygon(10% 0, 100% 0, 100% 100%, 0% 100%)',
+    border: '1px solid #d53838',
+    zIndex: 5,
+    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
   };
 
-  const statsGridStyle: React.CSSProperties = {
+  const titleStyle: React.CSSProperties = {
+    fontSize: '24px',
+    fontWeight: '800',
+    color: '#111',
+    textTransform: 'uppercase',
+    marginBottom: '8px',
+    lineHeight: '1.1',
+  };
+
+  const detailRowStyle: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '16px',
+    fontSize: '13px',
+    fontFamily: 'monospace',
+    color: '#555',
+  };
+
+  const statGridStyle: React.CSSProperties = {
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
-    gap: '12px',
+    gap: '8px',
     marginBottom: '20px',
   };
 
-  const statBoxStyle: React.CSSProperties = {
-    background: 'rgba(213, 56, 56, 0.03)',
-    border: '1px solid rgba(213, 56, 56, 0.1)',
+  const statBoxStyle = (active: boolean): React.CSSProperties => ({
+    background: active ? '#d53838' : 'rgba(213, 56, 56, 0.05)',
+    color: active ? '#fff' : '#d53838',
     padding: '8px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    clipPath: 'polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%)',
-  };
+    clipPath: 'polygon(0 0, 100% 0, 100% 80%, 90% 100%, 0 100%)',
+    transition: 'all 0.3s ease',
+  });
 
-  const priceValueStyle: React.CSSProperties = {
-    fontSize: '24px',
-    fontWeight: '800',
-    color: '#d53838',
-    letterSpacing: '-1px',
-  };
-
-  const orderButtonStyle: React.CSSProperties = {
+  const buttonStyle: React.CSSProperties = {
     width: '100%',
-    padding: '16px',
-    marginTop: '24px',
-    background: hoveredCard !== null ? '#d53838' : 'transparent',
-    color: hoveredCard !== null ? 'white' : '#d53838',
-    border: '2px solid #d53838',
+    padding: '14px',
+    background: 'transparent',
+    color: '#d53838',
+    border: '1px solid #d53838',
     fontWeight: '700',
-    fontSize: '14px',
     textTransform: 'uppercase',
     letterSpacing: '2px',
     cursor: 'pointer',
-    clipPath: 'polygon(0 0, 95% 0, 100% 30%, 100% 100%, 5% 100%, 0 70%)', // Tech button shape
-    transition: 'all 0.3s ease',
     position: 'relative',
     overflow: 'hidden',
+    fontSize: '14px',
+    clipPath: 'polygon(5% 0, 100% 0, 100% 100%, 95% 100%, 0 100%, 0 0)',
+    transition: 'all 0.3s ease',
   };
 
-  const viewAllContainerStyle: React.CSSProperties = {
-    marginTop: '80px',
-    textAlign: 'center',
-    position: 'relative',
-    zIndex: 2,
-  };
-
-  const viewAllButtonStyle: React.CSSProperties = {
-    background: 'transparent',
-    border: 'none',
-    color: '#d53838',
-    fontSize: '18px',
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    letterSpacing: '4px',
-    cursor: 'pointer',
-    padding: '16px 40px',
-    position: 'relative',
-  };
-
-  const viewAllBorderTopStyle: React.CSSProperties = {
+  const buttonHoverOverlayStyle: React.CSSProperties = {
     position: 'absolute',
     top: 0,
     left: 0,
-    width: '30%',
-    height: '2px',
+    width: '100%',
+    height: '100%',
     background: '#d53838',
-    transition: 'width 0.5s ease',
+    transform: 'translateX(-100%)',
+    transition: 'transform 0.3s ease',
+    zIndex: -1,
   };
-  
-  const viewAllBorderBottomStyle: React.CSSProperties = {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    width: '30%',
-    height: '2px',
-    background: '#d53838',
-    transition: 'width 0.5s ease',
-  };
-
-  const [viewAllHovered, setViewAllHovered] = useState(false);
 
   return (
     <div style={containerStyle}>
-      {/* Ambient Background Tech Elements */}
-      <div style={particleStyle('300px', '-100px', '-100px', '0s')}></div>
-      <div style={particleStyle('200px', '40%', '90%', '2s')}></div>
-      <div style={particleStyle('150px', '80%', '10%', '4s')}></div>
-
-      <div style={innerContainerStyle}>
-        {/* Header */}
-        <div style={headerContainerStyle}>
-          <div style={{ display: 'inline-block' }}>
-            <div style={trendingBadgeStyle}>
-              <span className="pulse-dot"></span>
-              <span>System Status: Trending</span>
-            </div>
-          </div>
-          
-          <h2 style={mainHeadingStyle}>
-            Sector: Popular Tiffins
-          </h2>
-          
-          <p style={subtitleStyle}>
-            [INITIATING SCAN...] Identifying high-rated meal providers in your local grid. Freshness probability: 100%.
-          </p>
-        </div>
-
-        {/* Cards Grid */}
-        <div style={gridStyle}>
-          {providers.map((provider, index) => (
-            <div
-              key={provider.name}
-              onMouseEnter={() => setHoveredCard(index)}
-              onMouseLeave={() => setHoveredCard(null)}
-              style={getCardWrapperStyle(index)}
-            >
-              <article style={getCardStyle(index)}>
-                {/* Scanner Beam Effect */}
-                <div style={getScannerStyle(index)}></div>
-
-                {/* Trending Corner Badge */}
-                {provider.trending && (
-                  <div style={trendingBadgeContainerStyle}>
-                    <span style={trendingTextStyle}>
-                      <span className="blink">●</span> HOT
-                    </span>
-                  </div>
-                )}
-
-                <div style={cardContentStyle}>
-                  <div style={locationContainerStyle}>
-                    <span style={{ fontSize: '16px' }}>⌖</span>
-                    {provider.area}
-                  </div>
-
-                  <h3 style={providerNameStyle}>{provider.name}</h3>
-                  <div style={{ height: '2px', width: '40px', background: '#d53838', marginBottom: '20px' }}></div>
-
-                  {/* Tech Stats Grid */}
-                  <div style={statsGridStyle}>
-                    <div style={statBoxStyle}>
-                      <span style={{fontSize: '11px', color:'#6b7280', textTransform:'uppercase'}}>Rating</span>
-                      <span style={{fontWeight:'800', color:'#111', fontSize:'16px'}}>★ {provider.rating}</span>
-                    </div>
-                    <div style={statBoxStyle}>
-                      <span style={{fontSize: '11px', color:'#6b7280', textTransform:'uppercase'}}>Logs</span>
-                      <span style={{fontWeight:'800', color:'#111', fontSize:'16px'}}>{provider.reviews}</span>
-                    </div>
-                  </div>
-
-                  <div style={{ marginBottom: '24px' }}>
-                    <p style={{ fontSize: '12px', color: '#6b7280', textTransform: 'uppercase', marginBottom: '4px' }}>Cuisine Module</p>
-                    <p style={{ fontSize: '15px', color: '#374151', fontWeight: '600' }}>{provider.cuisines}</p>
-                  </div>
-
-                  <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 'auto' }}>
-                    <div>
-                      <p style={{ fontSize: '11px', color: '#6b7280', textTransform: 'uppercase', letterSpacing:'1px' }}>Sub. Cost</p>
-                      <p style={priceValueStyle}>{provider.price}</p>
-                    </div>
-                  </div>
-
-                  <button style={orderButtonStyle}>
-                    Initialize Order
-                    {hoveredCard === index && (
-                      <span style={{ marginLeft: '8px', display: 'inline-block', animation: 'slideRight 0.5s infinite alternate' }}>»</span>
-                    )}
-                  </button>
-                </div>
-                
-                {/* Decorative corner lines */}
-                <div style={{ position:'absolute', bottom:'0', right:'0', width:'20px', height:'20px', borderRight:'2px solid #d53838', borderBottom:'2px solid #d53838', pointerEvents:'none' }}></div>
-              </article>
-            </div>
-          ))}
-        </div>
-
-        {/* View All */}
-        <div 
-          style={viewAllContainerStyle}
-          onMouseEnter={() => setViewAllHovered(true)}
-          onMouseLeave={() => setViewAllHovered(false)}
-        >
-          <button style={viewAllButtonStyle}>
-            <div style={{...viewAllBorderTopStyle, width: viewAllHovered ? '100%' : '30%'}}></div>
-            <div style={{...viewAllBorderBottomStyle, width: viewAllHovered ? '100%' : '30%'}}></div>
-            Load All Data Nodes
-          </button>
-        </div>
-      </div>
-
+      {/* Dynamic Style Injection for Keyframes */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap');
-
-        .pulse-dot {
-          width: 8px;
-          height: 8px;
-          background: #d53838;
-          border-radius: 50%;
-          box-shadow: 0 0 10px #d53838;
-          animation: pulse 2s infinite;
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700;800&display=swap');
+        
+        @keyframes scan {
+          0% { top: 0%; opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { top: 100%; opacity: 0; }
         }
-
-        .blink {
-          animation: blink 1s infinite step-start;
-        }
-
-        @keyframes pulse {
-          0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(213, 56, 56, 0.7); }
-          70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(213, 56, 56, 0); }
-          100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(213, 56, 56, 0); }
-        }
-
+        
         @keyframes float {
           0% { transform: translateY(0px); }
-          50% { transform: translateY(-15px); }
+          50% { transform: translateY(-10px); }
           100% { transform: translateY(0px); }
         }
 
-        @keyframes blink {
-          50% { opacity: 0; }
+        @keyframes glitch {
+          0% { transform: translate(0); }
+          20% { transform: translate(-2px, 2px); }
+          40% { transform: translate(-2px, -2px); }
+          60% { transform: translate(2px, 2px); }
+          80% { transform: translate(2px, -2px); }
+          100% { transform: translate(0); }
         }
 
-        @keyframes slideRight {
-          from { transform: translateX(0); }
-          to { transform: translateX(5px); }
+        .btn-hover:hover .overlay {
+          transform: translateX(0) !important;
+        }
+        .btn-hover:hover {
+          color: white !important;
+          box-shadow: 0 0 15px rgba(213, 56, 56, 0.6);
         }
       `}</style>
+
+      <div style={gridOverlayStyle}></div>
+
+      <div style={headerContainerStyle}>
+        <div style={{display: 'inline-block', border: '1px solid #d53838', padding: '4px 8px', marginBottom: '16px'}}>
+          <span style={subtitleStyle}>SYSTEM_READY // v2.0.4</span>
+        </div>
+        <h2 style={mainHeadingStyle}>{decodedText}</h2>
+        <p style={{color: '#666', maxWidth: '600px', margin: '0 auto'}}>
+          Scanning local grid for optimal nutrition providers. <br/>
+          <span style={{color: '#d53838', fontWeight: 'bold'}}>3 Entities Found.</span>
+        </p>
+      </div>
+
+      <div style={gridStyle}>
+        {providers.map((provider, index) => (
+          <div
+            key={provider.id}
+            style={getCardWrapperStyle(index)}
+            onMouseEnter={() => setHoveredCard(index)}
+            onMouseLeave={() => setHoveredCard(null)}
+          >
+            <div style={getCardStyle(index)}>
+              {/* Scan Line */}
+              <div style={getScanLineStyle(index)}></div>
+
+              {/* HUD Markers */}
+              <div style={cornerMarkerStyle(true, true)}></div>
+              <div style={cornerMarkerStyle(true, false)}></div>
+              <div style={cornerMarkerStyle(false, true)}></div>
+              <div style={cornerMarkerStyle(false, false)}></div>
+
+              {/* Image Section */}
+              <div style={imageContainerStyle}>
+                <img src={provider.image} alt={provider.name} style={getImageStyle(index)} />
+                {provider.trending && (
+                  <div style={trendingBadgeStyle}>
+                    ⚡ Trending
+                  </div>
+                )}
+                {/* Tech Overlay on Image */}
+                <div style={{
+                  position: 'absolute', bottom: 0, left: 0, right: 0, 
+                  height: '40px', 
+                  background: 'linear-gradient(to top, rgba(255,255,255,1), transparent)'
+                }}></div>
+              </div>
+
+              {/* Content Section */}
+              <div style={contentStyle}>
+                <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', color: '#d53838', fontWeight: '700', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '1px'}}>
+                  <span>⌖ {provider.area}</span>
+                  <span style={{height: '1px', flex: 1, background: 'rgba(213,56,56,0.2)'}}></span>
+                </div>
+
+                <h3 style={titleStyle}>{provider.name}</h3>
+                
+                <div style={detailRowStyle}>
+                  <span>TYPE: {provider.cuisines.split(',')[0]}</span>
+                  <span>ID: #{1024 + index}</span>
+                </div>
+
+                {/* Stats Grid */}
+                <div style={statGridStyle}>
+                  <div style={statBoxStyle(hoveredCard === index)}>
+                    <span style={{fontSize: '10px', textTransform: 'uppercase', marginBottom: '2px'}}>RATING</span>
+                    <span style={{fontSize: '18px', fontWeight: 'bold'}}>{provider.rating}</span>
+                  </div>
+                  <div style={statBoxStyle(false)}>
+                    <span style={{fontSize: '10px', textTransform: 'uppercase', marginBottom: '2px'}}>LOGS</span>
+                    <span style={{fontSize: '18px', fontWeight: 'bold'}}>{provider.reviews}</span>
+                  </div>
+                </div>
+
+                {/* Price & Action */}
+                <div style={{display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: '16px'}}>
+                  <div>
+                    <div style={{fontSize: '10px', color: '#999', textTransform: 'uppercase'}}>SUBSCRIPTION COST</div>
+                    <div style={{fontSize: '28px', fontWeight: '800', color: '#d53838', lineHeight: '1'}}>{provider.price}</div>
+                  </div>
+                </div>
+
+                <div style={{marginTop: '20px'}}>
+                  <button className="btn-hover" style={buttonStyle}>
+                    <div className="overlay" style={buttonHoverOverlayStyle}></div>
+                    <span style={{position: 'relative', zIndex: 1}}>Initialize Order</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

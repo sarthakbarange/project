@@ -1,43 +1,65 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 type Step = {
   number: string;
   title: string;
   description: string;
+  imageUrl: string;
 };
 
+// Updated 5 Steps with your text
 const steps: Step[] = [
   {
     number: '01',
-    title: 'LOCATION_LOCK',
+    title: 'SIGN IN TO GET STARTED',
     description:
-      'Enter your coordinates and sustenance protocols. We scan the grid for optimal local tiffin vectors.',
+      'Create your account or log in so we can personalize your tiffin experience.',
+    imageUrl: '/HIW.png', // Keeping your local image
   },
   {
     number: '02',
-    title: 'PLAN_SELECTION',
+    title: 'DISCOVER NEARBY TIFFIN PROVIDER INSTANTLY.',
     description:
-      'Analyze menus, hygiene metrics, and user ratings. Initialize daily, weekly, or monthly subscription cycles.',
+      'We automatically show tiffin providers available near your home, hostel, or workplace.',
+    imageUrl: '/HIW2.png',
   },
   {
     number: '03',
-    title: 'LIVE_TRACKING',
+    title: 'EXPLORE VERIFIED PROVIDERS',
     description:
-      'Real-time telemetry of your dabba. Monitor extraction from kitchen to final destination coordinates.',
+      'Compare hygiene ratings, menus, reviews, and pricing to choose the best provider for you.',
+    imageUrl: '/HIW3.png',
+  },
+  {
+    number: '04',
+    title: 'CHOOSE YOUR MEAL PLAN',
+    description:
+      'Pick either a One-Day Meal or a Monthly Subscription, and fill in the basic details.',
+    imageUrl: '/HIW4.png',
+  },
+  {
+    number: '05',
+    title: 'ORDER & RELAX',
+    description:
+      'Place your order and receive fresh, home-style tiffin right at your doorstep.',
+    imageUrl: '/HIW5.png',
   },
 ];
 
 const HowItWorks: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
-  const [animating, setAnimating] = useState(false);
+  const [isGlitching, setIsGlitching] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Trigger a brief "re-render" animation state on step change
   useEffect(() => {
-    setAnimating(true);
-    const timer = setTimeout(() => setAnimating(false), 500);
-    return () => clearTimeout(timer);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setIsGlitching(true);
+    timeoutRef.current = setTimeout(() => setIsGlitching(false), 700);
+    return () => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
   }, [activeStep]);
 
   const goNext = () => {
@@ -48,390 +70,334 @@ const HowItWorks: React.FC = () => {
     setActiveStep((s) => Math.max(0, s - 1));
   };
 
+  const currentStepData = steps[activeStep];
+
   return (
     <section
       id="how-it-works"
       style={{
         padding: '80px 20px',
-        // Keeping the requested background base
         background: 'linear-gradient(180deg, #fff9f9 0%, #ffffff 40%, #fff9f9 100%)',
-        fontFamily: "'Inter', 'Rajdhani', sans-serif", // Rajdhani is a great sci-fi font if available, fallback to Inter
+        fontFamily: "'Rajdhani', sans-serif",
         color: '#111827',
-        minHeight: '80vh',
+        minHeight: '90vh',
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
+        alignItems: 'center'
       }}
     >
       <style>
         {`
-          @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700;800&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+          :root {
+            --theme-red: #ca2b2b;
+            --theme-red-glow: rgba(202, 43, 43, 0.6);
+            --theme-dark: #111827;
+            --theme-white-rgba: rgba(255, 255, 255, 0.9);
+          }
+
+          /* --- BACKGROUND (Clean, no grid lines) --- */
+          .tech-grid {
+            position: absolute; inset: 0;
+            background: transparent;
+            z-index: 0; pointer-events: none;
+          }
 
           /* --- ANIMATIONS --- */
-          @keyframes gridMove {
-            0% { background-position: 0 0; }
-            100% { background-position: 40px 40px; }
+          @keyframes holoFlicker {
+            0%, 100% { opacity: 0.9; filter: brightness(1); }
+            5% { opacity: 0.8; filter: brightness(1.2); }
+            10% { opacity: 0.9; filter: brightness(1); }
+            50% { opacity: 0.95; filter: brightness(1.1); }
+            55% { opacity: 0.85; filter: brightness(0.9); }
           }
 
-          @keyframes scanline {
-            0% { top: -50%; opacity: 0; }
-            50% { opacity: 1; }
-            100% { top: 150%; opacity: 0; }
+          @keyframes contentGlitchIn {
+            0% { clip-path: inset(50% 0 50% 0); transform: skew(10deg); filter: grayscale(1) contrast(2); opacity: 0;}
+            20% { clip-path: inset(10% 0 60% 0); transform: skew(-10deg); opacity: 0.5;}
+            40% { clip-path: inset(40% 0 20% 0); transform: skew(5deg); opacity: 0.8;}
+            60% { clip-path: inset(0 0 0 0); transform: skew(0); filter: none; opacity: 1;}
+            80% { filter: brightness(1.5); }
+            100% { filter: none; }
           }
 
-          @keyframes float {
-            0%, 100% { transform: translateY(0px) rotateX(10deg) rotateY(-10deg); }
-            50% { transform: translateY(-15px) rotateX(5deg) rotateY(-5deg); }
+          /* --- CARD STYLES --- */
+          .main-interface-container {
+              position: relative;
+              width: 100%;
+              max-width: 1100px;
+              padding: 4px;
+              background: var(--theme-red); 
+              clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+              z-index: 10;
           }
 
-          @keyframes pulseRed {
-            0%, 100% { box-shadow: 0 0 10px rgba(202,43,43,0.2); }
-            50% { box-shadow: 0 0 25px rgba(202,43,43,0.6); }
-          }
-
-          @keyframes textDecode {
-            0% { opacity: 0; transform: translateX(-10px); letter-spacing: 5px; }
-            100% { opacity: 1; transform: translateX(0); letter-spacing: normal; }
-          }
-
-          @keyframes slideUpFade {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-          }
-
-          /* --- UTILS --- */
-          .tech-grid {
-            position: absolute;
-            inset: 0;
-            background-image: 
-              linear-gradient(rgba(202, 43, 43, 0.05) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(202, 43, 43, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
-            animation: gridMove 20s linear infinite;
-            z-index: 0;
-            pointer-events: none;
-          }
-
-          .tech-card {
-            /* The "Futuristic" Shape - Angled Corners */
-            clip-path: polygon(
-              20px 0, 100% 0, 
-              100% calc(100% - 20px), calc(100% - 20px) 100%, 
-              0 100%, 0 20px
-            );
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(202, 43, 43, 0.3);
+          .holo-card {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            backdrop-filter: blur(15px);
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,240,245,0.85) 100%);
+            border: 1px solid rgba(202, 43, 43, 0.2);
+            padding: 0;
+            display: flex;
+            gap: 0;
+            align-items: stretch;
+            min-height: 450px;
             position: relative;
-            transition: all 0.4s ease;
+            overflow: hidden;
+          }
+          
+          /* DIAGONAL SPLIT: Left Image Container */
+          .holo-visual-container {
+              width: 55%; 
+              position: relative;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%); 
+              overflow: hidden;
+              background: #000;
+              z-index: 2; 
+          }
+          
+          .holo-image {
+              position: absolute; inset: 0;
+              background-size: cover;
+              background-position: center;
+              filter: grayscale(100%) contrast(1.2) brightness(0.8);
+              opacity: 0.6;
+              animation: holoFlicker 5s infinite;
+          }
+          
+          .holo-image::before {
+             content: ''; position: absolute; inset: 0;
+             background: linear-gradient(45deg, rgba(202,43,43,0.6), rgba(0,0,0,0.2));
+             mix-blend-mode: overlay;
+          }
+          
+          /* DIAGONAL SPLIT: Right Content Container */
+          .holo-content {
+              width: 55%; 
+              margin-left: -10%; 
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              position: relative;
+              z-index: 1;
+              clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
+              padding: 50px 50px 50px 100px;
+              background: transparent;
           }
 
-          .tech-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, #ca2b2b, transparent);
-            z-index: 2;
+          .glitch-animate {
+              animation: contentGlitchIn 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
           }
 
-          .scanner-bar {
-            position: absolute;
-            left: 0;
-            width: 100%;
-            height: 20px;
-            background: linear-gradient(180deg, rgba(202,43,43,0), rgba(202,43,43,0.2), rgba(202,43,43,0));
-            animation: scanline 3s linear infinite;
-            pointer-events: none;
+          .tech-h2 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            margin: 0 0 60px 0;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            color: var(--theme-dark);
+            position: relative;
+            display: inline-block;
+            text-shadow: 2px 2px 0px rgba(202, 43, 43, 0.2);
+          }
+          .tech-h2::after {
+              content: 'SYSTEM_PROTOCOLS';
+              position: absolute;
+              top: 100%;
+              left: 0;
+              font-family: 'Share Tech Mono', monospace;
+              font-size: 1rem;
+              color: var(--theme-red);
+              letter-spacing: 5px;
+              opacity: 0.7;
+          }
+
+          .step-indicators { display: flex; gap: 8px; margin-bottom: 30px; }
+          .step-dot {
+              height: 6px; flex-grow: 1;
+              background: rgba(202, 43, 43, 0.2);
+              transform: skew(-20deg);
+              transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+          }
+          .step-dot.active {
+              background: var(--theme-red);
+              box-shadow: 0 0 15px var(--theme-red-glow);
+              flex-grow: 2;
+          }
+
+          .tech-h3 {
+              font-size: 2.5rem; margin: 0; font-weight: 800;
+              text-transform: uppercase; color: var(--theme-dark);
+              background: linear-gradient(90deg, var(--theme-dark) 50%, var(--theme-red) 50%);
+              background-clip: text; -webkit-background-clip: text;
+              color: transparent;
+              background-size: 200% 100%;
+              background-position: 0% 50%;
+              transition: background-position 0.5s ease;
+          }
+         .holo-card:hover .tech-h3 { background-position: 10% 50%; }
+
+          .tech-p {
+              font-size: 1.2rem; line-height: 1.7; color: #444;
+              margin-top: 25px;
+              padding-left: 25px;
+              border-left: 4px solid var(--theme-red);
+              position: relative;
+              font-weight: 500;
+          }
+          .tech-p::before {
+              content: '>> DATA_PACKET:';
+              position: absolute; top: -20px; left: 0;
+              font-family: 'Share Tech Mono', monospace;
+              font-size: 0.8rem; color: var(--theme-red); opacity: 0.8;
+          }
+
+          .btn-cyberglow {
+            position: relative;
+            padding: 18px 45px;
+            border: none;
+            background: transparent;
+            color: var(--theme-red);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            transition: all 0.3s ease;
+            overflow: hidden;
             z-index: 1;
           }
 
-          .number-cube {
-             transform-style: preserve-3d;
-             animation: float 6s ease-in-out infinite;
+          .btn-cyberglow::before {
+              content: ''; position: absolute; inset: 0;
+              border: 2px solid var(--theme-red);
+              clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+              z-index: -1; transition: all 0.3s ease;
           }
 
-          .btn-tech {
-            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-            transition: all 0.2s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 700;
+          .btn-cyberglow.primary {
+             background: var(--theme-red); color: white;
+             box-shadow: 0 0 30px var(--theme-red-glow);
           }
-          
-          .btn-tech:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(202, 43, 43, 0.3);
-          }
-          
-          .btn-tech:active:not(:disabled) {
-            transform: translateY(1px);
+          .btn-cyberglow.primary::before { border-color: transparent; }
+          .btn-cyberglow.primary:hover:not(:disabled) {
+             box-shadow: 0 0 50px var(--theme-red), inset 0 0 20px white;
+             text-shadow: 0 0 10px white;
           }
 
-          .anim-text {
-            animation: textDecode 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-          }
-          
-          .anim-desc {
-            animation: slideUpFade 0.5s ease forwards;
-            animation-delay: 0.1s;
-            opacity: 0; /* start hidden for anim */
+          .btn-cyberglow.secondary:hover:not(:disabled) {
+              background: rgba(202, 43, 43, 0.1);
+              box-shadow: 0 0 20px var(--theme-red-glow);
           }
 
-          .howit-card {
-            display: flex;
-          }
+          .btn-cyberglow:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
 
-          .howit-controls {
-            display: flex;
-          }
-
-          @media (max-width: 768px) {
-            .howit-card {
-              flex-direction: column;
-              padding: 24px 20px !important;
-              gap: 24px !important;
-              align-items: stretch;
-              text-align: center;
+          @media (max-width: 900px) {
+            .holo-card { 
+              flex-direction: column; 
+              padding: 0; 
+              gap: 0; 
+              min-height: auto; 
             }
-            .howit-card .number-cube {
-              width: 110px;
-              height: 110px;
-              margin: 0 auto 12px auto;
+            .holo-visual-container { 
+              width: 100%; 
+              height: 250px; 
+              flex: none;
+              clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+              background: #000;
             }
-            .howit-card-content {
-              width: 100%;
+            .holo-content { 
+              width: 100%; 
+              margin-left: 0;
+              flex: none;
+              clip-path: none;
+              padding: 40px 30px;
+              background: transparent;
             }
-            .howit-card-content p {
-              font-size: 1rem !important;
-              margin-inline: auto;
-            }
-            .howit-controls {
-              flex-wrap: wrap;
-              gap: 12px;
-            }
-            .howit-controls .btn-tech {
-              width: 100%;
-              max-width: 260px;
-              justify-content: center;
-            }
+            .tech-h2 { font-size: 3rem; margin-bottom: 80px;}
           }
         `}
       </style>
 
-      {/* Background Grid */}
+      {/* Background Grid (Cleaned) */}
       <div className="tech-grid" />
-      
-      {/* Decorative floating particles (Red) */}
-      <div style={{ position: 'absolute', top: '10%', right: '5%', width: 100, height: 100, border: '1px solid rgba(202,43,43,0.1)', transform: 'rotate(45deg)' }} />
-      <div style={{ position: 'absolute', bottom: '15%', left: '5%', width: 60, height: 60, border: '1px dashed rgba(202,43,43,0.2)', transform: 'rotate(-15deg)' }} />
 
-      <div style={{ maxWidth: 1000, width: '100%', margin: '0 auto', position: 'relative', zIndex: 2 }}>
-        
-        {/* Header */}
-        <header style={{ textAlign: 'center', marginBottom: 60, position: 'relative' }}>
-          <div style={{ 
-            display: 'inline-block', 
-            padding: '4px 12px', 
-            marginBottom: 10,
-            background: 'rgba(202,43,43,0.1)', 
-            color: '#ca2b2b', 
-            fontSize: '0.8rem', 
-            letterSpacing: '0.2em', 
-            fontWeight: 700,
-            border: '1px solid rgba(202,43,43,0.2)'
-          }}>
-            SYSTEM PROTOCOL
+      {/* Header */}
+      <header style={{ textAlign: 'center', position: 'relative', zIndex: 2 }}>
+        <h2 className="tech-h2">
+          How It Works
+        </h2>
+      </header>
+
+      {/* Main Futuristic Interface Container */}
+      <div className="main-interface-container">
+        <article className="holo-card">
+
+          {/* Left: Holographic Visuals */}
+          <div className="holo-visual-container">
+            <div
+                className="holo-image"
+                style={{ backgroundImage: `url(${currentStepData.imageUrl})` }}
+            />
           </div>
-          <h2
-            style={{
-              fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-              margin: 0,
-              fontWeight: 800,
-              fontFamily: "'Rajdhani', sans-serif",
-              textTransform: 'uppercase',
-              letterSpacing: '-0.03em',
-              background: 'linear-gradient(180deg, #111 0%, #444 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              position: 'relative',
-              display: 'inline-block'
-            }}
-          >
-            How It Works
-            {/* Glitch underline */}
-            <span style={{
-              position: 'absolute', bottom: -10, left: 0, right: 0, height: 3, 
-              background: '#ca2b2b',
-              boxShadow: '0 0 10px #ca2b2b'
-            }} />
-          </h2>
-        </header>
 
-        {/* Main Interface Area */}
-        <div style={{ display: 'flex', justifyContent: 'center', perspective: '1000px' }}>
-          
-          <article
-            className="tech-card howit-card"
-            style={{
-              width: '100%',
-              maxWidth: 900,
-              minHeight: 320,
-              padding: '50px',
-              display: 'flex',
-              gap: 40,
-              alignItems: 'center',
-              boxShadow: '0 20px 50px rgba(0,0,0,0.1)',
-            }}
-          >
-            {/* The Scanner Line Animation */}
-            <div className="scanner-bar" />
-
-            {/* Left Side: 3D Number Badge */}
-            <div 
-              className="number-cube"
-              style={{
-                width: 140,
-                height: 140,
-                flexShrink: 0,
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              {/* Outer Ring */}
-              <div style={{
-                position: 'absolute', inset: 0, 
-                border: '2px solid rgba(202,43,43,0.3)', 
-                clipPath: 'polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%)',
-                animation: 'pulseRed 2s infinite'
-              }} />
-              
-              {/* Inner Solid Tech Shape */}
-              <div style={{
-                width: 100, height: 100,
-                background: 'linear-gradient(135deg, #ca2b2b 0%, #ff6b6b 100%)',
-                clipPath: 'polygon(20% 0, 100% 0, 100% 80%, 80% 100%, 0 100%, 0 20%)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: '#fff',
-                fontSize: '3.5rem',
-                fontWeight: 800,
-                fontFamily: "'Rajdhani', sans-serif",
-                boxShadow: '0 0 30px rgba(202,43,43,0.5)',
-                textShadow: '2px 2px 0px rgba(0,0,0,0.2)'
-              }}>
-                {steps[activeStep].number}
-              </div>
-
-              {/* Decorative Lines */}
-              <div style={{ position: 'absolute', top: -10, left: '50%', width: 2, height: 10, background: '#ca2b2b' }} />
-              <div style={{ position: 'absolute', bottom: -10, left: '50%', width: 2, height: 10, background: '#ca2b2b' }} />
+          {/* Right: Content Text */}
+          <div className="holo-content">
+             {/* Step Progress Bar */}
+            <div className="step-indicators">
+              {steps.map((_, idx) => (
+                <div key={idx} className={`step-dot ${idx <= activeStep ? 'active' : ''}`} />
+              ))}
             </div>
 
-            {/* Right Side: Content */}
-            <div className="howit-card-content" style={{ flex: 1, position: 'relative', zIndex: 10 }}>
-              
-              {/* Header Row with Step Indicator */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                <div style={{ display: 'flex', gap: 4 }}>
-                  {steps.map((_, idx) => (
-                    <div 
-                      key={idx}
-                      style={{
-                        width: 40, height: 4,
-                        background: idx <= activeStep ? '#ca2b2b' : 'rgba(0,0,0,0.1)',
-                        boxShadow: idx === activeStep ? '0 0 8px #ca2b2b' : 'none',
-                        transition: 'all 0.3s'
-                      }}
-                    />
-                  ))}
-                </div>
-                <div style={{ fontSize: '0.8rem', color: '#999', fontFamily: 'monospace' }}>
-                  STEP: 0{activeStep + 1} / 0{steps.length}
-                </div>
-              </div>
-
-              {/* Title with Animation Key */}
-              <div key={`title-${activeStep}`} className={animating ? 'anim-text' : ''}>
-                <h3 style={{
-                  fontSize: '2rem',
-                  margin: 0,
-                  fontWeight: 700,
-                  fontFamily: "'Rajdhani', sans-serif",
-                  color: '#111',
-                  textTransform: 'uppercase'
-                }}>
-                  {steps[activeStep].title}
+            {/* Title & Description with Glitch Transition Effect */}
+            <div className={isGlitching ? 'glitch-animate' : ''}>
+                <h3 className="tech-h3">
+                {currentStepData.title}
                 </h3>
-              </div>
 
-              {/* Description with Animation Key */}
-              <div key={`desc-${activeStep}`} className={animating ? 'anim-desc' : ''}>
-                <p style={{
-                  fontSize: '1.1rem',
-                  lineHeight: 1.6,
-                  color: '#555',
-                  marginTop: 15,
-                  borderLeft: '4px solid #ca2b2b',
-                  paddingLeft: 20,
-                }}>
-                  {steps[activeStep].description}
+                <p className="tech-p">
+                {currentStepData.description}
                 </p>
-              </div>
-
-              {/* Tech Stats / Decor below text */}
-              <div style={{ marginTop: 30, display: 'flex', gap: 20, opacity: 0.6 }}>
-                <div style={{ fontSize: '0.7rem', fontFamily: 'monospace', color: '#ca2b2b' }}>
-                  STATUS: <span style={{ color: '#000' }}>ACTIVE</span>
-                </div>
-                <div style={{ fontSize: '0.7rem', fontFamily: 'monospace', color: '#ca2b2b' }}>
-                  LATENCY: <span style={{ color: '#000' }}>12ms</span>
-                </div>
-              </div>
-
             </div>
-          </article>
-        </div>
 
-        {/* Navigation Controls */}
-        <div className="howit-controls" style={{ display: 'flex', justifyContent: 'center', gap: 20, marginTop: 50 }}>
-          <button
-            onClick={goPrev}
-            disabled={activeStep === 0}
-            className="btn-tech"
-            style={{
-              background: '#fff',
-              color: '#333',
-              border: '1px solid #ddd',
-              padding: '16px 40px',
-              cursor: activeStep === 0 ? 'not-allowed' : 'pointer',
-              opacity: activeStep === 0 ? 0.5 : 1,
-            }}
-          >
-            &lt; PREV
-          </button>
+             {/* Tech Footer Details */}
+            <div style={{ marginTop: 'auto', paddingTop: 30, display: 'flex', justifyContent: 'space-between', fontFamily: "'Share Tech Mono', monospace", color: 'rgba(202,43,43,0.7)', fontSize: '0.8rem' }}>
+                <div>MODULE: {currentStepData.title.substring(0, 4)}-X</div>
+                <div>STATUS: <span style={{color: 'var(--theme-red)'}}>ONLINE</span></div>
+            </div>
+          </div>
 
-          <button
-            onClick={goNext}
-            disabled={activeStep === steps.length - 1}
-            className="btn-tech"
-            style={{
-              background: activeStep === steps.length - 1 ? '#333' : '#ca2b2b',
-              color: '#fff',
-              border: 'none',
-              padding: '16px 40px',
-              cursor: activeStep === steps.length - 1 ? 'not-allowed' : 'pointer',
-              opacity: activeStep === steps.length - 1 ? 0.8 : 1,
-              boxShadow: activeStep === steps.length - 1 ? 'none' : '0 0 20px rgba(202,43,43,0.4)'
-            }}
-          >
-            {activeStep === steps.length - 1 ? 'INITIALIZED' : 'NEXT SEQUENCE >'}
-          </button>
-        </div>
+        </article>
+      </div>
 
+      {/* Navigation Controls */}
+      <div style={{ display: 'flex', gap: 25, marginTop: 60, zIndex: 10 }}>
+        <button
+          onClick={goPrev}
+          disabled={activeStep === 0}
+          className="btn-cyberglow secondary"
+        >
+          &lt; // PREV_STEP
+        </button>
+
+        <button
+          onClick={goNext}
+          disabled={activeStep === steps.length - 1}
+          className="btn-cyberglow primary"
+        >
+          {activeStep === steps.length - 1 ? 'INITIALIZED_ //COMMENCE' : 'NEXT_SEQUENCE_ //EXECUTE >'}
+        </button>
       </div>
     </section>
   );

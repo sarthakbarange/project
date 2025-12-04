@@ -34,8 +34,8 @@ const Navbar: React.FC = () => {
         top: 0,
         zIndex: 50,
         background: scrolled 
-          ? 'rgba(230, 21, 0, 0.98)'
-          : 'linear-gradient(135deg, rgba(230, 21, 0, 0.95) 0%, rgba(179, 17, 0, 0.95) 100%)',
+          ? '#673200'
+          : '#673200',
         backdropFilter: 'blur(10px)',
         WebkitBackdropFilter: 'blur(10px)',
         // Futuristic border bottom
@@ -82,7 +82,7 @@ const Navbar: React.FC = () => {
 
           .nav-link-tech {
             position: relative;
-            color: rgba(255,255,255,0.8);
+            color: #fde1af;
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 700;
@@ -98,7 +98,7 @@ const Navbar: React.FC = () => {
             left: 0px;
             opacity: 0;
             transition: all 0.3s ease;
-            color: #fff;
+            color: #fde1af;
           }
           .nav-link-tech::after {
             content: ']';
@@ -106,11 +106,11 @@ const Navbar: React.FC = () => {
             right: 0px;
             opacity: 0;
             transition: all 0.3s ease;
-            color: #fff;
+            color: #fde1af;
           }
 
           .nav-link-tech:hover {
-            color: #fff;
+            color: #fde1af;
             text-shadow: 0 0 10px rgba(255,255,255,0.8);
             padding: 0.5rem 1.25rem; /* Make space for brackets */
           }
@@ -184,7 +184,7 @@ const Navbar: React.FC = () => {
           style={{
             fontSize: scrolled ? '1.5rem' : '1.8rem',
             fontWeight: 800,
-            color: '#ffffff',
+            color: '#fde1af',
             letterSpacing: '0.1em',
             textTransform: 'uppercase',
             cursor: 'pointer',
@@ -194,7 +194,7 @@ const Navbar: React.FC = () => {
             gap: '8px'
           }}
         >
-          <span style={{ color: 'rgba(255,255,255,0.4)' }}>//</span>
+          <span style={{ color: 'rgba(253,225,175,0.6)' }}>//</span>
           <span>HYGENIC...</span>
           <span style={{ 
             width: '8px', height: '18px', background: '#fff', display: 'inline-block',
@@ -210,7 +210,7 @@ const Navbar: React.FC = () => {
           aria-label="Toggle navigation"
           style={{
             padding: '0.5rem 1rem',
-            color: '#fff',
+            color: '#fde1af',
             cursor: 'pointer',
             gap: '0.5rem',
             alignItems: 'center'
@@ -258,7 +258,7 @@ const Navbar: React.FC = () => {
               marginLeft: '1rem',
               padding: '0.6rem 1.5rem',
               background: '#fff',
-              color: '#dc2626',
+              color: '#fde1af',
               fontWeight: 800,
               fontFamily: 'Rajdhani',
               textTransform: 'uppercase',
@@ -274,7 +274,7 @@ const Navbar: React.FC = () => {
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = '#fff';
-              e.currentTarget.style.color = '#dc2626';
+              e.currentTarget.style.color = '#fde1af';
               e.currentTarget.style.boxShadow = 'none';
             }}
           >
@@ -299,7 +299,7 @@ const Navbar: React.FC = () => {
               key={item.label}
               href={item.href}
               style={{
-                color: '#fff',
+                color: '#fde1af',
                 fontFamily: 'Rajdhani',
                 fontSize: '1rem',
                 fontWeight: 600,
@@ -337,7 +337,7 @@ const Navbar: React.FC = () => {
               marginTop: '0.5rem',
               padding: '0.9rem 1.2rem',
               background: '#fff',
-              color: '#dc2626',
+              color: '#fde1af',
               fontWeight: 800,
               fontFamily: 'Rajdhani',
               textTransform: 'uppercase',
@@ -354,7 +354,7 @@ const Navbar: React.FC = () => {
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = '#fff';
-              e.currentTarget.style.color = '#dc2626';
+              e.currentTarget.style.color = '#fde1af';
               e.currentTarget.style.boxShadow = 'none';
             }}
           >

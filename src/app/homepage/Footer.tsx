@@ -9,8 +9,8 @@ const Footer: React.FC = () => {
     position: 'relative',
     marginTop: '60px',
     padding: '60px 20px 40px 20px',
-    background: '#050505',
-    color: 'rgba(255, 255, 255, 0.6)',
+    background: '#673200',
+    color: '#fde1af',
     fontFamily: '"Rajdhani", "Segoe UI", sans-serif',
     // Tech shape: Cut top-left corner
     clipPath: 'polygon(0 20px, 40px 0, 100% 0, 100% 100%, 0 100%)',
@@ -49,7 +49,7 @@ const Footer: React.FC = () => {
   const logoTextStyle: React.CSSProperties = {
     fontSize: '24px',
     fontWeight: '800',
-    color: 'white',
+    color: '#fde1af',
     textTransform: 'uppercase',
     letterSpacing: '2px',
     marginBottom: '8px',
@@ -68,7 +68,7 @@ const Footer: React.FC = () => {
 
   const descStyle: React.CSSProperties = {
     fontSize: '14px',
-    color: '#6b7280',
+    color: 'rgba(253, 225, 175, 0.8)',
     lineHeight: '1.6',
   };
 
@@ -79,7 +79,7 @@ const Footer: React.FC = () => {
   };
 
   const linkStyle: React.CSSProperties = {
-    color: '#d1d5db',
+    color: '#fde1af',
     textDecoration: 'none',
     fontSize: '14px',
     fontWeight: '600',
@@ -94,7 +94,7 @@ const Footer: React.FC = () => {
     justifyContent: 'space-between',
     alignItems: 'center',
     fontSize: '12px',
-    color: '#4b5563',
+    color: 'rgba(253, 225, 175, 0.7)',
     textTransform: 'uppercase',
     letterSpacing: '1px',
     flexWrap: 'wrap',
@@ -106,10 +106,10 @@ const Footer: React.FC = () => {
     alignItems: 'center',
     gap: '8px',
     padding: '4px 12px',
-    background: 'rgba(213, 56, 56, 0.1)',
-    border: '1px solid rgba(213, 56, 56, 0.2)',
+    background: 'rgba(253, 225, 175, 0.1)',
+    border: '1px solid rgba(253, 225, 175, 0.4)',
     borderRadius: '2px',
-    color: '#d53838',
+    color: '#fde1af',
     fontWeight: '700',
   };
 
@@ -126,6 +126,19 @@ const Footer: React.FC = () => {
     pointerEvents: 'none',
     opacity: 0.5,
     zIndex: 1,
+  };
+
+  // Navbar-like lined box grid overlay across the whole footer
+  const navGridOverlayStyle: React.CSSProperties = {
+    position: 'absolute',
+    inset: 0,
+    backgroundImage:
+      'linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),' +
+      'linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px)',
+    backgroundSize: '20px 20px',
+    pointerEvents: 'none',
+    opacity: 0.25,
+    zIndex: 0,
   };
 
   const scanLineStyle: React.CSSProperties = {
@@ -164,7 +177,8 @@ const Footer: React.FC = () => {
 
   return (
     <footer style={footerStyle} className="sci-fi-footer">
-      {/* Background Tech Grid (CSS) */}
+      {/* Navbar-like lined box grid and background tech grid (CSS) */}
+      <div style={navGridOverlayStyle}></div>
       <div style={gridBackgroundStyle}></div>
 
       {/* Top Red Laser Scanner */}
@@ -205,7 +219,7 @@ const Footer: React.FC = () => {
         <div style={bottomRowStyle}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
             <span>&copy; 2024 TIFFIN NETWORK</span>
-            <span style={{ color: '#374151' }}>|</span>
+            <span style={{ color: 'rgba(253, 225, 175, 0.7)' }}>|</span>
             <span>SYS.VER 2.4.0</span>
           </div>
 

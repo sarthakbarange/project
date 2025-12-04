@@ -51,8 +51,9 @@ const Plans: React.FC = () => {
   const containerStyle: React.CSSProperties = {
     position: 'relative',
     padding: isMobile ? '40px 12px' : '80px 24px',
-    background: 'linear-gradient(135deg, #fef2f2 0%, #ffffff 50%, #fce7f3 100%)',
+    background: '#fde1af',
     fontFamily: '"Rajdhani", "Segoe UI", sans-serif',
+    color: '#673200',
     overflow: 'hidden',
     minHeight: '100vh',
   };
@@ -64,8 +65,8 @@ const Plans: React.FC = () => {
     width: '100%',
     height: '100%',
     backgroundImage: `
-      linear-gradient(rgba(213, 56, 56, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(213, 56, 56, 0.03) 1px, transparent 1px)
+      linear-gradient(rgba(253, 225, 175, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(253, 225, 175, 0.05) 1px, transparent 1px)
     `,
     backgroundSize: '40px 40px',
     zIndex: 0,
@@ -85,12 +86,12 @@ const Plans: React.FC = () => {
   const titleStyle: React.CSSProperties = {
     fontSize: isMobile ? '2.5rem' : 'clamp(2.5rem, 5vw, 4rem)',
     fontWeight: '800',
-    color: '#111',
+    color: '#673200',
     margin: '0',
     textTransform: 'uppercase',
     letterSpacing: '-1px',
     lineHeight: '1',
-    background: 'linear-gradient(90deg, #d53838 0%, #111 60%)',
+    background: 'linear-gradient(90deg, #673200 0%, #673200 60%)',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
   };
@@ -98,7 +99,6 @@ const Plans: React.FC = () => {
   const getGridStyle = (): React.CSSProperties => ({
     display: 'grid',
     gap: isMobile ? '20px' : '48px',
-    // On mobile 1 column, desktop auto-fit
     gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(500px, 1fr))',
     maxWidth: '1200px',
     margin: '0 auto',
@@ -113,25 +113,21 @@ const Plans: React.FC = () => {
       background: 'rgba(255, 255, 255, 0.9)',
       borderRadius: '16px',
       boxShadow: isHovered
-        ? '0 25px 50px -12px rgba(213, 56, 56, 0.25)'
+        ? '0 25px 50px -12px rgba(103, 50, 0, 0.25)'
         : '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02)',
       transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
       transform: isHovered ? 'translateY(-8px)' : 'translateY(0)',
-      border: isPopular ? '1px solid rgba(213, 56, 56, 0.3)' : '1px solid rgba(0,0,0,0.05)',
+      border: isPopular ? '1px solid rgba(103, 50, 0, 0.4)' : '1px solid rgba(0,0,0,0.05)',
       overflow: 'hidden',
       opacity: mounted ? 1 : 0,
       animation: `fadeInUp 0.6s ease-out forwards ${index * 0.15}s`,
       display: 'flex',
-      // FORCE ROW DIRECTION EVEN ON MOBILE
       flexDirection: 'row',
-      // Mobile height is shorter to fit screen better
       height: isMobile ? '280px' : '380px', 
     };
   };
 
-  // --- Left Side: Content ---
   const contentSectionStyle: React.CSSProperties = {
-    // Take up slightly less space on mobile to ensure image is visible
     flex: isMobile ? '0 0 55%' : '0 0 55%', 
     padding: isMobile ? '16px 12px' : '40px',
     display: 'flex',
@@ -141,32 +137,27 @@ const Plans: React.FC = () => {
     zIndex: 2,
   };
 
-  // --- Right Side: Image Container with Diagonal Clip ---
   const imageSectionStyle: React.CSSProperties = {
     position: 'absolute',
     right: 0,
     top: 0,
     bottom: 0,
-    width: '55%', // Ensures overlap with text section
-    height: '100%',
-    // Same Diagonal Cut on Mobile and Desktop
+    width: '55%',
     clipPath: 'polygon(20% 0, 100% 0, 100% 100%, 0% 100%)', 
     overflow: 'hidden',
     zIndex: 1,
   };
 
-  // --- The "Dash Type Line" (Visual Separator) ---
   const diagonalBorderWrapperStyle: React.CSSProperties = {
     position: 'absolute',
     right: 0,
     top: 0,
     bottom: 0,
     width: '55%',
-    // Start slightly earlier (19.5%) to create the red border line
     clipPath: 'polygon(19.5% 0, 100% 0, 100% 100%, -0.5% 100%)', 
-    background: '#d53838', 
+    background: '#673200', 
     zIndex: 0,
-    display: 'block', // Always show
+    display: 'block',
   };
 
   const imageStyle = (isHovered: boolean): React.CSSProperties => ({
@@ -177,22 +168,20 @@ const Plans: React.FC = () => {
     transform: isHovered ? 'scale(1.1)' : 'scale(1)',
   });
 
-  // --- Typography & Elements (Responsive sizes) ---
-
   const planNameStyle: React.CSSProperties = {
     fontSize: isMobile ? '16px' : '20px',
     fontWeight: '700',
-    color: '#666',
+    color: '#673200',
     textTransform: 'uppercase',
     letterSpacing: isMobile ? '1px' : '2px',
     marginBottom: isMobile ? '4px' : '8px',
-    whiteSpace: 'nowrap', // Prevent wrapping on small lines
+    whiteSpace: 'nowrap',
   };
 
   const priceStyle: React.CSSProperties = {
     fontSize: isMobile ? '22px' : '32px',
     fontWeight: '800',
-    color: '#111',
+    color: '#673200',
     marginBottom: isMobile ? '8px' : '16px',
     display: 'flex',
     alignItems: 'baseline',
@@ -201,12 +190,12 @@ const Plans: React.FC = () => {
 
   const descStyle: React.CSSProperties = {
     fontSize: isMobile ? '12px' : '15px',
-    color: '#555',
+    color: '#673200',
     marginBottom: isMobile ? '12px' : '24px',
     lineHeight: '1.4',
     maxWidth: '95%',
     display: '-webkit-box',
-    WebkitLineClamp: isMobile ? 2 : 3, // Limit text lines on mobile
+    WebkitLineClamp: isMobile ? 2 : 3,
     WebkitBoxOrient: 'vertical',
     overflow: 'hidden',
   };
@@ -225,7 +214,7 @@ const Plans: React.FC = () => {
     alignItems: 'center',
     gap: '8px',
     fontSize: isMobile ? '11px' : '14px',
-    color: '#444',
+    color: '#673200',
     fontWeight: '600',
   };
 
@@ -233,8 +222,8 @@ const Plans: React.FC = () => {
     const isHovered = hoveredIndex === index;
     return {
       padding: isMobile ? '10px 16px' : '14px 28px',
-      background: isHovered ? '#111' : '#d53838',
-      color: 'white',
+      background: isHovered ? '#673200' : '#fde1af',
+      color: isHovered ? '#fff' : '#673200',
       border: 'none',
       borderRadius: '8px',
       fontWeight: '700',
@@ -253,6 +242,174 @@ const Plans: React.FC = () => {
 
   return (
     <section id="plans" style={containerStyle}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700;800&display=swap');
+        
+        /* Animated Grid Background */
+        .tech-grid-animated {
+          position: absolute;
+          inset: 0;
+          background: transparent;
+          z-index: 0;
+          pointer-events: none;
+          overflow: hidden;
+        }
+
+        .tech-grid-animated::before,
+        .tech-grid-animated::after {
+          content: '';
+          position: absolute;
+          width: 200%;
+          height: 200%;
+          top: -50%;
+          left: -50%;
+          background-image: 
+            linear-gradient(90deg, transparent 0%, transparent calc(100% - 1px), rgba(103, 50, 0, 0.08) calc(100% - 1px), rgba(103, 50, 0, 0.08) 100%),
+            linear-gradient(0deg, transparent 0%, transparent calc(100% - 1px), rgba(103, 50, 0, 0.08) calc(100% - 1px), rgba(103, 50, 0, 0.08) 100%);
+          background-size: 80px 80px;
+          animation: gridFlow 20s linear infinite;
+          opacity: 0.6;
+        }
+
+        .tech-grid-animated::after {
+          background-size: 120px 120px;
+          animation: gridFlow 30s linear infinite reverse;
+          opacity: 0.4;
+        }
+
+        @keyframes gridFlow {
+          0% {
+            transform: translate(0, 0) rotate(0deg);
+          }
+          100% {
+            transform: translate(40px, 40px) rotate(0deg);
+          }
+        }
+
+        /* Flowing Lines */
+        .animated-lines {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          z-index: 0;
+        }
+
+        .line {
+          position: absolute;
+          background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(103, 50, 0, 0.15) 50%, 
+            transparent 100%);
+          transform-origin: center;
+        }
+
+        .line-1 {
+          width: 200%;
+          height: 2px;
+          top: 10%;
+          left: -100%;
+          animation: flowRight 15s ease-in-out infinite;
+          animation-delay: 0s;
+        }
+
+        .line-2 {
+          width: 2px;
+          height: 200%;
+          left: 20%;
+          top: -100%;
+          animation: flowDown 18s ease-in-out infinite;
+          animation-delay: 2s;
+        }
+
+        .line-3 {
+          width: 200%;
+          height: 1px;
+          top: 40%;
+          left: -100%;
+          animation: flowRight 20s ease-in-out infinite;
+          animation-delay: 4s;
+        }
+
+        .line-4 {
+          width: 1px;
+          height: 200%;
+          left: 60%;
+          top: -100%;
+          animation: flowDown 16s ease-in-out infinite;
+          animation-delay: 6s;
+        }
+
+        .line-5 {
+          width: 200%;
+          height: 2px;
+          top: 70%;
+          left: -100%;
+          animation: flowRight 22s ease-in-out infinite;
+          animation-delay: 8s;
+        }
+
+        .line-6 {
+          width: 2px;
+          height: 200%;
+          left: 80%;
+          top: -100%;
+          animation: flowDown 19s ease-in-out infinite;
+          animation-delay: 10s;
+        }
+
+        @keyframes flowRight {
+          0% {
+            left: -100%;
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            left: 100%;
+            opacity: 0;
+          }
+        }
+
+        @keyframes flowDown {
+          0% {
+            top: -100%;
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            top: 100%;
+            opacity: 0;
+          }
+        }
+
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+
+      {/* Animated Grid Background */}
+      <div className="tech-grid-animated" />
+      
+      {/* Flowing Lines */}
+      <div className="animated-lines">
+        <div className="line line-1"></div>
+        <div className="line line-2"></div>
+        <div className="line line-3"></div>
+        <div className="line line-4"></div>
+        <div className="line line-5"></div>
+        <div className="line line-6"></div>
+      </div>
+
       <div style={gridOverlayStyle}></div>
 
       {/* Header */}
@@ -260,9 +417,9 @@ const Plans: React.FC = () => {
         <div style={{ 
           display: 'inline-block', 
           padding: '6px 16px', 
-          border: '1px solid #d53838', 
+          border: '1px solid #673200', 
           borderRadius: '50px', 
-          color: '#d53838', 
+          color: '#673200', 
           fontWeight: '700', 
           fontSize: '12px', 
           marginBottom: '16px',
@@ -308,8 +465,8 @@ const Plans: React.FC = () => {
                 {plan.popular && !isMobile && (
                   <span style={{ 
                     fontSize: '12px', 
-                    background: '#d53838', 
-                    color: 'white', 
+                    background: '#673200', 
+                    color: '#fde1af', 
                     padding: '2px 8px', 
                     borderRadius: '4px',
                     verticalAlign: 'middle',
@@ -322,7 +479,7 @@ const Plans: React.FC = () => {
               <ul style={listStyle}>
                 {plan.features.map((f, i) => (
                   <li key={i} style={listItemStyle}>
-                    <span style={{ color: '#d53838', fontSize: isMobile ? '10px' : '14px' }}>✓</span> {f}
+                    <span style={{ color: '#673200', fontSize: isMobile ? '10px' : '14px' }}>✓</span> {f}
                   </li>
                 ))}
               </ul>
@@ -335,14 +492,6 @@ const Plans: React.FC = () => {
           </div>
         ))}
       </div>
-
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700;800&display=swap');
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
     </section>
   );
 };

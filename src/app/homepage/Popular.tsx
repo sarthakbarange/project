@@ -95,9 +95,10 @@ const Popular: React.FC = () => {
 
   const containerStyle: React.CSSProperties = {
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #fef2f2 0%, #ffffff 50%, #fce7f3 100%)',
+    background: '#fde1af',
     padding: isMobile ? '60px 12px' : '80px 16px',
     fontFamily: '"Rajdhani", "Segoe UI", sans-serif',
+    color: '#673200',
     position: 'relative',
     overflow: 'hidden',
   };
@@ -109,8 +110,8 @@ const Popular: React.FC = () => {
     width: '100%',
     height: '100%',
     backgroundImage: `
-      linear-gradient(rgba(213, 56, 56, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(213, 56, 56, 0.03) 1px, transparent 1px)
+      linear-gradient(rgba(253, 225, 175, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(253, 225, 175, 0.05) 1px, transparent 1px)
     `,
     backgroundSize: '50px 50px',
     opacity: 0.5,
@@ -148,15 +149,15 @@ const Popular: React.FC = () => {
     fontSize: 'clamp(2.5rem, 6vw, 4rem)',
     fontWeight: '800',
     marginBottom: '16px',
-    color: '#d53838',
+    color: '#673200',
     letterSpacing: '-1px',
     textTransform: 'uppercase',
-    textShadow: '0 0 20px rgba(213, 56, 56, 0.3)',
+    textShadow: '0 0 15px rgba(253, 225, 175, 0.6)',
     animation: 'textGlow 2s ease-in-out infinite',
   };
 
   const subtitleStyle: React.CSSProperties = {
-    color: '#666',
+    color: '#673200',
     maxWidth: '600px',
     margin: '0 auto',
     fontSize: '16px',
@@ -193,9 +194,9 @@ const Popular: React.FC = () => {
       background: 'rgba(255, 255, 255, 0.95)',
       backdropFilter: 'blur(30px)',
       borderRadius: isMobile ? '24px' : '32px',
-      border: isHovered ? '2px solid rgba(213, 56, 56, 0.4)' : '2px solid rgba(213, 56, 56, 0.15)',
+      border: isHovered ? '2px solid rgba(103, 50, 0, 0.4)' : '2px solid rgba(103, 50, 0, 0.15)',
       boxShadow: isHovered
-        ? '0 30px 60px rgba(213, 56, 56, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.5) inset'
+        ? '0 30px 60px rgba(103, 50, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.5) inset'
         : '0 20px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.5) inset',
       transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
       transform: isHovered ? 'translateY(-12px) scale(1.02)' : 'translateY(0) scale(1)',
@@ -230,7 +231,7 @@ const Popular: React.FC = () => {
     position: 'absolute',
     top: '16px',
     right: '16px',
-    background: 'linear-gradient(135deg, #d53838 0%, #b92e2e 100%)',
+    background: 'linear-gradient(135deg, #673200 0%, #673200 100%)',
     color: 'white',
     padding: '8px 16px',
     fontSize: '11px',
@@ -239,7 +240,7 @@ const Popular: React.FC = () => {
     letterSpacing: '1.5px',
     borderRadius: '50px',
     zIndex: 5,
-    boxShadow: '0 8px 20px rgba(213, 56, 56, 0.4)',
+    boxShadow: '0 8px 20px rgba(103, 50, 0, 0.4)',
     display: 'flex',
     alignItems: 'center',
     gap: '6px',
@@ -251,8 +252,8 @@ const Popular: React.FC = () => {
     alignItems: 'center',
     gap: '4px',
     padding: isMobile ? '4px 8px' : '6px 12px',
-    background: 'rgba(213, 56, 56, 0.1)',
-    color: '#d53838',
+    background: 'rgba(253, 225, 175, 0.25)',
+    color: '#673200',
     fontSize: isMobile ? '9px' : '12px',
     fontWeight: '700',
     textTransform: 'uppercase',
@@ -264,7 +265,7 @@ const Popular: React.FC = () => {
   const titleStyle: React.CSSProperties = {
     fontSize: isMobile ? '17px' : '26px',
     fontWeight: '800',
-    color: '#111',
+    color: '#673200',
     textTransform: 'uppercase',
     marginBottom: isMobile ? '8px' : '12px',
     lineHeight: '1.2',
@@ -285,8 +286,10 @@ const Popular: React.FC = () => {
   };
 
   const statBoxStyle = (isActive: boolean): React.CSSProperties => ({
-    background: isActive ? 'linear-gradient(135deg, #d53838 0%, #b92e2e 100%)' : 'rgba(213, 56, 56, 0.08)',
-    color: isActive ? '#fff' : '#d53838',
+    background: isActive
+      ? 'linear-gradient(135deg, #673200 0%, #673200 100%)'
+      : 'rgba(253, 225, 175, 0.4)',
+    color: isActive ? '#fde1af' : '#673200',
     padding: isMobile ? '10px' : '16px',
     display: 'flex',
     flexDirection: 'column',
@@ -294,8 +297,8 @@ const Popular: React.FC = () => {
     justifyContent: 'center',
     borderRadius: '16px',
     transition: 'all 0.3s ease',
-    border: isActive ? 'none' : '1px solid rgba(213, 56, 56, 0.2)',
-    boxShadow: isActive ? '0 8px 20px rgba(213, 56, 56, 0.3)' : 'none',
+    border: isActive ? 'none' : '1px solid rgba(103, 50, 0, 0.3)',
+    boxShadow: isActive ? '0 8px 20px rgba(103, 50, 0, 0.4)' : 'none',
   });
 
   const priceContainerStyle: React.CSSProperties = {
@@ -304,16 +307,16 @@ const Popular: React.FC = () => {
     justifyContent: 'space-between',
     marginBottom: isMobile ? '16px' : '24px',
     padding: isMobile ? '10px 12px' : '16px',
-    background: 'linear-gradient(135deg, rgba(213, 56, 56, 0.05), rgba(213, 56, 56, 0.02))',
+    background: 'linear-gradient(135deg, rgba(253, 225, 175, 0.4), rgba(253, 225, 175, 0.15))',
     borderRadius: '16px',
-    border: '1px solid rgba(213, 56, 56, 0.1)',
+    border: '1px solid rgba(103, 50, 0, 0.3)',
   };
 
   const buttonStyle: React.CSSProperties = {
     width: '100%',
     padding: isMobile ? '10px 12px' : '16px 20px',
-    background: 'linear-gradient(135deg, #111 0%, #2a2a2a 100%)',
-    color: 'white',
+    background: '#fde1af',
+    color: '#673200',
     border: 'none',
     fontWeight: '700',
     textTransform: 'uppercase',
@@ -322,7 +325,7 @@ const Popular: React.FC = () => {
     fontSize: isMobile ? '11px' : '14px',
     borderRadius: '999px',
     transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-    boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
+    boxShadow: '0 10px 25px rgba(103, 50, 0, 0.4)',
     position: 'relative',
     overflow: 'hidden',
   };
@@ -332,19 +335,165 @@ const Popular: React.FC = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700;800&display=swap');
         
+        /* Animated Grid Background */
+        .tech-grid-animated {
+          position: absolute;
+          inset: 0;
+          background: transparent;
+          z-index: 0;
+          pointer-events: none;
+          overflow: hidden;
+        }
+
+        .tech-grid-animated::before,
+        .tech-grid-animated::after {
+          content: '';
+          position: absolute;
+          width: 200%;
+          height: 200%;
+          top: -50%;
+          left: -50%;
+          background-image: 
+            linear-gradient(90deg, transparent 0%, transparent calc(100% - 1px), rgba(103, 50, 0, 0.08) calc(100% - 1px), rgba(103, 50, 0, 0.08) 100%),
+            linear-gradient(0deg, transparent 0%, transparent calc(100% - 1px), rgba(103, 50, 0, 0.08) calc(100% - 1px), rgba(103, 50, 0, 0.08) 100%);
+          background-size: 80px 80px;
+          animation: gridFlow 20s linear infinite;
+          opacity: 0.6;
+        }
+
+        .tech-grid-animated::after {
+          background-size: 120px 120px;
+          animation: gridFlow 30s linear infinite reverse;
+          opacity: 0.4;
+        }
+
+        @keyframes gridFlow {
+          0% {
+            transform: translate(0, 0) rotate(0deg);
+          }
+          100% {
+            transform: translate(40px, 40px) rotate(0deg);
+          }
+        }
+
+        /* Flowing Lines */
+        .animated-lines {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          z-index: 0;
+        }
+
+        .line {
+          position: absolute;
+          background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(103, 50, 0, 0.15) 50%, 
+            transparent 100%);
+          transform-origin: center;
+        }
+
+        .line-1 {
+          width: 200%;
+          height: 2px;
+          top: 10%;
+          left: -100%;
+          animation: flowRight 15s ease-in-out infinite;
+          animation-delay: 0s;
+        }
+
+        .line-2 {
+          width: 2px;
+          height: 200%;
+          left: 20%;
+          top: -100%;
+          animation: flowDown 18s ease-in-out infinite;
+          animation-delay: 2s;
+        }
+
+        .line-3 {
+          width: 200%;
+          height: 1px;
+          top: 40%;
+          left: -100%;
+          animation: flowRight 20s ease-in-out infinite;
+          animation-delay: 4s;
+        }
+
+        .line-4 {
+          width: 1px;
+          height: 200%;
+          left: 60%;
+          top: -100%;
+          animation: flowDown 16s ease-in-out infinite;
+          animation-delay: 6s;
+        }
+
+        .line-5 {
+          width: 200%;
+          height: 2px;
+          top: 70%;
+          left: -100%;
+          animation: flowRight 22s ease-in-out infinite;
+          animation-delay: 8s;
+        }
+
+        .line-6 {
+          width: 2px;
+          height: 200%;
+          left: 80%;
+          top: -100%;
+          animation: flowDown 19s ease-in-out infinite;
+          animation-delay: 10s;
+        }
+
+        @keyframes flowRight {
+          0% {
+            left: -100%;
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            left: 100%;
+            opacity: 0;
+          }
+        }
+
+        @keyframes flowDown {
+          0% {
+            top: -100%;
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            top: 100%;
+            opacity: 0;
+          }
+        }
+        
         @keyframes cardFloat {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-10px); }
         }
 
         @keyframes textGlow {
-          0%, 100% { text-shadow: 0 0 20px rgba(213, 56, 56, 0.3); }
-          50% { text-shadow: 0 0 30px rgba(213, 56, 56, 0.6); }
+          0%, 100% { text-shadow: 0 0 20px rgba(253, 225, 175, 0.3); }
+          50% { text-shadow: 0 0 30px rgba(253, 225, 175, 0.6); }
         }
 
         @keyframes badgePulse {
-          0%, 100% { box-shadow: 0 8px 20px rgba(213, 56, 56, 0.4); }
-          50% { box-shadow: 0 8px 30px rgba(213, 56, 56, 0.6); }
+          0%, 100% { box-shadow: 0 8px 20px rgba(103, 50, 0, 0.4); }
+          50% { box-shadow: 0 8px 30px rgba(103, 50, 0, 0.6); }
         }
 
         @keyframes pulse {
@@ -363,8 +512,8 @@ const Popular: React.FC = () => {
         }
 
         .btn-hover:hover {
-          background: linear-gradient(135deg, #d53838 0%, #b92e2e 100%) !important;
-          box-shadow: 0 15px 35px rgba(213, 56, 56, 0.5) !important;
+          background: linear-gradient(135deg, #673200 0%, #673200 100%) !important;
+          box-shadow: 0 15px 35px rgba(103, 50, 0, 0.5) !important;
           transform: translateY(-2px) !important;
         }
 
@@ -377,6 +526,19 @@ const Popular: React.FC = () => {
           animation: pulse 2s infinite;
         }
       `}</style>
+
+      {/* Animated Grid Background */}
+      <div className="tech-grid-animated" />
+      
+      {/* Flowing Lines */}
+      <div className="animated-lines">
+        <div className="line line-1"></div>
+        <div className="line line-2"></div>
+        <div className="line line-3"></div>
+        <div className="line line-4"></div>
+        <div className="line line-5"></div>
+        <div className="line line-6"></div>
+      </div>
 
       <div style={gridOverlayStyle}></div>
 
@@ -393,9 +555,9 @@ const Popular: React.FC = () => {
         zIndex: 1,
       }}>
         <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="100" cy="100" r="80" fill="#d53838"/>
-          <path d="M100 30 Q130 50 130 80 Q130 110 100 130 Q70 110 70 80 Q70 50 100 30Z" fill="#d53838"/>
-          <circle cx="100" cy="75" r="25" fill="#d53838"/>
+          <circle cx="100" cy="100" r="80" fill="#673200"/>
+          <path d="M100 30 Q130 50 130 80 Q130 110 100 130 Q70 110 70 80 Q70 50 100 30Z" fill="#673200"/>
+          <circle cx="100" cy="75" r="25" fill="#673200"/>
         </svg>
       </div>
 
@@ -411,10 +573,10 @@ const Popular: React.FC = () => {
         zIndex: 1,
       }}>
         <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="100" cy="80" rx="50" ry="30" fill="#d53838"/>
-          <rect x="60" y="75" width="80" height="15" fill="#d53838"/>
-          <circle cx="100" cy="110" r="35" fill="#d53838"/>
-          <path d="M70 130 L70 180 L130 180 L130 130 Q130 125 100 125 Q70 125 70 130Z" fill="#d53838"/>
+          <ellipse cx="100" cy="80" rx="50" ry="30" fill="#673200"/>
+          <rect x="60" y="75" width="80" height="15" fill="#673200"/>
+          <circle cx="100" cy="110" r="35" fill="#673200"/>
+          <path d="M70 130 L70 180 L130 180 L130 130 Q130 125 100 125 Q70 125 70 130Z" fill="#673200"/>
         </svg>
       </div>
 
@@ -426,8 +588,7 @@ const Popular: React.FC = () => {
         <h2 style={mainHeadingStyle}>{decodedText}</h2>
         <p style={subtitleStyle}>
           Discover the most trusted and loved tiffin services in your area. 
-          <br/>
-          <span style={{color: '#d53838', fontWeight: '700'}}>Verified Quality • Daily Fresh • Home Delivery</span>
+          <span style={{color: '#673200', fontWeight: '700'}}> Verified Quality • Daily Fresh • Home Delivery</span>
         </p>
       </div>
 
@@ -455,10 +616,10 @@ const Popular: React.FC = () => {
                 zIndex: 0,
               }}>
                 <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="100" cy="100" r="80" stroke="#d53838" strokeWidth="2"/>
-                  <circle cx="100" cy="100" r="60" stroke="#d53838" strokeWidth="2"/>
-                  <circle cx="100" cy="100" r="40" stroke="#d53838" strokeWidth="2"/>
-                  <path d="M100 20 L100 180 M20 100 L180 100" stroke="#d53838" strokeWidth="2"/>
+                  <circle cx="100" cy="100" r="80" stroke="#673200" strokeWidth="2"/>
+                  <circle cx="100" cy="100" r="60" stroke="#673200" strokeWidth="2"/>
+                  <circle cx="100" cy="100" r="40" stroke="#673200" strokeWidth="2"/>
+                  <path d="M100 20 L100 180 M20 100 L180 100" stroke="#673200" strokeWidth="2"/>
                 </svg>
               </div>
 
@@ -469,8 +630,8 @@ const Popular: React.FC = () => {
                 left: '12px',
                 width: '40px',
                 height: '40px',
-                borderTop: '3px solid #d53838',
-                borderLeft: '3px solid #d53838',
+                borderTop: '3px solid #673200',
+                borderLeft: '3px solid #673200',
                 borderRadius: '32px 0 0 0',
                 opacity: 0.3,
                 zIndex: 1,
@@ -481,8 +642,8 @@ const Popular: React.FC = () => {
                 right: '12px',
                 width: '40px',
                 height: '40px',
-                borderBottom: '3px solid #d53838',
-                borderRight: '3px solid #d53838',
+                borderBottom: '3px solid #673200',
+                borderRight: '3px solid #673200',
                 borderRadius: '0 0 32px 0',
                 opacity: 0.3,
                 zIndex: 1,
@@ -535,13 +696,13 @@ const Popular: React.FC = () => {
                 <div style={priceContainerStyle}>
                   <div>
                     <div style={{fontSize: '10px', color: '#999', textTransform: 'uppercase', marginBottom: '4px'}}>Daily Rate</div>
-                    <div style={{fontSize: isMobile ? '20px' : '28px', fontWeight: '800', color: '#d53838', lineHeight: '1'}}>{provider.price}</div>
+                    <div style={{fontSize: isMobile ? '20px' : '28px', fontWeight: '800', color: '#673200', lineHeight: '1'}}>{provider.price}</div>
                   </div>
                   <div style={{
                     width: '50px',
                     height: '50px',
                     borderRadius: '50%',
-                    background: 'rgba(213, 56, 56, 0.1)',
+                    background: 'rgba(253, 225, 175, 0.1)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',

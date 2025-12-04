@@ -57,13 +57,12 @@ const items = [
 const WhyUs: React.FC = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  // --- Styles ---
-
   const containerStyle: React.CSSProperties = {
     position: 'relative',
     padding: '80px 16px',
-    background: 'linear-gradient(135deg, #fef2f2 0%, #ffffff 50%, #fce7f3 100%)',
+    background: '#fde1af',
     fontFamily: '"Rajdhani", "Segoe UI", sans-serif',
+    color: '#673200',
     overflow: 'hidden',
   };
 
@@ -84,15 +83,15 @@ const WhyUs: React.FC = () => {
     alignItems: 'center',
     gap: '8px',
     padding: '8px 24px',
-    background: 'rgba(213, 56, 56, 0.05)',
-    border: '1px solid rgba(213, 56, 56, 0.2)',
-    color: '#d53838',
+    background: 'rgba(103, 50, 0, 0.1)',
+    border: '1px solid rgba(103, 50, 0, 0.3)',
+    color: '#673200',
     fontSize: '14px',
     fontWeight: '700',
     letterSpacing: '2px',
     textTransform: 'uppercase',
     marginBottom: '24px',
-    clipPath: 'polygon(10% 0, 100% 0, 100% 100%, 0% 100%, 0% 25%)', // Tech shape
+    clipPath: 'polygon(10% 0, 100% 0, 100% 100%, 0% 100%, 0% 25%)',
   };
 
   const titleStyle: React.CSSProperties = {
@@ -101,15 +100,17 @@ const WhyUs: React.FC = () => {
     marginBottom: '16px',
     textTransform: 'uppercase',
     letterSpacing: '-1px',
-    color: '#111',
+    color: '#673200',
+    textShadow: '2px 2px 0px rgba(103, 50, 0, 0.15)',
   };
 
   const subtitleStyle: React.CSSProperties = {
     fontSize: 'clamp(1rem, 2vw, 1.2rem)',
-    color: '#6b7280',
+    color: '#673200',
     maxWidth: '650px',
     margin: '0 auto',
     lineHeight: '1.6',
+    opacity: 0.85,
   };
 
   const gridStyle: React.CSSProperties = {
@@ -120,16 +121,15 @@ const WhyUs: React.FC = () => {
 
   const getCardStyle = (index: number): React.CSSProperties => ({
     position: 'relative',
-    background: 'rgba(255, 255, 255, 0.7)',
+    background: 'rgba(255, 255, 255, 0.85)',
     backdropFilter: 'blur(10px)',
     padding: '32px 24px',
-    // Tech shape: Angled corners top-right and bottom-left
     clipPath: 'polygon(0 0, 85% 0, 100% 15%, 100% 100%, 15% 100%, 0 85%)',
-    border: hoveredIndex === index ? '1px solid #d53838' : '1px solid rgba(255, 255, 255, 0.5)',
+    border: hoveredIndex === index ? '2px solid #673200' : '1px solid rgba(103, 50, 0, 0.2)',
     transition: 'all 0.3s ease',
     transform: hoveredIndex === index ? 'translateY(-10px)' : 'translateY(0)',
     boxShadow: hoveredIndex === index 
-      ? '0 15px 30px rgba(213, 56, 56, 0.15)' 
+      ? '0 15px 30px rgba(103, 50, 0, 0.2)' 
       : '0 4px 10px rgba(0,0,0,0.05)',
     height: '100%',
     display: 'flex',
@@ -139,14 +139,14 @@ const WhyUs: React.FC = () => {
   const iconContainerStyle = (index: number): React.CSSProperties => ({
     width: '56px',
     height: '56px',
-    background: hoveredIndex === index ? '#d53838' : 'rgba(213, 56, 56, 0.05)',
-    color: hoveredIndex === index ? 'white' : '#d53838',
+    background: hoveredIndex === index ? '#673200' : 'rgba(103, 50, 0, 0.1)',
+    color: hoveredIndex === index ? '#fde1af' : '#673200',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: '24px',
     transition: 'all 0.3s ease',
-    borderRadius: '4px', // Slight rounding
+    borderRadius: '4px',
     position: 'relative',
     zIndex: 2,
   });
@@ -154,7 +154,7 @@ const WhyUs: React.FC = () => {
   const cardTitleStyle: React.CSSProperties = {
     fontSize: '20px',
     fontWeight: '700',
-    color: '#111',
+    color: '#673200',
     marginBottom: '12px',
     textTransform: 'uppercase',
     letterSpacing: '0.5px',
@@ -164,10 +164,11 @@ const WhyUs: React.FC = () => {
 
   const cardTextStyle: React.CSSProperties = {
     fontSize: '15px',
-    color: '#6b7280',
+    color: '#673200',
     lineHeight: '1.5',
     position: 'relative',
     zIndex: 2,
+    opacity: 0.85,
   };
 
   const backgroundNumberStyle: React.CSSProperties = {
@@ -176,32 +177,24 @@ const WhyUs: React.FC = () => {
     right: '10px',
     fontSize: '60px',
     fontWeight: '800',
-    color: 'rgba(0, 0, 0, 0.03)',
+    color: 'rgba(103, 50, 0, 0.05)',
     fontFamily: '"Rajdhani", sans-serif',
     pointerEvents: 'none',
     zIndex: 1,
   };
 
-  // Particle Background
-  const particleStyle = (size: string, top: string, left: string, delay: string): React.CSSProperties => ({
-    position: 'absolute',
-    width: size,
-    height: size,
-    top: top,
-    left: left,
-    background: 'linear-gradient(45deg, rgba(213, 56, 56, 0.05), rgba(255, 255, 255, 0))',
-    border: '1px solid rgba(213, 56, 56, 0.1)',
-    borderRadius: '50%',
-    animation: `float 10s ease-in-out infinite ${delay}`,
-    zIndex: 0,
-    pointerEvents: 'none',
-  });
-
   return (
     <section id="why-us" style={containerStyle}>
-      {/* Background Ambience */}
-      <div style={particleStyle('300px', '20%', '-10%', '0s')}></div>
-      <div style={particleStyle('250px', '50%', '90%', '2s')}></div>
+      {/* Animated Background Grid & Lines from first code */}
+      <div className="tech-grid" />
+      <div className="animated-lines">
+        <div className="line line-1"></div>
+        <div className="line line-2"></div>
+        <div className="line line-3"></div>
+        <div className="line line-4"></div>
+        <div className="line line-5"></div>
+        <div className="line line-6"></div>
+      </div>
 
       <div style={innerContainerStyle}>
         
@@ -228,17 +221,14 @@ const WhyUs: React.FC = () => {
               onMouseLeave={() => setHoveredIndex(null)}
               style={getCardStyle(index)}
             >
-              {/* Background Index */}
               <div style={backgroundNumberStyle}>{item.id}</div>
 
-              {/* Icon */}
               <div style={iconContainerStyle(index)}>
                 {item.icon}
-                {/* Tech border around icon */}
                 <div style={{
                   position: 'absolute',
                   inset: '-4px',
-                  border: '1px solid rgba(213, 56, 56, 0.2)',
+                  border: '1px solid rgba(103, 50, 0, 0.3)',
                   opacity: hoveredIndex === index ? 1 : 0,
                   transition: 'opacity 0.3s',
                   transform: 'scale(1.1)',
@@ -246,17 +236,15 @@ const WhyUs: React.FC = () => {
                 }}></div>
               </div>
 
-              {/* Content */}
               <h3 style={cardTitleStyle}>{item.title}</h3>
               <p style={cardTextStyle}>{item.text}</p>
 
-              {/* Decorative Tech Lines */}
               <div style={{
                 position: 'absolute',
                 bottom: '0',
                 left: '0',
                 height: '3px',
-                background: '#d53838',
+                background: '#673200',
                 transition: 'width 0.4s ease',
                 width: hoveredIndex === index ? '100%' : '0%'
               }}></div>
@@ -268,25 +256,165 @@ const WhyUs: React.FC = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700;800&display=swap');
 
+        /* Animated Tech Grid Background */
+        .tech-grid {
+          position: absolute;
+          inset: 0;
+          background: transparent;
+          z-index: 0;
+          pointer-events: none;
+          overflow: hidden;
+        }
+
+        .tech-grid::before,
+        .tech-grid::after {
+          content: '';
+          position: absolute;
+          width: 200%;
+          height: 200%;
+          top: -50%;
+          left: -50%;
+          background-image: 
+            linear-gradient(90deg, transparent 0%, transparent calc(100% - 1px), rgba(103, 50, 0, 0.08) calc(100% - 1px), rgba(103, 50, 0, 0.08) 100%),
+            linear-gradient(0deg, transparent 0%, transparent calc(100% - 1px), rgba(103, 50, 0, 0.08) calc(100% - 1px), rgba(103, 50, 0, 0.08) 100%);
+          background-size: 80px 80px;
+          animation: gridFlow 20s linear infinite;
+          opacity: 0.6;
+        }
+
+        .tech-grid::after {
+          background-size: 120px 120px;
+          animation: gridFlow 30s linear infinite reverse;
+          opacity: 0.4;
+        }
+
+        @keyframes gridFlow {
+          0% {
+            transform: translate(0, 0) rotate(0deg);
+          }
+          100% {
+            transform: translate(40px, 40px) rotate(0deg);
+          }
+        }
+
+        /* Diagonal flowing lines */
+        .animated-lines {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          z-index: 0;
+        }
+
+        .line {
+          position: absolute;
+          background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(103, 50, 0, 0.15) 50%, 
+            transparent 100%);
+          transform-origin: center;
+        }
+
+        .line-1 {
+          width: 200%;
+          height: 2px;
+          top: 10%;
+          left: -100%;
+          animation: flowRight 15s ease-in-out infinite;
+          animation-delay: 0s;
+        }
+
+        .line-2 {
+          width: 2px;
+          height: 200%;
+          left: 20%;
+          top: -100%;
+          animation: flowDown 18s ease-in-out infinite;
+          animation-delay: 2s;
+        }
+
+        .line-3 {
+          width: 200%;
+          height: 1px;
+          top: 40%;
+          left: -100%;
+          animation: flowRight 20s ease-in-out infinite;
+          animation-delay: 4s;
+        }
+
+        .line-4 {
+          width: 1px;
+          height: 200%;
+          left: 60%;
+          top: -100%;
+          animation: flowDown 16s ease-in-out infinite;
+          animation-delay: 6s;
+        }
+
+        .line-5 {
+          width: 200%;
+          height: 2px;
+          top: 70%;
+          left: -100%;
+          animation: flowRight 22s ease-in-out infinite;
+          animation-delay: 8s;
+        }
+
+        .line-6 {
+          width: 2px;
+          height: 200%;
+          left: 80%;
+          top: -100%;
+          animation: flowDown 19s ease-in-out infinite;
+          animation-delay: 10s;
+        }
+
+        @keyframes flowRight {
+          0% {
+            left: -100%;
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            left: 100%;
+            opacity: 0;
+          }
+        }
+
+        @keyframes flowDown {
+          0% {
+            top: -100%;
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            top: 100%;
+            opacity: 0;
+          }
+        }
+
         .pulse-dot {
           width: 8px;
           height: 8px;
-          background: #d53838;
+          background: #673200;
           border-radius: 50%;
-          box-shadow: 0 0 10px #d53838;
+          box-shadow: 0 0 10px rgba(103, 50, 0, 0.7);
           animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-          0% { box-shadow: 0 0 0 0 rgba(213, 56, 56, 0.7); }
-          70% { box-shadow: 0 0 0 6px rgba(213, 56, 56, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(213, 56, 56, 0); }
-        }
-
-        @keyframes float {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-15px); }
-          100% { transform: translateY(0px); }
+          0% { box-shadow: 0 0 0 0 rgba(103, 50, 0, 0.7); }
+          70% { box-shadow: 0 0 0 6px rgba(103, 50, 0, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(103, 50, 0, 0); }
         }
       `}</style>
     </section>

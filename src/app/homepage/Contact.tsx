@@ -10,8 +10,9 @@ const Contact: React.FC = () => {
   const containerStyle: React.CSSProperties = {
     position: 'relative',
     padding: '80px 16px',
-    background: 'linear-gradient(135deg, #fef2f2 0%, #ffffff 50%, #fce7f3 100%)',
+    background: '#fde1af',
     fontFamily: '"Rajdhani", "Segoe UI", sans-serif',
+    color: '#673200',
     overflow: 'hidden',
     width: '100%',
     boxSizing: 'border-box',
@@ -38,9 +39,9 @@ const Contact: React.FC = () => {
     alignItems: 'center',
     gap: '8px',
     padding: '6px 16px',
-    background: 'rgba(213, 56, 56, 0.05)',
-    border: '1px solid rgba(213, 56, 56, 0.2)',
-    color: '#d53838',
+    background: 'rgba(103, 50, 0, 0.1)',
+    border: '1px solid rgba(103, 50, 0, 0.3)',
+    color: '#673200',
     fontSize: '12px',
     fontWeight: '700',
     letterSpacing: '2px',
@@ -55,22 +56,24 @@ const Contact: React.FC = () => {
     marginBottom: '24px',
     textTransform: 'uppercase',
     lineHeight: '1',
-    color: '#111',
+    color: '#673200',
+    textShadow: '2px 2px 0px rgba(103, 50, 0, 0.15)',
   };
 
   const descStyle: React.CSSProperties = {
     fontSize: '16px',
-    color: '#6b7280',
+    color: '#673200',
     marginBottom: '40px',
     lineHeight: '1.6',
     maxWidth: '480px',
+    opacity: 0.85,
   };
 
   const contactInfoStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     gap: '24px',
-    borderLeft: '2px solid rgba(213, 56, 56, 0.2)',
+    borderLeft: '2px solid rgba(103, 50, 0, 0.3)',
     paddingLeft: '24px',
   };
 
@@ -82,7 +85,7 @@ const Contact: React.FC = () => {
   const infoLabelStyle: React.CSSProperties = {
     fontSize: '11px',
     fontWeight: '700',
-    color: '#d53838',
+    color: '#673200',
     textTransform: 'uppercase',
     letterSpacing: '1px',
     marginBottom: '4px',
@@ -91,20 +94,19 @@ const Contact: React.FC = () => {
   const infoValueStyle: React.CSSProperties = {
     fontSize: '18px',
     fontWeight: '600',
-    color: '#1f2937',
+    color: '#673200',
     fontFamily: '"Rajdhani", sans-serif',
   };
 
   // --- Right Content (Form) ---
 
   const formCardStyle: React.CSSProperties = {
-    background: 'rgba(255, 255, 255, 0.8)',
+    background: 'rgba(255, 255, 255, 0.85)',
     backdropFilter: 'blur(20px)',
-    border: '1px solid rgba(213, 56, 56, 0.1)',
+    border: '1px solid rgba(103, 50, 0, 0.2)',
     padding: '40px',
-    // Tech shape: Angled top-left and bottom-right
     clipPath: 'polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%)',
-    boxShadow: '0 20px 50px rgba(0, 0, 0, 0.05)',
+    boxShadow: '0 20px 50px rgba(103, 50, 0, 0.1)',
     position: 'relative',
   };
 
@@ -112,14 +114,14 @@ const Contact: React.FC = () => {
     display: 'grid',
     gap: '24px',
     marginBottom: '24px',
-    gridTemplateColumns: '1fr', // Mobile default
+    gridTemplateColumns: '1fr',
   };
 
   const labelStyle: React.CSSProperties = {
     display: 'block',
     fontSize: '12px',
     fontWeight: '700',
-    color: '#4b5563',
+    color: '#673200',
     marginBottom: '8px',
     textTransform: 'uppercase',
     letterSpacing: '1px',
@@ -127,12 +129,12 @@ const Contact: React.FC = () => {
 
   const inputStyle = (fieldName: string): React.CSSProperties => ({
     width: '100%',
-    background: focusedField === fieldName ? 'rgba(213, 56, 56, 0.03)' : 'rgba(0, 0, 0, 0.02)',
+    background: focusedField === fieldName ? 'rgba(103, 50, 0, 0.05)' : 'rgba(0, 0, 0, 0.02)',
     border: 'none',
-    borderBottom: focusedField === fieldName ? '2px solid #d53838' : '2px solid rgba(0, 0, 0, 0.1)',
+    borderBottom: focusedField === fieldName ? '2px solid #673200' : '2px solid rgba(103, 50, 0, 0.2)',
     padding: '12px 16px',
     fontSize: '16px',
-    color: '#111',
+    color: '#673200',
     outline: 'none',
     transition: 'all 0.3s ease',
     fontFamily: '"Rajdhani", sans-serif',
@@ -141,8 +143,8 @@ const Contact: React.FC = () => {
 
   const buttonStyle: React.CSSProperties = {
     padding: '16px 32px',
-    background: '#111',
-    color: 'white',
+    background: '#673200',
+    color: '#fde1af',
     border: 'none',
     fontWeight: '700',
     fontSize: '14px',
@@ -158,26 +160,18 @@ const Contact: React.FC = () => {
     justifyContent: 'center',
   };
 
-  // Particle Background
-  const particleStyle = (size: string, top: string, left: string, delay: string): React.CSSProperties => ({
-    position: 'absolute',
-    width: size,
-    height: size,
-    top: top,
-    left: left,
-    background: 'linear-gradient(45deg, rgba(213, 56, 56, 0.05), rgba(255, 255, 255, 0))',
-    border: '1px solid rgba(213, 56, 56, 0.1)',
-    borderRadius: '50%',
-    animation: `float 10s ease-in-out infinite ${delay}`,
-    zIndex: 0,
-    pointerEvents: 'none',
-  });
-
   return (
     <section id="contact" style={containerStyle}>
-      {/* Background Ambience */}
-      <div style={particleStyle('300px', '-5%', '-5%', '0s')}></div>
-      <div style={particleStyle('200px', '80%', '90%', '2s')}></div>
+      {/* Animated Background Grid & Lines */}
+      <div className="tech-grid" />
+      <div className="animated-lines">
+        <div className="line line-1"></div>
+        <div className="line line-2"></div>
+        <div className="line line-3"></div>
+        <div className="line line-4"></div>
+        <div className="line line-5"></div>
+        <div className="line line-6"></div>
+      </div>
 
       <div style={innerContainerStyle}>
         <div style={gridStyle}>
@@ -191,7 +185,7 @@ const Contact: React.FC = () => {
             
             <h2 style={titleStyle}>
               Establish <br />
-              <span style={{ color: '#d53838' }}>Uplink</span>
+              <span style={{ color: '#8b4513' }}>Uplink</span>
             </h2>
             
             <p style={descStyle}>
@@ -219,13 +213,13 @@ const Contact: React.FC = () => {
               right: '20px',
               width: '40px',
               height: '40px',
-              borderTop: '2px solid rgba(213, 56, 56, 0.2)',
-              borderRight: '2px solid rgba(213, 56, 56, 0.2)',
+              borderTop: '2px solid rgba(103, 50, 0, 0.3)',
+              borderRight: '2px solid rgba(103, 50, 0, 0.3)',
               pointerEvents: 'none'
             }}></div>
 
-            <div style={{ marginBottom: '32px', borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: '16px' }}>
-              <h3 style={{ fontSize: '18px', fontWeight: '700', textTransform: 'uppercase', color: '#111' }}>Transmission Data</h3>
+            <div style={{ marginBottom: '32px', borderBottom: '1px solid rgba(103, 50, 0, 0.1)', paddingBottom: '16px' }}>
+              <h3 style={{ fontSize: '18px', fontWeight: '700', textTransform: 'uppercase', color: '#673200' }}>Transmission Data</h3>
             </div>
 
             <div style={formGridStyle}>
@@ -268,11 +262,11 @@ const Contact: React.FC = () => {
             <button 
               style={buttonStyle}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#d53838';
-                e.currentTarget.style.boxShadow = '0 0 20px rgba(213, 56, 56, 0.4)';
+                e.currentTarget.style.background = '#8b4513';
+                e.currentTarget.style.boxShadow = '0 0 20px rgba(139, 69, 19, 0.4)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = '#111';
+                e.currentTarget.style.background = '#673200';
                 e.currentTarget.style.boxShadow = 'none';
               }}
             >
@@ -287,7 +281,7 @@ const Contact: React.FC = () => {
               left: '0',
               width: '20px',
               height: '20px',
-              background: '#d53838',
+              background: '#673200',
               clipPath: 'polygon(0 100%, 100% 100%, 0 0)'
             }}></div>
           </div>
@@ -298,25 +292,165 @@ const Contact: React.FC = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700;800&display=swap');
 
+        /* Animated Tech Grid Background */
+        .tech-grid {
+          position: absolute;
+          inset: 0;
+          background: transparent;
+          z-index: 0;
+          pointer-events: none;
+          overflow: hidden;
+        }
+
+        .tech-grid::before,
+        .tech-grid::after {
+          content: '';
+          position: absolute;
+          width: 200%;
+          height: 200%;
+          top: -50%;
+          left: -50%;
+          background-image: 
+            linear-gradient(90deg, transparent 0%, transparent calc(100% - 1px), rgba(103, 50, 0, 0.08) calc(100% - 1px), rgba(103, 50, 0, 0.08) 100%),
+            linear-gradient(0deg, transparent 0%, transparent calc(100% - 1px), rgba(103, 50, 0, 0.08) calc(100% - 1px), rgba(103, 50, 0, 0.08) 100%);
+          background-size: 80px 80px;
+          animation: gridFlow 20s linear infinite;
+          opacity: 0.6;
+        }
+
+        .tech-grid::after {
+          background-size: 120px 120px;
+          animation: gridFlow 30s linear infinite reverse;
+          opacity: 0.4;
+        }
+
+        @keyframes gridFlow {
+          0% {
+            transform: translate(0, 0) rotate(0deg);
+          }
+          100% {
+            transform: translate(40px, 40px) rotate(0deg);
+          }
+        }
+
+        /* Diagonal flowing lines */
+        .animated-lines {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          z-index: 0;
+        }
+
+        .line {
+          position: absolute;
+          background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(103, 50, 0, 0.15) 50%, 
+            transparent 100%);
+          transform-origin: center;
+        }
+
+        .line-1 {
+          width: 200%;
+          height: 2px;
+          top: 10%;
+          left: -100%;
+          animation: flowRight 15s ease-in-out infinite;
+          animation-delay: 0s;
+        }
+
+        .line-2 {
+          width: 2px;
+          height: 200%;
+          left: 20%;
+          top: -100%;
+          animation: flowDown 18s ease-in-out infinite;
+          animation-delay: 2s;
+        }
+
+        .line-3 {
+          width: 200%;
+          height: 1px;
+          top: 40%;
+          left: -100%;
+          animation: flowRight 20s ease-in-out infinite;
+          animation-delay: 4s;
+        }
+
+        .line-4 {
+          width: 1px;
+          height: 200%;
+          left: 60%;
+          top: -100%;
+          animation: flowDown 16s ease-in-out infinite;
+          animation-delay: 6s;
+        }
+
+        .line-5 {
+          width: 200%;
+          height: 2px;
+          top: 70%;
+          left: -100%;
+          animation: flowRight 22s ease-in-out infinite;
+          animation-delay: 8s;
+        }
+
+        .line-6 {
+          width: 2px;
+          height: 200%;
+          left: 80%;
+          top: -100%;
+          animation: flowDown 19s ease-in-out infinite;
+          animation-delay: 10s;
+        }
+
+        @keyframes flowRight {
+          0% {
+            left: -100%;
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            left: 100%;
+            opacity: 0;
+          }
+        }
+
+        @keyframes flowDown {
+          0% {
+            top: -100%;
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            top: 100%;
+            opacity: 0;
+          }
+        }
+
         .pulse-dot {
           width: 8px;
           height: 8px;
-          background: #d53838;
+          background: #673200;
           border-radius: 50%;
-          box-shadow: 0 0 10px #d53838;
+          box-shadow: 0 0 10px rgba(103, 50, 0, 0.7);
           animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-          0% { box-shadow: 0 0 0 0 rgba(213, 56, 56, 0.7); }
-          70% { box-shadow: 0 0 0 6px rgba(213, 56, 56, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(213, 56, 56, 0); }
-        }
-
-        @keyframes float {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-15px); }
-          100% { transform: translateY(0px); }
+          0% { box-shadow: 0 0 0 0 rgba(103, 50, 0, 0.7); }
+          70% { box-shadow: 0 0 0 6px rgba(103, 50, 0, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(103, 50, 0, 0); }
         }
         
         /* Responsive Grid tweak */

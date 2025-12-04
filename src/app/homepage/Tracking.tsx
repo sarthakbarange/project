@@ -18,8 +18,9 @@ const Tracking: React.FC = () => {
   const containerStyle: React.CSSProperties = {
     position: 'relative',
     padding: '80px 16px',
-    background: 'linear-gradient(135deg, #fef2f2 0%, #ffffff 50%, #fce7f3 100%)',
+    background: '#fde1af',
     fontFamily: '"Rajdhani", "Segoe UI", sans-serif',
+    color: '#673200',
     overflow: 'hidden',
   };
 
@@ -44,9 +45,9 @@ const Tracking: React.FC = () => {
     alignItems: 'center',
     gap: '8px',
     padding: '6px 16px',
-    background: 'rgba(213, 56, 56, 0.1)',
-    border: '1px solid #d53838',
-    color: '#d53838',
+    background: 'rgba(253, 225, 175, 0.4)',
+    border: '1px solid rgba(103, 50, 0, 0.6)',
+    color: '#673200',
     fontSize: '12px',
     fontWeight: '700',
     letterSpacing: '2px',
@@ -62,7 +63,7 @@ const Tracking: React.FC = () => {
     marginBottom: '24px',
     lineHeight: '1.1',
     textTransform: 'uppercase',
-    background: 'linear-gradient(90deg, #111 0%, #d53838 100%)',
+    background: 'linear-gradient(90deg, #673200 0%, #673200 100%)',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
     letterSpacing: '-1px',
@@ -70,7 +71,7 @@ const Tracking: React.FC = () => {
 
   const descStyle: React.CSSProperties = {
     fontSize: '16px',
-    color: '#6b7280',
+    color: '#673200',
     marginBottom: '40px',
     lineHeight: '1.6',
     maxWidth: '480px',
@@ -91,22 +92,22 @@ const Tracking: React.FC = () => {
   const checkBoxStyle: React.CSSProperties = {
     minWidth: '24px',
     height: '24px',
-    background: 'linear-gradient(135deg, #111 0%, #1a1a1a 100%)',
+    background: 'linear-gradient(135deg, #673200 0%, #673200 100%)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    color: '#d53838',
+    color: '#fde1af',
     fontSize: '14px',
     clipPath: 'polygon(25% 0%, 100% 0%, 100% 75%, 75% 100%, 0% 100%, 0% 25%)',
     marginTop: '2px',
-    boxShadow: '0 0 10px rgba(213, 56, 56, 0.3)',
+    boxShadow: '0 0 10px rgba(103, 50, 0, 0.5)',
     animation: 'rotateCheck 4s linear infinite',
   };
 
   const listTextStyle: React.CSSProperties = {
     fontSize: '16px',
     fontWeight: '600',
-    color: '#374151',
+    color: '#673200',
   };
 
   // --- Right Content (The Device/Card) Styles ---
@@ -117,7 +118,7 @@ const Tracking: React.FC = () => {
   };
 
   const deviceCardStyle: React.CSSProperties = {
-    background: 'rgba(15, 15, 17, 0.85)', // Semi-transparent dark background
+    background: 'rgba(15, 15, 17, 0.85)',
     backdropFilter: 'blur(20px)',
     color: 'white',
     padding: '24px',
@@ -139,12 +140,11 @@ const Tracking: React.FC = () => {
     filter: 'blur(1px)',
   };
 
-  // Glowing red border effect
   const borderGlowStyle: React.CSSProperties = {
     position: 'absolute',
     inset: 0,
     borderRadius: '0',
-    border: '1px solid rgba(213, 56, 56, 0.5)',
+    border: '1px solid rgba(253, 225, 175, 0.7)',
     clipPath: 'polygon(0 0, 100% 0, 100% 85%, 90% 100%, 0 100%)',
     pointerEvents: 'none',
     animation: 'borderGlow 2s ease-in-out infinite',
@@ -163,14 +163,14 @@ const Tracking: React.FC = () => {
   };
 
   const statusBadgeStyle: React.CSSProperties = {
-    background: 'rgba(213, 56, 56, 0.2)',
-    color: '#ff6b6b',
+    background: 'rgba(253, 225, 175, 0.12)',
+    color: '#fde1af',
     padding: '4px 12px',
     fontSize: '11px',
     fontWeight: '700',
     textTransform: 'uppercase',
     letterSpacing: '1px',
-    border: '1px solid rgba(213, 56, 56, 0.4)',
+    border: '1px solid rgba(253, 225, 175, 0.6)',
     display: 'flex',
     alignItems: 'center',
     gap: '6px',
@@ -178,7 +178,6 @@ const Tracking: React.FC = () => {
     animation: 'slideIn 1s ease-out',
   };
 
-  // The Map Area
   const mapContainerStyle: React.CSSProperties = {
     height: '220px',
     width: '100%',
@@ -190,7 +189,6 @@ const Tracking: React.FC = () => {
     zIndex: 1,
   };
 
-  // Grid lines on the map
   const gridLineStyle: React.CSSProperties = {
     position: 'absolute',
     inset: 0,
@@ -201,20 +199,18 @@ const Tracking: React.FC = () => {
     backgroundSize: '20px 20px',
   };
 
-  // Moving scanner bar
   const scannerBarStyle: React.CSSProperties = {
     position: 'absolute',
     top: `${scanLine}%`,
     left: 0,
     width: '100%',
     height: '2px',
-    background: 'rgba(213, 56, 56, 0.5)',
-    boxShadow: '0 0 10px rgba(213, 56, 56, 0.8)',
+    background: 'rgba(253, 225, 175, 0.6)',
+    boxShadow: '0 0 10px rgba(253, 225, 175, 0.9)',
     transition: 'top 50ms linear',
     opacity: 0.7,
   };
 
-  // Map markers
   const markerStyle = (top: string, left: string, color: string): React.CSSProperties => ({
     position: 'absolute',
     top,
@@ -235,25 +231,24 @@ const Tracking: React.FC = () => {
     left: '20%',
     width: '60%',
     height: '40%',
-    borderLeft: '2px dashed rgba(213, 56, 56, 0.4)',
-    borderBottom: '2px dashed rgba(213, 56, 56, 0.4)',
+    borderLeft: '2px dashed rgba(253, 225, 175, 0.7)',
+    borderBottom: '2px dashed rgba(253, 225, 175, 0.7)',
     pointerEvents: 'none',
     animation: 'pathGlow 3s ease-in-out infinite',
   };
 
-  // Rider icon moving
   const riderStyle: React.CSSProperties = {
     position: 'absolute',
     bottom: '20%',
     left: '50%',
     transform: 'translate(-50%, 50%)',
     background: 'white',
-    color: '#d53838',
+    color: '#673200',
     padding: '4px 12px',
     fontSize: '10px',
     fontWeight: 'bold',
     clipPath: 'polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 20%)',
-    boxShadow: '0 0 15px rgba(213, 56, 56, 0.5)',
+    boxShadow: '0 0 15px rgba(253, 225, 175, 0.6)',
     zIndex: 20,
     display: 'flex',
     alignItems: 'center',
@@ -290,15 +285,14 @@ const Tracking: React.FC = () => {
     color: '#fff',
   };
 
-  // Particle Background
   const particleStyle = (size: string, top: string, left: string, delay: string): React.CSSProperties => ({
     position: 'absolute',
     width: size,
     height: size,
     top: top,
     left: left,
-    background: 'linear-gradient(45deg, rgba(213, 56, 56, 0.05), rgba(255, 255, 255, 0))',
-    border: '1px solid rgba(213, 56, 56, 0.1)',
+    background: 'linear-gradient(45deg, rgba(103, 50, 0, 0.1), rgba(253, 225, 175, 0))',
+    border: '1px solid rgba(103, 50, 0, 0.22)',
     borderRadius: '50%',
     animation: `float 10s ease-in-out infinite ${delay}`,
     zIndex: 0,
@@ -307,9 +301,20 @@ const Tracking: React.FC = () => {
 
   return (
     <section id="tracking" style={containerStyle}>
-       {/* Background Ambience */}
-       <div style={particleStyle('350px', '-5%', '-5%', '0s')}></div>
-       <div style={particleStyle('250px', '80%', '90%', '2s')}></div>
+      {/* Animated Background Grid & Lines (from first code) */}
+      <div className="tech-grid" />
+      <div className="animated-lines">
+        <div className="line line-1"></div>
+        <div className="line line-2"></div>
+        <div className="line line-3"></div>
+        <div className="line line-4"></div>
+        <div className="line line-5"></div>
+        <div className="line line-6"></div>
+      </div>
+
+      {/* Background Ambience */}
+      <div style={particleStyle('350px', '-5%', '-5%', '0s')}></div>
+      <div style={particleStyle('250px', '80%', '90%', '2s')}></div>
 
       <div style={innerContainerStyle}>
         <div style={gridStyle}>
@@ -348,9 +353,7 @@ const Tracking: React.FC = () => {
           {/* Right Column: The Device */}
           <div style={deviceWrapperStyle}>
             <div style={deviceCardStyle}>
-              {/* Background Image Layer */}
               <div style={backgroundImageStyle}></div>
-              
               <div style={borderGlowStyle}></div>
               
               {/* Header */}
@@ -369,16 +372,14 @@ const Tracking: React.FC = () => {
               <div style={mapContainerStyle}>
                 <div style={gridLineStyle}></div>
                 <div style={scannerBarStyle}></div>
-
-                {/* Path Logic */}
                 <div style={pathLineStyle}></div>
 
                 {/* Nodes */}
                 <div style={markerStyle('40%', '20%', '#ffffff')}></div>
                 <span style={{ position:'absolute', top:'30%', left:'20%', fontSize:'10px', color:'#6b7280', transform:'translateX(-50%)' }}>ORIGIN</span>
                 
-                <div style={markerStyle('80%', '80%', '#d53838')}></div>
-                <span style={{ position:'absolute', bottom:'8%', left:'80%', fontSize:'10px', color:'#d53838', transform:'translateX(-50%)' }}>TARGET</span>
+                <div style={markerStyle('80%', '80%', '#fde1af')}></div>
+                <span style={{ position:'absolute', bottom:'8%', left:'80%', fontSize:'10px', color:'#fde1af', transform:'translateX(-50%)' }}>TARGET</span>
 
                 {/* Moving Rider */}
                 <div style={riderStyle}>
@@ -395,7 +396,7 @@ const Tracking: React.FC = () => {
                 </div>
                 <div style={statBoxStyle}>
                   <dt style={statLabelStyle}>Arrival Est.</dt>
-                  <dd style={{ ...statValueStyle, color: '#d53838' }}>1:05 PM</dd>
+                  <dd style={{ ...statValueStyle, color: '#fde1af' }}>1:05 PM</dd>
                 </div>
                 <div style={statBoxStyle}>
                   <dt style={statLabelStyle}>Vector</dt>
@@ -404,8 +405,8 @@ const Tracking: React.FC = () => {
               </div>
 
               {/* Decorative Tech Elements */}
-              <div style={{ position:'absolute', top:'10px', right:'10px', width:'4px', height:'4px', background:'#d53838' }}></div>
-              <div style={{ position:'absolute', bottom:'10px', left:'10px', width:'4px', height:'4px', background:'#d53838' }}></div>
+              <div style={{ position:'absolute', top:'10px', right:'10px', width:'4px', height:'4px', background:'#fde1af' }}></div>
+              <div style={{ position:'absolute', bottom:'10px', left:'10px', width:'4px', height:'4px', background:'#fde1af' }}></div>
             </div>
           </div>
         </div>
@@ -414,12 +415,158 @@ const Tracking: React.FC = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700;800&display=swap');
 
+        /* Animated Background Grid */
+        .tech-grid {
+          position: absolute;
+          inset: 0;
+          background: transparent;
+          z-index: 0;
+          pointer-events: none;
+          overflow: hidden;
+        }
+
+        .tech-grid::before,
+        .tech-grid::after {
+          content: '';
+          position: absolute;
+          width: 200%;
+          height: 200%;
+          top: -50%;
+          left: -50%;
+          background-image: 
+            linear-gradient(90deg, transparent 0%, transparent calc(100% - 1px), rgba(103, 50, 0, 0.08) calc(100% - 1px), rgba(103, 50, 0, 0.08) 100%),
+            linear-gradient(0deg, transparent 0%, transparent calc(100% - 1px), rgba(103, 50, 0, 0.08) calc(100% - 1px), rgba(103, 50, 0, 0.08) 100%);
+          background-size: 80px 80px;
+          animation: gridFlow 20s linear infinite;
+          opacity: 0.6;
+        }
+
+        .tech-grid::after {
+          background-size: 120px 120px;
+          animation: gridFlow 30s linear infinite reverse;
+          opacity: 0.4;
+        }
+
+        @keyframes gridFlow {
+          0% {
+            transform: translate(0, 0) rotate(0deg);
+          }
+          100% {
+            transform: translate(40px, 40px) rotate(0deg);
+          }
+        }
+
+        /* Diagonal flowing lines */
+        .animated-lines {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          z-index: 0;
+        }
+
+        .line {
+          position: absolute;
+          background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(103, 50, 0, 0.15) 50%, 
+            transparent 100%);
+          transform-origin: center;
+        }
+
+        .line-1 {
+          width: 200%;
+          height: 2px;
+          top: 10%;
+          left: -100%;
+          animation: flowRight 15s ease-in-out infinite;
+          animation-delay: 0s;
+        }
+
+        .line-2 {
+          width: 2px;
+          height: 200%;
+          left: 20%;
+          top: -100%;
+          animation: flowDown 18s ease-in-out infinite;
+          animation-delay: 2s;
+        }
+
+        .line-3 {
+          width: 200%;
+          height: 1px;
+          top: 40%;
+          left: -100%;
+          animation: flowRight 20s ease-in-out infinite;
+          animation-delay: 4s;
+        }
+
+        .line-4 {
+          width: 1px;
+          height: 200%;
+          left: 60%;
+          top: -100%;
+          animation: flowDown 16s ease-in-out infinite;
+          animation-delay: 6s;
+        }
+
+        .line-5 {
+          width: 200%;
+          height: 2px;
+          top: 70%;
+          left: -100%;
+          animation: flowRight 22s ease-in-out infinite;
+          animation-delay: 8s;
+        }
+
+        .line-6 {
+          width: 2px;
+          height: 200%;
+          left: 80%;
+          top: -100%;
+          animation: flowDown 19s ease-in-out infinite;
+          animation-delay: 10s;
+        }
+
+        @keyframes flowRight {
+          0% {
+            left: -100%;
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            left: 100%;
+            opacity: 0;
+          }
+        }
+
+        @keyframes flowDown {
+          0% {
+            top: -100%;
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            top: 100%;
+            opacity: 0;
+          }
+        }
+
         .pulse-dot {
           width: 6px;
           height: 6px;
-          background: #d53838;
+          background: #fde1af;
           border-radius: 50%;
-          box-shadow: 0 0 8px #d53838;
+          box-shadow: 0 0 8px rgba(253, 225, 175, 0.9);
           animation: pulse 2s infinite;
         }
 
@@ -428,9 +575,9 @@ const Tracking: React.FC = () => {
         }
 
         @keyframes pulse {
-          0% { box-shadow: 0 0 0 0 rgba(213, 56, 56, 0.7); }
-          70% { box-shadow: 0 0 0 10px rgba(213, 56, 56, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(213, 56, 56, 0); }
+          0% { box-shadow: 0 0 0 0 rgba(253, 225, 175, 0.7); }
+          70% { box-shadow: 0 0 0 10px rgba(253, 225, 175, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(253, 225, 175, 0); }
         }
 
         @keyframes blink {
@@ -444,23 +591,23 @@ const Tracking: React.FC = () => {
 
         @keyframes glowPulse {
           0%, 100% { 
-            box-shadow: 0 0 5px rgba(213, 56, 56, 0.3);
-            border-color: rgba(213, 56, 56, 0.8);
+            box-shadow: 0 0 5px rgba(103, 50, 0, 0.4);
+            border-color: rgba(103, 50, 0, 0.8);
           }
           50% { 
-            box-shadow: 0 0 20px rgba(213, 56, 56, 0.6);
-            border-color: rgba(213, 56, 56, 1);
+            box-shadow: 0 0 20px rgba(103, 50, 0, 0.8);
+            border-color: rgba(103, 50, 0, 1);
           }
         }
 
         @keyframes borderGlow {
           0%, 100% { 
-            border-color: rgba(213, 56, 56, 0.3);
-            filter: drop-shadow(0 0 5px rgba(213, 56, 56, 0.3));
+            border-color: rgba(253, 225, 175, 0.4);
+            filter: drop-shadow(0 0 5px rgba(253, 225, 175, 0.3));
           }
           50% { 
-            border-color: rgba(213, 56, 56, 0.8);
-            filter: drop-shadow(0 0 15px rgba(213, 56, 56, 0.6));
+            border-color: rgba(253, 225, 175, 0.9);
+            filter: drop-shadow(0 0 15px rgba(253, 225, 175, 0.7));
           }
         }
 
@@ -483,11 +630,11 @@ const Tracking: React.FC = () => {
         @keyframes pathGlow {
           0%, 100% { 
             opacity: 0.4;
-            filter: drop-shadow(0 0 3px rgba(213, 56, 56, 0.3));
+            filter: drop-shadow(0 0 3px rgba(253, 225, 175, 0.4));
           }
           50% { 
             opacity: 1;
-            filter: drop-shadow(0 0 8px rgba(213, 56, 56, 0.8));
+            filter: drop-shadow(0 0 8px rgba(253, 225, 175, 0.9));
           }
         }
 

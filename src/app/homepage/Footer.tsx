@@ -218,7 +218,7 @@ const Footer: React.FC = () => {
         {/* Bottom Section */}
         <div style={bottomRowStyle}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-            <span>&copy; 2024 TIFFIN NETWORK</span>
+            <span>&copy; 2025 TIFFIN NETWORK</span>
             <span style={{ color: 'rgba(253, 225, 175, 0.7)' }}>|</span>
             <span>SYS.VER 2.4.0</span>
           </div>

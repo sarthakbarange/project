@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -248,12 +249,8 @@ const Navbar: React.FC = () => {
             </a>
           ))}
           {/* Action Button */}
-          <a
-            href="#order"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection('#order');
-            }}
+          <Link
+            href="/mytiffin"
             style={{
               marginLeft: '1rem',
               padding: '0.6rem 1.5rem',
@@ -279,7 +276,7 @@ const Navbar: React.FC = () => {
             }}
           >
             MY_TIFFIN
-          </a>
+          </Link>
         </div>
 
         {/* MOBILE MENU */}
@@ -326,13 +323,8 @@ const Navbar: React.FC = () => {
               {item.label}
             </a>
           ))}
-          <a
-            href="#order"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection('#order');
-              setMenuOpen(false);
-            }}
+          <Link
+            href="/mytiffin"
             style={{
               marginTop: '0.5rem',
               padding: '0.9rem 1.2rem',
@@ -359,7 +351,7 @@ const Navbar: React.FC = () => {
             }}
           >
             MY_TIFFIN
-          </a>
+          </Link>
         </div>
       </div>
     </nav>

@@ -73,7 +73,8 @@ const SignupPage: React.FC = () => {
         setTimeout(() => {
             setIsLoading(false);
             alert('Account Created Successfully!');
-            // Redirect to login or dashboard
+            // Dummy signup - redirect to user/mytiffin page
+            window.location.href = '/user/mytiffin';
         }, 2000);
     };
 

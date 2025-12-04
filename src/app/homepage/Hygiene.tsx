@@ -4,9 +4,9 @@ import React, { useState, useEffect } from 'react';
 
 // Placeholder images with a futuristic/transparent feel.
 const cardImages = {
-  kitchen: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Abstract kitchen/tech
-  badges: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Data visualization
-  policy: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' // Network/Security
+  kitchen: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  badges: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  policy: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
 };
 
 const points = [
@@ -64,8 +64,9 @@ const Hygiene: React.FC = () => {
   const containerStyle: React.CSSProperties = {
     position: 'relative',
     padding: '80px 16px',
-    background: 'linear-gradient(135deg, #fef2f2 0%, #ffffff 50%, #fce7f3 100%)',
+    background: '#fde1af',
     fontFamily: '"Rajdhani", "Segoe UI", sans-serif',
+    color: '#673200',
     overflow: 'hidden',
     minHeight: '80vh',
     display: 'flex',
@@ -80,7 +81,7 @@ const Hygiene: React.FC = () => {
     left: 0,
     width: '100%',
     height: '100%',
-    backgroundImage: 'radial-gradient(rgba(213, 56, 56, 0.1) 1px, transparent 1px)',
+    backgroundImage: 'radial-gradient(rgba(103, 50, 0, 0.18) 1px, transparent 1px)',
     backgroundSize: '30px 30px',
     opacity: 0.5,
     zIndex: 0,
@@ -109,9 +110,9 @@ const Hygiene: React.FC = () => {
     gap: '8px',
     padding: '8px 24px',
     background: 'rgba(255, 255, 255, 0.9)',
-    border: '1px solid rgba(213, 56, 56, 0.3)',
-    boxShadow: '0 0 15px rgba(213, 56, 56, 0.2), inset 0 0 10px rgba(213, 56, 56, 0.1)',
-    color: '#d53838',
+    border: '1px solid rgba(103, 50, 0, 0.4)',
+    boxShadow: '0 0 15px rgba(103, 50, 0, 0.3), inset 0 0 10px rgba(103, 50, 0, 0.15)',
+    color: '#673200',
     fontSize: '14px',
     fontWeight: '700',
     letterSpacing: '2px',
@@ -127,7 +128,7 @@ const Hygiene: React.FC = () => {
     marginBottom: '16px',
     textTransform: 'uppercase',
     letterSpacing: '-1px',
-    background: 'linear-gradient(90deg, #111 20%, #d53838 100%)',
+    background: 'linear-gradient(90deg, #673200 20%, #673200 100%)',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
     textShadow: '0px 2px 4px rgba(0,0,0,0.1)',
@@ -135,7 +136,7 @@ const Hygiene: React.FC = () => {
 
   const subtitleStyle: React.CSSProperties = {
     fontSize: 'clamp(1rem, 2vw, 1.2rem)',
-    color: '#6b7280',
+    color: '#673200',
     maxWidth: '600px',
     margin: '0 auto',
     lineHeight: '1.6',
@@ -169,13 +170,12 @@ const Hygiene: React.FC = () => {
       transform: isHovered ? 'translateY(-15px) rotateX(5deg) scale(1.02)' : 'translateY(0) rotateX(0) scale(1)',
       transformStyle: 'preserve-3d',
       boxShadow: isHovered 
-        ? '0 30px 60px -15px rgba(213, 56, 56, 0.3), inset 0 0 20px rgba(213, 56, 56, 0.1)' 
+        ? '0 30px 60px -15px rgba(103, 50, 0, 0.3), inset 0 0 20px rgba(103, 50, 0, 0.15)' 
         : '0 10px 30px -10px rgba(0,0,0,0.1)',
       overflow: 'hidden',
     };
   };
 
-  // FIXED: Removed space between 'get' and 'CardImageOverlayStyle'
   const getCardImageOverlayStyle = (index: number, imageUrl: string): React.CSSProperties => {
     const isHovered = hoveredIndex === index;
     return {
@@ -201,8 +201,8 @@ const Hygiene: React.FC = () => {
     position: 'relative',
     width: '70px',
     height: '70px',
-    background: hoveredIndex === index ? 'linear-gradient(135deg, #d53838, #ff6b6b)' : 'rgba(213, 56, 56, 0.08)',
-    color: hoveredIndex === index ? 'white' : '#d53838',
+    background: hoveredIndex === index ? 'linear-gradient(135deg, #673200, #673200)' : 'rgba(103, 50, 0, 0.08)',
+    color: hoveredIndex === index ? '#fde1af' : '#673200',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -221,7 +221,7 @@ const Hygiene: React.FC = () => {
   const cardTitleStyle: React.CSSProperties = {
     fontSize: '22px',
     fontWeight: '800',
-    color: '#111',
+    color: '#673200',
     marginBottom: '12px',
     textTransform: 'uppercase',
     letterSpacing: '1px',
@@ -229,7 +229,7 @@ const Hygiene: React.FC = () => {
 
   const cardTextStyle: React.CSSProperties = {
     fontSize: '16px',
-    color: '#555',
+    color: '#673200',
     lineHeight: '1.6',
     fontWeight: '500',
   };
@@ -240,7 +240,7 @@ const Hygiene: React.FC = () => {
     right: '15px',
     fontSize: '64px',
     fontWeight: '900',
-    background: 'linear-gradient(180deg, rgba(213, 56, 56, 0.15) 0%, rgba(255,255,255,0) 100%)',
+    background: 'linear-gradient(180deg, rgba(103, 50, 0, 0.2) 0%, rgba(255,255,255,0) 100%)',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
     pointerEvents: 'none',
@@ -254,9 +254,9 @@ const Hygiene: React.FC = () => {
     top: 0,
     width: '100%',
     height: '20px',
-    background: 'linear-gradient(180deg, rgba(213, 56, 56, 0.2), transparent)',
-    borderBottom: '2px solid #d53838',
-    boxShadow: '0 0 15px #d53838',
+    background: 'linear-gradient(180deg, rgba(103, 50, 0, 0.25), transparent)',
+    borderBottom: '2px solid #673200',
+    boxShadow: '0 0 15px rgba(103, 50, 0, 0.9)',
     opacity: hoveredIndex === index ? 1 : 0,
     animation: hoveredIndex === index ? 'scan 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite' : 'none',
     pointerEvents: 'none',
@@ -266,7 +266,7 @@ const Hygiene: React.FC = () => {
   const getBorderTraceStyle = (index: number): React.CSSProperties => ({
     position: 'absolute',
     inset: 0,
-    background: 'linear-gradient(45deg, transparent, rgba(213, 56, 56, 0.8), transparent)',
+    background: 'linear-gradient(45deg, transparent, rgba(103, 50, 0, 0.8), transparent)',
     zIndex: 1,
     opacity: hoveredIndex === index ? 1 : 0,
     transition: 'opacity 0.3s ease',
@@ -290,10 +290,21 @@ const Hygiene: React.FC = () => {
 
   return (
     <section id="hygiene" style={containerStyle}>
+      {/* Animated Background Grid & Lines (from first code) */}
+      <div className="tech-grid" />
+      <div className="animated-lines">
+        <div className="line line-1"></div>
+        <div className="line line-2"></div>
+        <div className="line line-3"></div>
+        <div className="line line-4"></div>
+        <div className="line line-5"></div>
+        <div className="line line-6"></div>
+      </div>
+
       <div style={techGridOverlay}></div>
 
-      <div style={particleStyle('400px', '-10%', '-10%', '0s', 'rgba(213, 56, 56, 0.08)')}></div>
-      <div style={particleStyle('300px', '70%', '80%', '3s', 'rgba(213, 56, 56, 0.06)')}></div>
+      <div style={particleStyle('400px', '-10%', '-10%', '0s', 'rgba(103, 50, 0, 0.12)')}></div>
+      <div style={particleStyle('300px', '70%', '80%', '3s', 'rgba(103, 50, 0, 0.1)')}></div>
       <div style={particleStyle('200px', '30%', '40%', '1.5s', 'rgba(255, 255, 255, 0.8)')}></div>
 
       <div style={innerContainerStyle}>
@@ -320,8 +331,7 @@ const Hygiene: React.FC = () => {
                 style={getCardStyle(index)}
                 className="tech-card"
               >
-                 {/* FIXED: Corrected usage to match the fixed function name */}
-                 <div style={getCardImageOverlayStyle(index, p.imageUrl)}></div>
+                <div style={getCardImageOverlayStyle(index, p.imageUrl)}></div>
 
                 <div style={getScannerStyle(index)}></div>
                 
@@ -347,12 +357,158 @@ const Hygiene: React.FC = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700;800;900&display=swap');
 
+        /* Animated Background Grid */
+        .tech-grid {
+          position: absolute;
+          inset: 0;
+          background: transparent;
+          z-index: 0;
+          pointer-events: none;
+          overflow: hidden;
+        }
+
+        .tech-grid::before,
+        .tech-grid::after {
+          content: '';
+          position: absolute;
+          width: 200%;
+          height: 200%;
+          top: -50%;
+          left: -50%;
+          background-image: 
+            linear-gradient(90deg, transparent 0%, transparent calc(100% - 1px), rgba(103, 50, 0, 0.08) calc(100% - 1px), rgba(103, 50, 0, 0.08) 100%),
+            linear-gradient(0deg, transparent 0%, transparent calc(100% - 1px), rgba(103, 50, 0, 0.08) calc(100% - 1px), rgba(103, 50, 0, 0.08) 100%);
+          background-size: 80px 80px;
+          animation: gridFlow 20s linear infinite;
+          opacity: 0.6;
+        }
+
+        .tech-grid::after {
+          background-size: 120px 120px;
+          animation: gridFlow 30s linear infinite reverse;
+          opacity: 0.4;
+        }
+
+        @keyframes gridFlow {
+          0% {
+            transform: translate(0, 0) rotate(0deg);
+          }
+          100% {
+            transform: translate(40px, 40px) rotate(0deg);
+          }
+        }
+
+        /* Diagonal flowing lines */
+        .animated-lines {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          z-index: 0;
+        }
+
+        .line {
+          position: absolute;
+          background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(103, 50, 0, 0.15) 50%, 
+            transparent 100%);
+          transform-origin: center;
+        }
+
+        .line-1 {
+          width: 200%;
+          height: 2px;
+          top: 10%;
+          left: -100%;
+          animation: flowRight 15s ease-in-out infinite;
+          animation-delay: 0s;
+        }
+
+        .line-2 {
+          width: 2px;
+          height: 200%;
+          left: 20%;
+          top: -100%;
+          animation: flowDown 18s ease-in-out infinite;
+          animation-delay: 2s;
+        }
+
+        .line-3 {
+          width: 200%;
+          height: 1px;
+          top: 40%;
+          left: -100%;
+          animation: flowRight 20s ease-in-out infinite;
+          animation-delay: 4s;
+        }
+
+        .line-4 {
+          width: 1px;
+          height: 200%;
+          left: 60%;
+          top: -100%;
+          animation: flowDown 16s ease-in-out infinite;
+          animation-delay: 6s;
+        }
+
+        .line-5 {
+          width: 200%;
+          height: 2px;
+          top: 70%;
+          left: -100%;
+          animation: flowRight 22s ease-in-out infinite;
+          animation-delay: 8s;
+        }
+
+        .line-6 {
+          width: 2px;
+          height: 200%;
+          left: 80%;
+          top: -100%;
+          animation: flowDown 19s ease-in-out infinite;
+          animation-delay: 10s;
+        }
+
+        @keyframes flowRight {
+          0% {
+            left: -100%;
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            left: 100%;
+            opacity: 0;
+          }
+        }
+
+        @keyframes flowDown {
+          0% {
+            top: -100%;
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            top: 100%;
+            opacity: 0;
+          }
+        }
+
         .pulse-dot {
           width: 8px;
           height: 8px;
-          background: #d53838;
+          background: #673200;
           border-radius: 50%;
-          box-shadow: 0 0 10px #d53838;
+          box-shadow: 0 0 10px rgba(103, 50, 0, 0.9);
           animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
 
@@ -360,7 +516,7 @@ const Hygiene: React.FC = () => {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(213, 56, 56, 0.5), transparent 40%, transparent 60%, rgba(213, 56, 56, 0.5));
+            background: linear-gradient(135deg, rgba(103, 50, 0, 0.5), transparent 40%, transparent 60%, rgba(103, 50, 0, 0.5));
             z-index: -1;
             margin: -2px;
             clip-path: polygon(12% 0, 100% 0, 100% 88%, 88% 100%, 0 100%, 0 12%);
@@ -384,15 +540,15 @@ const Hygiene: React.FC = () => {
         }
 
         @keyframes pulse {
-          0% { box-shadow: 0 0 0 0 rgba(213, 56, 56, 0.7); opacity: 1; }
-          70% { box-shadow: 0 0 0 10px rgba(213, 56, 56, 0); opacity: 0; }
-          100% { box-shadow: 0 0 0 0 rgba(213, 56, 56, 0); opacity: 0; }
+          0% { box-shadow: 0 0 0 0 rgba(103, 50, 0, 0.7); opacity: 1; }
+          70% { box-shadow: 0 0 0 10px rgba(103, 50, 0, 0); opacity: 0; }
+          100% { box-shadow: 0 0 0 0 rgba(103, 50, 0, 0); opacity: 0; }
         }
 
         @keyframes iconPulse {
-           0% { box-shadow: 0 0 0 0 rgba(213, 56, 56, 0.4); }
-           70% { box-shadow: 0 0 0 15px rgba(213, 56, 56, 0); }
-           100% { box-shadow: 0 0 0 0 rgba(213, 56, 56, 0); }
+           0% { box-shadow: 0 0 0 0 rgba(103, 50, 0, 0.4); }
+           70% { box-shadow: 0 0 0 15px rgba(103, 50, 0, 0); }
+           100% { box-shadow: 0 0 0 0 rgba(103, 50, 0, 0); }
         }
 
         @keyframes float {

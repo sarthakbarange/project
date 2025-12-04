@@ -16,7 +16,7 @@ const steps: Step[] = [
     title: 'SIGN IN TO GET STARTED',
     description:
       'Create your account or log in so we can personalize your tiffin experience.',
-    imageUrl: '/HIW.png', // Keeping your local image
+    imageUrl: '/HIW.png',
   },
   {
     number: '02',
@@ -77,9 +77,9 @@ const HowItWorks: React.FC = () => {
       id="how-it-works"
       style={{
         padding: '80px 20px',
-        background: 'linear-gradient(180deg, #fff9f9 0%, #ffffff 40%, #fff9f9 100%)',
+        background: '#fde1af',
         fontFamily: "'Rajdhani', sans-serif",
-        color: '#111827',
+        color: '#673200',
         minHeight: '90vh',
         position: 'relative',
         overflow: 'hidden',
@@ -95,20 +95,159 @@ const HowItWorks: React.FC = () => {
           @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
           :root {
-            --theme-red: #ca2b2b;
-            --theme-red-glow: rgba(202, 43, 43, 0.6);
-            --theme-dark: #111827;
+            --theme-red: #fde1af;
+            --theme-red-glow: rgba(253, 225, 175, 0.6);
+            --theme-dark: #673200;
             --theme-white-rgba: rgba(255, 255, 255, 0.9);
           }
 
-          /* --- BACKGROUND (Clean, no grid lines) --- */
+          /* --- ANIMATED BACKGROUND WITH FLOWING LINES --- */
           .tech-grid {
-            position: absolute; inset: 0;
+            position: absolute;
+            inset: 0;
             background: transparent;
-            z-index: 0; pointer-events: none;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
           }
 
-          /* --- ANIMATIONS --- */
+          .tech-grid::before,
+          .tech-grid::after {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image: 
+              linear-gradient(90deg, transparent 0%, transparent calc(100% - 1px), rgba(103, 50, 0, 0.08) calc(100% - 1px), rgba(103, 50, 0, 0.08) 100%),
+              linear-gradient(0deg, transparent 0%, transparent calc(100% - 1px), rgba(103, 50, 0, 0.08) calc(100% - 1px), rgba(103, 50, 0, 0.08) 100%);
+            background-size: 80px 80px;
+            animation: gridFlow 20s linear infinite;
+            opacity: 0.6;
+          }
+
+          .tech-grid::after {
+            background-size: 120px 120px;
+            animation: gridFlow 30s linear infinite reverse;
+            opacity: 0.4;
+          }
+
+          @keyframes gridFlow {
+            0% {
+              transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+              transform: translate(40px, 40px) rotate(0deg);
+            }
+          }
+
+          /* Diagonal flowing lines */
+          .animated-lines {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            z-index: 0;
+          }
+
+          .line {
+            position: absolute;
+            background: linear-gradient(90deg, 
+              transparent 0%, 
+              rgba(103, 50, 0, 0.15) 50%, 
+              transparent 100%);
+            transform-origin: center;
+          }
+
+          .line-1 {
+            width: 200%;
+            height: 2px;
+            top: 10%;
+            left: -100%;
+            animation: flowRight 15s ease-in-out infinite;
+            animation-delay: 0s;
+          }
+
+          .line-2 {
+            width: 2px;
+            height: 200%;
+            left: 20%;
+            top: -100%;
+            animation: flowDown 18s ease-in-out infinite;
+            animation-delay: 2s;
+          }
+
+          .line-3 {
+            width: 200%;
+            height: 1px;
+            top: 40%;
+            left: -100%;
+            animation: flowRight 20s ease-in-out infinite;
+            animation-delay: 4s;
+          }
+
+          .line-4 {
+            width: 1px;
+            height: 200%;
+            left: 60%;
+            top: -100%;
+            animation: flowDown 16s ease-in-out infinite;
+            animation-delay: 6s;
+          }
+
+          .line-5 {
+            width: 200%;
+            height: 2px;
+            top: 70%;
+            left: -100%;
+            animation: flowRight 22s ease-in-out infinite;
+            animation-delay: 8s;
+          }
+
+          .line-6 {
+            width: 2px;
+            height: 200%;
+            left: 80%;
+            top: -100%;
+            animation: flowDown 19s ease-in-out infinite;
+            animation-delay: 10s;
+          }
+
+          @keyframes flowRight {
+            0% {
+              left: -100%;
+              opacity: 0;
+            }
+            10% {
+              opacity: 1;
+            }
+            90% {
+              opacity: 1;
+            }
+            100% {
+              left: 100%;
+              opacity: 0;
+            }
+          }
+
+          @keyframes flowDown {
+            0% {
+              top: -100%;
+              opacity: 0;
+            }
+            10% {
+              opacity: 1;
+            }
+            90% {
+              opacity: 1;
+            }
+            100% {
+              top: 100%;
+              opacity: 0;
+            }
+          }
+
+          /* --- EXISTING ANIMATIONS --- */
           @keyframes holoFlicker {
             0%, 100% { opacity: 0.9; filter: brightness(1); }
             5% { opacity: 0.8; filter: brightness(1.2); }
@@ -141,7 +280,7 @@ const HowItWorks: React.FC = () => {
             clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
             backdrop-filter: blur(15px);
             background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,240,245,0.85) 100%);
-            border: 1px solid rgba(202, 43, 43, 0.2);
+            border: 1px solid rgba(103, 50, 0, 0.2);
             padding: 0;
             display: flex;
             gap: 0;
@@ -175,7 +314,7 @@ const HowItWorks: React.FC = () => {
           
           .holo-image::before {
              content: ''; position: absolute; inset: 0;
-             background: linear-gradient(45deg, rgba(202,43,43,0.6), rgba(0,0,0,0.2));
+             background: linear-gradient(45deg, rgba(253,225,175,0.6), rgba(0,0,0,0.2));
              mix-blend-mode: overlay;
           }
           
@@ -210,7 +349,7 @@ const HowItWorks: React.FC = () => {
             color: var(--theme-dark);
             position: relative;
             display: inline-block;
-            text-shadow: 2px 2px 0px rgba(202, 43, 43, 0.2);
+            text-shadow: 2px 2px 0px rgba(103, 50, 0, 0.25);
           }
           .tech-h2::after {
               content: 'SYSTEM_PROTOCOLS';
@@ -227,7 +366,7 @@ const HowItWorks: React.FC = () => {
           .step-indicators { display: flex; gap: 8px; margin-bottom: 30px; }
           .step-dot {
               height: 6px; flex-grow: 1;
-              background: rgba(202, 43, 43, 0.2);
+              background: rgba(103, 50, 0, 0.2);
               transform: skew(-20deg);
               transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
           }
@@ -250,7 +389,7 @@ const HowItWorks: React.FC = () => {
          .holo-card:hover .tech-h3 { background-position: 10% 50%; }
 
           .tech-p {
-              font-size: clamp(0.95rem, 2.8vw, 1.2rem); line-height: 1.7; color: #444;
+              font-size: clamp(0.95rem, 2.8vw, 1.2rem); line-height: 1.7; color: #673200;
               margin-top: 25px;
               padding-left: 25px;
               border-left: 4px solid var(--theme-red);
@@ -261,7 +400,7 @@ const HowItWorks: React.FC = () => {
               content: '>> DATA_PACKET:';
               position: absolute; top: -20px; left: 0;
               font-family: 'Share Tech Mono', monospace;
-              font-size: 0.8rem; color: var(--theme-red); opacity: 0.8;
+              font-size: 0.8rem; color: #673200; opacity: 0.8;
           }
 
           .btn-cyberglow {
@@ -269,7 +408,7 @@ const HowItWorks: React.FC = () => {
             padding: 18px 45px;
             border: none;
             background: transparent;
-            color: var(--theme-red);
+            color: #673200;
             font-family: 'Rajdhani', sans-serif;
             font-weight: 700;
             font-size: 1.1rem;
@@ -284,13 +423,13 @@ const HowItWorks: React.FC = () => {
 
           .btn-cyberglow::before {
               content: ''; position: absolute; inset: 0;
-              border: 2px solid var(--theme-red);
+              border: 2px solid #fde1af;
               clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
               z-index: -1; transition: all 0.3s ease;
           }
 
           .btn-cyberglow.primary {
-             background: var(--theme-red); color: white;
+             background: #fde1af; color: #673200;
              box-shadow: 0 0 30px var(--theme-red-glow);
           }
           .btn-cyberglow.primary::before { border-color: transparent; }
@@ -300,7 +439,7 @@ const HowItWorks: React.FC = () => {
           }
 
           .btn-cyberglow.secondary:hover:not(:disabled) {
-              background: rgba(202, 43, 43, 0.1);
+              background: rgba(103, 50, 0, 0.1);
               box-shadow: 0 0 20px var(--theme-red-glow);
           }
 
@@ -366,8 +505,16 @@ const HowItWorks: React.FC = () => {
         `}
       </style>
 
-      {/* Background Grid (Cleaned) */}
+      {/* Animated Background Grid & Lines */}
       <div className="tech-grid" />
+      <div className="animated-lines">
+        <div className="line line-1"></div>
+        <div className="line line-2"></div>
+        <div className="line line-3"></div>
+        <div className="line line-4"></div>
+        <div className="line line-5"></div>
+        <div className="line line-6"></div>
+      </div>
 
       {/* Header */}
       <header style={{ textAlign: 'center', position: 'relative', zIndex: 2 }}>
@@ -409,9 +556,9 @@ const HowItWorks: React.FC = () => {
             </div>
 
              {/* Tech Footer Details */}
-            <div style={{ marginTop: 'auto', paddingTop: 30, display: 'flex', justifyContent: 'space-between', fontFamily: "'Share Tech Mono', monospace", color: 'rgba(202,43,43,0.7)', fontSize: '0.8rem' }}>
+            <div style={{ marginTop: 'auto', paddingTop: 30, display: 'flex', justifyContent: 'space-between', fontFamily: "'Share Tech Mono', monospace", color: 'rgba(103,50,0,0.7)', fontSize: '0.8rem' }}>
                 <div>MODULE: {currentStepData.title.substring(0, 4)}-X</div>
-                <div>STATUS: <span style={{color: 'var(--theme-red)'}}>ONLINE</span></div>
+                <div>STATUS: <span style={{color: '#673200'}}>ONLINE</span></div>
             </div>
           </div>
 

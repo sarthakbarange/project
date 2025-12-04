@@ -11,16 +11,18 @@ const Provider: React.FC = () => {
   const containerStyle: React.CSSProperties = {
     position: 'relative',
     padding: '80px 16px',
-    background: 'linear-gradient(135deg, #fef2f2 0%, #ffffff 50%, #fce7f3 100%)',
+    background: '#fde1af',
     fontFamily: '"Rajdhani", "Segoe UI", sans-serif',
+    color: '#673200',
     overflow: 'hidden',
+    minHeight: '100vh',
   };
 
   const innerContainerStyle: React.CSSProperties = {
     maxWidth: '1280px',
     margin: '0 auto',
     position: 'relative',
-    zIndex: 1,
+    zIndex: 10,
   };
 
   const mainCardStyle: React.CSSProperties = {
@@ -30,11 +32,11 @@ const Provider: React.FC = () => {
     alignItems: 'center',
     background: 'rgba(255, 255, 255, 0.95)',
     backdropFilter: 'blur(30px)',
-    border: '2px solid rgba(213, 56, 56, 0.15)',
+    border: '2px solid rgba(103, 50, 0, 0.25)',
     borderRadius: '32px',
     padding: '60px',
     position: 'relative',
-    boxShadow: '0 30px 80px rgba(213, 56, 56, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.5) inset',
+    boxShadow: '0 30px 80px rgba(103, 50, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.5) inset',
     animation: 'cardFloat 6s ease-in-out infinite',
     overflow: 'hidden',
   };
@@ -62,12 +64,12 @@ const Provider: React.FC = () => {
     marginBottom: '20px',
     textTransform: 'uppercase',
     lineHeight: '1.1',
-    color: '#111',
+    color: '#673200',
     animation: 'titleSlideIn 1s ease-out',
   };
 
   const highlightTextStyle: React.CSSProperties = {
-    color: '#d53838',
+    color: '#673200',
     position: 'relative',
     display: 'inline-block',
     animation: 'textGlow 2s ease-in-out infinite',
@@ -75,7 +77,7 @@ const Provider: React.FC = () => {
 
   const descStyle: React.CSSProperties = {
     fontSize: '17px',
-    color: '#6b7280',
+    color: '#673200',
     marginBottom: '36px',
     lineHeight: '1.7',
     maxWidth: '540px',
@@ -95,7 +97,7 @@ const Provider: React.FC = () => {
     gap: '14px',
     fontSize: '15px',
     fontWeight: '500',
-    color: '#374151',
+    color: '#673200',
     animation: 'slideInLeft 0.8s ease-out backwards',
     transition: 'transform 0.3s ease',
   };
@@ -104,22 +106,22 @@ const Provider: React.FC = () => {
     minWidth: '24px',
     height: '24px',
     borderRadius: '50%',
-    border: '2px solid #d53838',
+    border: '2px solid #673200',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    color: '#d53838',
+    color: '#673200',
     fontSize: '12px',
     marginTop: '2px',
-    background: 'linear-gradient(135deg, rgba(213, 56, 56, 0.15), rgba(213, 56, 56, 0.05))',
-    boxShadow: '0 0 15px rgba(213, 56, 56, 0.3)',
+    background: 'linear-gradient(135deg, rgba(103, 50, 0, 0.18), rgba(103, 50, 0, 0.06))',
+    boxShadow: '0 0 15px rgba(103, 50, 0, 0.4)',
     animation: 'checkPulse 2s ease-in-out infinite',
   };
 
   const buttonStyle: React.CSSProperties = {
     padding: '18px 40px',
-    background: 'linear-gradient(135deg, #111 0%, #2a2a2a 100%)',
-    color: 'white',
+    background: '#fde1af',
+    color: '#673200',
     border: 'none',
     fontWeight: '700',
     fontSize: '14px',
@@ -133,17 +135,17 @@ const Provider: React.FC = () => {
     display: 'inline-flex',
     alignItems: 'center',
     gap: '12px',
-    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)',
+    boxShadow: '0 10px 30px rgba(103, 50, 0, 0.4)',
     animation: 'buttonFloat 3s ease-in-out infinite',
   };
 
   const infoCardStyle: React.CSSProperties = {
-    background: 'linear-gradient(135deg, #d53838 0%, #b92e2e 100%)',
-    color: 'white',
+    background: 'linear-gradient(135deg, #673200 0%, #673200 100%)',
+    color: '#fde1af',
     padding: '50px',
     position: 'relative',
     borderRadius: '32px',
-    boxShadow: '0 30px 60px rgba(213, 56, 56, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1) inset',
+    boxShadow: '0 30px 60px rgba(103, 50, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1) inset',
     transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
     transform: isHovered ? 'translateY(-10px) scale(1.02)' : 'translateY(0) scale(1)',
     animation: 'cardSlideIn 1s ease-out 0.3s backwards',
@@ -184,8 +186,8 @@ const Provider: React.FC = () => {
     height: size,
     top: top,
     left: left,
-    background: 'radial-gradient(circle, rgba(213, 56, 56, 0.1) 0%, transparent 70%)',
-    border: '1px solid rgba(213, 56, 56, 0.15)',
+    background: 'radial-gradient(circle, rgba(103, 50, 0, 0.12) 0%, transparent 70%)',
+    border: '1px solid rgba(103, 50, 0, 0.2)',
     borderRadius: '50%',
     animation: `float 12s ease-in-out infinite ${delay}`,
     zIndex: 0,
@@ -198,7 +200,7 @@ const Provider: React.FC = () => {
     height: '300px',
     top: top,
     left: left,
-    background: 'radial-gradient(circle, rgba(213, 56, 56, 0.15) 0%, transparent 70%)',
+    background: 'radial-gradient(circle, rgba(103, 50, 0, 0.2) 0%, transparent 70%)',
     borderRadius: '50%',
     filter: 'blur(60px)',
     animation: 'pulse 8s ease-in-out infinite',
@@ -208,26 +210,23 @@ const Provider: React.FC = () => {
 
   return (
     <section id="provider" style={containerStyle}>
+      {/* ANIMATED BACKGROUND WITH FLOWING LINES - from HowItWorks */}
+      <div className="tech-grid" />
+      <div className="animated-lines">
+        <div className="line line-1"></div>
+        <div className="line line-2"></div>
+        <div className="line line-3"></div>
+        <div className="line line-4"></div>
+        <div className="line line-5"></div>
+        <div className="line line-6"></div>
+      </div>
+
       {/* Animated Background Elements */}
       <div style={particleStyle('500px', '10%', '-15%', '0s')}></div>
       <div style={particleStyle('350px', '-5%', '75%', '3s')}></div>
       <div style={particleStyle('400px', '60%', '85%', '5s')}></div>
       <div style={glowOrbStyle('-10%', '20%')}></div>
       <div style={glowOrbStyle('70%', '60%')}></div>
-
-      {/* Grid Pattern Overlay */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        backgroundImage: 'linear-gradient(rgba(213, 56, 56, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(213, 56, 56, 0.03) 1px, transparent 1px)',
-        backgroundSize: '50px 50px',
-        opacity: 0.5,
-        zIndex: 0,
-        pointerEvents: 'none',
-      }}></div>
 
       <div style={innerContainerStyle}>
         <div style={mainCardStyle}>
@@ -246,16 +245,16 @@ const Provider: React.FC = () => {
             zIndex: 0,
           }}>
             <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="100" cy="100" r="90" fill="#d53838" opacity="0.3"/>
-              <path d="M100 20 Q140 40 140 80 Q140 120 100 140 Q60 120 60 80 Q60 40 100 20Z" fill="#d53838" opacity="0.5"/>
-              <circle cx="100" cy="75" r="25" fill="#d53838" opacity="0.4"/>
+              <circle cx="100" cy="100" r="90" fill="#673200" opacity="0.3"/>
+              <path d="M100 20 Q140 40 140 80 Q140 120 100 140 Q60 120 60 80 Q60 40 100 20Z" fill="#673200" opacity="0.5"/>
+              <circle cx="100" cy="75" r="25" fill="#673200" opacity="0.4"/>
               <ellipse cx="85" cy="70" rx="8" ry="12" fill="#fff" opacity="0.3"/>
               <ellipse cx="115" cy="70" rx="8" ry="12" fill="#fff" opacity="0.3"/>
               <path d="M75 90 Q100 105 125 90" stroke="#fff" strokeWidth="4" opacity="0.3" strokeLinecap="round"/>
-              <rect x="80" y="130" width="40" height="60" rx="8" fill="#d53838" opacity="0.4"/>
-              <line x1="50" y1="170" x2="150" y2="170" stroke="#d53838" strokeWidth="5" opacity="0.4" strokeLinecap="round"/>
-              <circle cx="70" cy="170" r="4" fill="#d53838"/>
-              <circle cx="130" cy="170" r="4" fill="#d53838"/>
+              <rect x="80" y="130" width="40" height="60" rx="8" fill="#673200" opacity="0.4"/>
+              <line x1="50" y1="170" x2="150" y2="170" stroke="#673200" strokeWidth="5" opacity="0.4" strokeLinecap="round"/>
+              <circle cx="70" cy="170" r="4" fill="#673200"/>
+              <circle cx="130" cy="170" r="4" fill="#673200"/>
             </svg>
           </div>
 
@@ -272,11 +271,11 @@ const Provider: React.FC = () => {
             zIndex: 0,
           }}>
             <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="100" cy="100" r="80" stroke="#d53838" strokeWidth="2"/>
-              <circle cx="100" cy="100" r="60" stroke="#d53838" strokeWidth="2"/>
-              <circle cx="100" cy="100" r="40" stroke="#d53838" strokeWidth="2"/>
-              <path d="M100 20 L100 180 M20 100 L180 100" stroke="#d53838" strokeWidth="2"/>
-              <path d="M45 45 L155 155 M155 45 L45 155" stroke="#d53838" strokeWidth="2"/>
+              <circle cx="100" cy="100" r="80" stroke="#673200" strokeWidth="2"/>
+              <circle cx="100" cy="100" r="60" stroke="#673200" strokeWidth="2"/>
+              <circle cx="100" cy="100" r="40" stroke="#673200" strokeWidth="2"/>
+              <path d="M100 20 L100 180 M20 100 L180 100" stroke="#673200" strokeWidth="2"/>
+              <path d="M45 45 L155 155 M155 45 L45 155" stroke="#673200" strokeWidth="2"/>
             </svg>
           </div>
 
@@ -287,20 +286,21 @@ const Provider: React.FC = () => {
             left: '20px',
             width: '60px',
             height: '60px',
-            borderTop: '3px solid #d53838',
-            borderLeft: '3px solid #d53838',
+            borderTop: '3px solid #673200',
+            borderLeft: '3px solid #673200',
             borderRadius: '12px 0 0 0',
             animation: 'cornerGlow 3s ease-in-out infinite',
             zIndex: 1,
           }}></div>
+
           <div style={{
             position: 'absolute',
             bottom: '20px',
             right: '20px',
             width: '60px',
             height: '60px',
-            borderBottom: '3px solid #d53838',
-            borderRight: '3px solid #d53838',
+            borderBottom: '3px solid #673200',
+            borderRight: '3px solid #673200',
             borderRadius: '0 0 12px 0',
             animation: 'cornerGlow 3s ease-in-out infinite 1.5s',
             zIndex: 1,
@@ -346,13 +346,15 @@ const Provider: React.FC = () => {
             <button 
               style={buttonStyle}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, #d53838 0%, #b92e2e 100%)';
-                e.currentTarget.style.boxShadow = '0 15px 40px rgba(213, 56, 56, 0.5)';
+                e.currentTarget.style.background = 'linear-gradient(135deg, #673200 0%, #673200 100%)';
+                e.currentTarget.style.color = '#fde1af';
+                e.currentTarget.style.boxShadow = '0 15px 40px rgba(103, 50, 0, 0.6)';
                 e.currentTarget.style.transform = 'translateY(-3px) scale(1.05)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, #111 0%, #2a2a2a 100%)';
-                e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+                e.currentTarget.style.background = '#fde1af';
+                e.currentTarget.style.color = '#673200';
+                e.currentTarget.style.boxShadow = '0 10px 30px rgba(103, 50, 0, 0.4)';
                 e.currentTarget.style.transform = 'translateY(0) scale(1)';
               }}
             >
@@ -393,22 +395,16 @@ const Provider: React.FC = () => {
               pointerEvents: 'none',
             }}>
               <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                {/* Chef Hat */}
                 <ellipse cx="100" cy="80" rx="50" ry="30" fill="white"/>
                 <rect x="60" y="75" width="80" height="15" fill="white"/>
-                {/* Face */}
                 <circle cx="100" cy="110" r="35" fill="white" opacity="0.8"/>
-                {/* Body/Apron */}
                 <path d="M70 130 L70 180 L130 180 L130 130 Q130 125 100 125 Q70 125 70 130Z" fill="white" opacity="0.8"/>
-                {/* Spoon */}
                 <ellipse cx="145" cy="140" rx="8" ry="12" fill="white" opacity="0.6"/>
                 <rect x="142" y="145" width="6" height="40" fill="white" opacity="0.6"/>
-                {/* Fork */}
                 <rect x="52" y="140" width="6" height="45" fill="white" opacity="0.6"/>
                 <rect x="50" y="137" width="2" height="8" fill="white" opacity="0.6"/>
                 <rect x="54" y="137" width="2" height="8" fill="white" opacity="0.6"/>
                 <rect x="58" y="137" width="2" height="8" fill="white" opacity="0.6"/>
-                {/* Steam Lines */}
                 <path d="M90 60 Q85 50 90 40" stroke="white" strokeWidth="2" opacity="0.4" strokeLinecap="round"/>
                 <path d="M100 55 Q95 45 100 35" stroke="white" strokeWidth="2" opacity="0.4" strokeLinecap="round"/>
                 <path d="M110 60 Q115 50 110 40" stroke="white" strokeWidth="2" opacity="0.4" strokeLinecap="round"/>
@@ -469,7 +465,6 @@ const Provider: React.FC = () => {
               </p>
             </div>
 
-            {/* Animated Corner Accent on Card */}
             <div style={{
               position: 'absolute',
               top: '15px',
@@ -487,6 +482,152 @@ const Provider: React.FC = () => {
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700;800&display=swap');
+
+        /* ANIMATED BACKGROUND GRID & LINES from HowItWorks */
+        .tech-grid {
+          position: absolute;
+          inset: 0;
+          background: transparent;
+          z-index: 0;
+          pointer-events: none;
+          overflow: hidden;
+        }
+
+        .tech-grid::before,
+        .tech-grid::after {
+          content: '';
+          position: absolute;
+          width: 200%;
+          height: 200%;
+          top: -50%;
+          left: -50%;
+          background-image: 
+            linear-gradient(90deg, transparent 0%, transparent calc(100% - 1px), rgba(103, 50, 0, 0.08) calc(100% - 1px), rgba(103, 50, 0, 0.08) 100%),
+            linear-gradient(0deg, transparent 0%, transparent calc(100% - 1px), rgba(103, 50, 0, 0.08) calc(100% - 1px), rgba(103, 50, 0, 0.08) 100%);
+          background-size: 80px 80px;
+          animation: gridFlow 20s linear infinite;
+          opacity: 0.6;
+        }
+
+        .tech-grid::after {
+          background-size: 120px 120px;
+          animation: gridFlow 30s linear infinite reverse;
+          opacity: 0.4;
+        }
+
+        @keyframes gridFlow {
+          0% {
+            transform: translate(0, 0) rotate(0deg);
+          }
+          100% {
+            transform: translate(40px, 40px) rotate(0deg);
+          }
+        }
+
+        /* Diagonal flowing lines */
+        .animated-lines {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          z-index: 0;
+        }
+
+        .line {
+          position: absolute;
+          background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(103, 50, 0, 0.15) 50%, 
+            transparent 100%);
+          transform-origin: center;
+        }
+
+        .line-1 {
+          width: 200%;
+          height: 2px;
+          top: 10%;
+          left: -100%;
+          animation: flowRight 15s ease-in-out infinite;
+          animation-delay: 0s;
+        }
+
+        .line-2 {
+          width: 2px;
+          height: 200%;
+          left: 20%;
+          top: -100%;
+          animation: flowDown 18s ease-in-out infinite;
+          animation-delay: 2s;
+        }
+
+        .line-3 {
+          width: 200%;
+          height: 1px;
+          top: 40%;
+          left: -100%;
+          animation: flowRight 20s ease-in-out infinite;
+          animation-delay: 4s;
+        }
+
+        .line-4 {
+          width: 1px;
+          height: 200%;
+          left: 60%;
+          top: -100%;
+          animation: flowDown 16s ease-in-out infinite;
+          animation-delay: 6s;
+        }
+
+        .line-5 {
+          width: 200%;
+          height: 2px;
+          top: 70%;
+          left: -100%;
+          animation: flowRight 22s ease-in-out infinite;
+          animation-delay: 8s;
+        }
+
+        .line-6 {
+          width: 2px;
+          height: 200%;
+          left: 80%;
+          top: -100%;
+          animation: flowDown 19s ease-in-out infinite;
+          animation-delay: 10s;
+        }
+
+        @keyframes flowRight {
+          0% {
+            left: -100%;
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            left: 100%;
+            opacity: 0;
+          }
+        }
+
+        @keyframes flowDown {
+          0% {
+            top: -100%;
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 1;
+          }
+          100% {
+            top: 100%;
+            opacity: 0;
+          }
+        }
 
         .pulse-dot-white {
           width: 8px;
@@ -519,8 +660,8 @@ const Provider: React.FC = () => {
         }
 
         @keyframes textGlow {
-          0%, 100% { text-shadow: 0 0 10px rgba(213, 56, 56, 0.3); }
-          50% { text-shadow: 0 0 20px rgba(213, 56, 56, 0.6); }
+          0%, 100% { text-shadow: 0 0 10px rgba(253, 225, 175, 0.4); }
+          50% { text-shadow: 0 0 20px rgba(253, 225, 175, 0.8); }
         }
 
         @keyframes titleSlideIn {
@@ -558,10 +699,10 @@ const Provider: React.FC = () => {
 
         @keyframes checkPulse {
           0%, 100% { 
-            box-shadow: 0 0 15px rgba(213, 56, 56, 0.3); 
+            box-shadow: 0 0 15px rgba(103, 50, 0, 0.5); 
           }
           50% { 
-            box-shadow: 0 0 25px rgba(213, 56, 56, 0.6); 
+            box-shadow: 0 0 25px rgba(103, 50, 0, 0.85); 
           }
         }
 
@@ -619,46 +760,45 @@ const Provider: React.FC = () => {
 
         @keyframes cornerGlow {
           0%, 100% { 
-            box-shadow: 0 0 10px rgba(213, 56, 56, 0.3); 
+            box-shadow: 0 0 10px rgba(103, 50, 0, 0.5); 
             opacity: 1; 
           }
           50% { 
-            box-shadow: 0 0 20px rgba(213, 56, 56, 0.6); 
-            opacity: 0.7; 
-          }
-        }
+            box-shadow: 0 0 20px rgba(103, 50,
+            0, 0.9);
+opacity: 0.7;
+}
+}
+    @keyframes gridMove {
+      from { 
+        background-position: 0 0; 
+      }
+      to { 
+        background-position: 20px 20px; 
+      }
+    }
 
-        @keyframes gridMove {
-          from { 
-            background-position: 0 0; 
-          }
-          to { 
-            background-position: 20px 20px; 
-          }
-        }
+    @keyframes fadeInScale {
+      from { 
+        opacity: 0; 
+        transform: scale(0.5); 
+      }
+      to { 
+        opacity: 1; 
+        transform: scale(1); 
+      }
+    }
 
-        @keyframes fadeInScale {
-          from { 
-            opacity: 0; 
-            transform: scale(0.5); 
-          }
-          to { 
-            opacity: 1; 
-            transform: scale(1); 
-          }
-        }
-
-        @keyframes bounce {
-          0%, 100% { 
-            transform: translateY(0px) scale(1); 
-          }
-          50% { 
-            transform: translateY(-10px) scale(1.05); 
-          }
-        }
-      `}</style>
-    </section>
-  );
+    @keyframes bounce {
+      0%, 100% { 
+        transform: translateY(0px) scale(1); 
+      }
+      50% { 
+        transform: translateY(-10px) scale(1.05); 
+      }
+    }
+  `}</style>
+</section>
+);
 };
-
 export default Provider;

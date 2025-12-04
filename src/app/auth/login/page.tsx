@@ -13,6 +13,9 @@ const LoginPage: React.FC = () => {
         e.preventDefault();
         // Handle login logic here
         console.log('Logging in with:', { emailOrPhone, password, rememberMe });
+        
+        // Dummy login - redirect to user/mytiffin page
+        window.location.href = '/user/mytiffin';
     };
 
     return (

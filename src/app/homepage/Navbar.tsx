@@ -250,7 +250,7 @@ const Navbar: React.FC = () => {
           ))}
           {/* Action Button */}
           <Link
-            href="/mytiffin"
+            href="/auth/login"
             style={{
               marginLeft: '1rem',
               padding: '0.6rem 1.5rem',
@@ -324,7 +324,7 @@ const Navbar: React.FC = () => {
             </a>
           ))}
           <Link
-            href="/mytiffin"
+            href="/auth/login"
             style={{
               marginTop: '0.5rem',
               padding: '0.9rem 1.2rem',

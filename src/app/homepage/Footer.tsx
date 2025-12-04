@@ -139,6 +139,29 @@ const Footer: React.FC = () => {
     zIndex: 3,
   };
 
+  const scrollToSection = (href: string) => {
+    if (href === '#top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    const target = document.querySelector(href);
+    if (target instanceof HTMLElement) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const footerLinks = [
+    { label: 'Command Center', href: '#top' },
+    { label: 'How It Works', href: '#how-it-works' },
+    { label: 'Popular Providers', href: '#popular' },
+    { label: 'Plans', href: '#plans' },
+    { label: 'Tracking', href: '#tracking' },
+    { label: 'Hygiene', href: '#hygiene' },
+    { label: 'Why Us', href: '#why-us' },
+    { label: 'Provider Protocol', href: '#provider' },
+    { label: 'Secure Comms', href: '#contact' },
+  ];
+
   return (
     <footer style={footerStyle} className="sci-fi-footer">
       {/* Background Tech Grid (CSS) */}
@@ -161,19 +184,29 @@ const Footer: React.FC = () => {
           </div>
 
           <nav style={linkGroupStyle}>
-            <a href="#hero" className="footer-link" style={linkStyle}>Command Center</a>
-            <a href="#plans" className="footer-link" style={linkStyle}>Subscription Nodes</a>
-            <a href="#provider" className="footer-link" style={linkStyle}>Provider Protocol</a>
-            <a href="#contact" className="footer-link" style={linkStyle}>Secure Comms</a>
+            {footerLinks.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="footer-link"
+                style={linkStyle}
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection(item.href);
+                }}
+              >
+                {item.label}
+              </a>
+            ))}
           </nav>
         </div>
 
         {/* Bottom Section */}
         <div style={bottomRowStyle}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-             <span>© 2024 TIFFIN NETWORK</span>
-             <span style={{ color: '#374151' }}>|</span>
-             <span>SYS.VER 2.4.0</span>
+            <span>&copy; 2024 TIFFIN NETWORK</span>
+            <span style={{ color: '#374151' }}>|</span>
+            <span>SYS.VER 2.4.0</span>
           </div>
 
           <div style={statusBadgeStyle}>

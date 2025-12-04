@@ -8,8 +8,6 @@ import Tracking from './homepage/Tracking';
 import Hygiene from './homepage/Hygiene';
 import Provider from './homepage/Provider';
 import WhyUs from './homepage/WhyUs';
-import Community from './homepage/Community';
-import AppPromo from './homepage/AppPromo';
 import Contact from './homepage/Contact';
 import Footer from './homepage/Footer';
 
@@ -24,8 +22,6 @@ const HomePage: React.FC = () => {
       <Hygiene />
       <Provider />
       <WhyUs />
-      <Community />
-      <AppPromo />
       <Contact />
       <Footer />
     </div>

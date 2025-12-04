@@ -2,33 +2,29 @@
 
 import React, { useState, useEffect } from 'react';
 
-// Updated image URLs to q=95 for HD quality
 const plans = [
   {
     name: 'Daily Flexi',
     price: '₹120/day',
-    desc: 'Perfect if your schedule keeps changing. Pause or skip any day.',
-    features: ['Pause anytime', 'Same-day changes', 'Office & home delivery'],
+    desc: 'Perfect for changing schedules.',
+    features: ['Pause anytime', 'Same-day changes', 'Home delivery'],
     popular: false,
-    // HD Clear bowl image
     image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=95',
   },
   {
     name: 'Monthly Saver',
-    price: '₹2799/month',
-    desc: 'Most value for regular office-goers and students.',
-    features: ['Up to 15% cheaper', 'Free delivery', 'One menu change per week'],
+    price: '₹2799/mo',
+    desc: 'Best value for regular office-goers.',
+    features: ['15% cheaper', 'Free delivery', 'Weekly menu change'],
     popular: true,
-    // HD stacked meal image
     image: 'https://images.unsplash.com/photo-1606491956689-2ea28c674675?auto=format&fit=crop&w=800&q=95',
   },
   {
-    name: 'Custom Corporate',
+    name: 'Corporate',
     price: 'Talk to us',
     desc: 'For teams and offices with 10+ people.',
     features: ['Central billing', 'Multiple menus', 'Dedicated support'],
     popular: false,
-    // HD feast/group image
     image: 'https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=800&q=95',
   },
 ];
@@ -36,21 +32,29 @@ const plans = [
 const Plans: React.FC = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    const handleResize = () => {
+      if (typeof window !== 'undefined') {
+        setIsMobile(window.innerWidth < 768);
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   // --- Styles ---
 
   const containerStyle: React.CSSProperties = {
     position: 'relative',
-    padding: '80px 16px',
+    padding: isMobile ? '40px 12px' : '80px 24px',
     background: 'linear-gradient(135deg, #fef2f2 0%, #ffffff 50%, #fce7f3 100%)',
     fontFamily: '"Rajdhani", "Segoe UI", sans-serif',
     overflow: 'hidden',
     minHeight: '100vh',
-    perspective: '1000px',
   };
 
   const gridOverlayStyle: React.CSSProperties = {
@@ -68,318 +72,275 @@ const Plans: React.FC = () => {
     pointerEvents: 'none',
   };
 
-  const contentWrapperStyle: React.CSSProperties = {
-    maxWidth: '1280px',
-    margin: '0 auto',
-    position: 'relative',
-    zIndex: 2,
-  };
-
   const headerStyle: React.CSSProperties = {
     textAlign: 'center',
-    marginBottom: '80px',
+    marginBottom: isMobile ? '32px' : '80px',
+    position: 'relative',
+    zIndex: 2,
     opacity: mounted ? 1 : 0,
     transform: mounted ? 'translateY(0)' : 'translateY(-20px)',
     transition: 'all 0.8s ease-out',
   };
 
   const titleStyle: React.CSSProperties = {
-    fontSize: 'clamp(3rem, 6vw, 5rem)',
+    fontSize: isMobile ? '2.5rem' : 'clamp(2.5rem, 5vw, 4rem)',
     fontWeight: '800',
     color: '#111',
     margin: '0',
     textTransform: 'uppercase',
-    letterSpacing: '-2px',
+    letterSpacing: '-1px',
     lineHeight: '1',
     background: 'linear-gradient(90deg, #d53838 0%, #111 60%)',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
-    filter: 'drop-shadow(0px 2px 0px rgba(0,0,0,0.1))',
   };
 
-  const gridStyle: React.CSSProperties = {
+  const getGridStyle = (): React.CSSProperties => ({
     display: 'grid',
-    gap: '40px',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', // Increased minimum width slightly
-    padding: '20px',
-  };
+    gap: isMobile ? '20px' : '48px',
+    // On mobile 1 column, desktop auto-fit
+    gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(500px, 1fr))',
+    maxWidth: '1200px',
+    margin: '0 auto',
+    position: 'relative',
+    zIndex: 2,
+  });
 
   const getCardStyle = (index: number, isPopular: boolean): React.CSSProperties => {
     const isHovered = hoveredIndex === index;
     return {
       position: 'relative',
-      // Slightly more opaque background so text is readable against potential image overlap
-      background: 'rgba(255, 255, 255, 0.85)', 
-      backdropFilter: 'blur(20px)',
-      // Complex HUD shape handles clipping the image automatically
-      clipPath: 'polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%)',
-      padding: '0',
-      border: 'none',
-      transition: 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-      transform: isHovered 
-        ? 'translateY(-15px) scale(1.02)' 
-        : 'translateY(0) scale(1)',
+      background: 'rgba(255, 255, 255, 0.9)',
+      borderRadius: '16px',
       boxShadow: isHovered
-        ? '0 30px 60px rgba(213, 56, 56, 0.25), 0 0 0 1px rgba(213, 56, 56, 0.5)'
-        : '0 10px 30px rgba(0,0,0,0.05), 0 0 0 1px rgba(255,255,255, 0.5)',
+        ? '0 25px 50px -12px rgba(213, 56, 56, 0.25)'
+        : '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02)',
+      transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+      transform: isHovered ? 'translateY(-8px)' : 'translateY(0)',
+      border: isPopular ? '1px solid rgba(213, 56, 56, 0.3)' : '1px solid rgba(0,0,0,0.05)',
+      overflow: 'hidden',
       opacity: mounted ? 1 : 0,
-      animation: `fadeInUp 0.6s ease-out forwards ${index * 0.2}s`,
-      overflow: 'hidden', // Ensure image stays within bounds before clip-path kicks in
+      animation: `fadeInUp 0.6s ease-out forwards ${index * 0.15}s`,
+      display: 'flex',
+      // FORCE ROW DIRECTION EVEN ON MOBILE
+      flexDirection: 'row',
+      // Mobile height is shorter to fit screen better
+      height: isMobile ? '280px' : '380px', 
     };
   };
 
-  // NEW: Image container fills the right half
-  const imageContainerStyle = (isHovered: boolean): React.CSSProperties => ({
-    position: 'absolute',
-    top: '0',
-    right: '0',
-    width: '50%', // Occupy right half
-    height: '100%',
-    overflow: 'hidden',
-    transition: 'all 0.6s ease',
-    zIndex: 1,
-    // Removed maskImage for sharp HD look
-  });
+  // --- Left Side: Content ---
+  const contentSectionStyle: React.CSSProperties = {
+    // Take up slightly less space on mobile to ensure image is visible
+    flex: isMobile ? '0 0 55%' : '0 0 55%', 
+    padding: isMobile ? '16px 12px' : '40px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    position: 'relative',
+    zIndex: 2,
+  };
 
-  // NEW: HD Image style
+  // --- Right Side: Image Container with Diagonal Clip ---
+  const imageSectionStyle: React.CSSProperties = {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: '55%', // Ensures overlap with text section
+    height: '100%',
+    // Same Diagonal Cut on Mobile and Desktop
+    clipPath: 'polygon(20% 0, 100% 0, 100% 100%, 0% 100%)', 
+    overflow: 'hidden',
+    zIndex: 1,
+  };
+
+  // --- The "Dash Type Line" (Visual Separator) ---
+  const diagonalBorderWrapperStyle: React.CSSProperties = {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: '55%',
+    // Start slightly earlier (19.5%) to create the red border line
+    clipPath: 'polygon(19.5% 0, 100% 0, 100% 100%, -0.5% 100%)', 
+    background: '#d53838', 
+    zIndex: 0,
+    display: 'block', // Always show
+  };
+
   const imageStyle = (isHovered: boolean): React.CSSProperties => ({
     width: '100%',
     height: '100%',
     objectFit: 'cover',
-    objectPosition: 'center',
-    transition: 'transform 0.6s ease',
-    // Slight zoom effect on hover within its container
+    transition: 'transform 0.7s ease',
     transform: isHovered ? 'scale(1.1)' : 'scale(1)',
-    // Removed mixBlendMode for vivid HD colors
   });
 
-  // Updated content area to stay on the left
-  const cardInnerStyle: React.CSSProperties = {
-    padding: '40px 20px 90px 32px',
-    position: 'relative',
-    zIndex: 2,
-    maxWidth: '50%', // Restrict text to left half
-  };
-
-  const popularBadgeStyle: React.CSSProperties = {
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    background: '#d53838',
-    color: 'white',
-    padding: '6px 20px',
-    fontSize: '12px',
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    clipPath: 'polygon(0 0, 100% 0, 85% 100%, 0 100%)',
-    zIndex: 10,
-    boxShadow: '0 4px 10px rgba(213, 56, 56, 0.3)',
-  };
+  // --- Typography & Elements (Responsive sizes) ---
 
   const planNameStyle: React.CSSProperties = {
-    fontSize: '24px', // Slightly smaller to fit
-    fontWeight: '800',
-    color: '#111',
-    marginBottom: '4px',
+    fontSize: isMobile ? '16px' : '20px',
+    fontWeight: '700',
+    color: '#666',
     textTransform: 'uppercase',
-    letterSpacing: '1px',
-    position: 'relative',
-    zIndex: 2,
+    letterSpacing: isMobile ? '1px' : '2px',
+    marginBottom: isMobile ? '4px' : '8px',
+    whiteSpace: 'nowrap', // Prevent wrapping on small lines
   };
 
   const priceStyle: React.CSSProperties = {
-    fontSize: '36px', // Slightly smaller to fit
+    fontSize: isMobile ? '22px' : '32px',
     fontWeight: '800',
-    color: '#d53838',
-    marginBottom: '20px',
-    display: 'block',
-    letterSpacing: '-1px',
-    textShadow: '0 0 20px rgba(213, 56, 56, 0.2)',
-    position: 'relative',
-    zIndex: 2,
+    color: '#111',
+    marginBottom: isMobile ? '8px' : '16px',
+    display: 'flex',
+    alignItems: 'baseline',
+    gap: '4px',
   };
 
   const descStyle: React.CSSProperties = {
-    fontSize: '14px',
+    fontSize: isMobile ? '12px' : '15px',
     color: '#555',
-    marginBottom: '32px',
-    lineHeight: '1.5',
-    fontWeight: '600',
-    position: 'relative',
-    zIndex: 2,
+    marginBottom: isMobile ? '12px' : '24px',
+    lineHeight: '1.4',
+    maxWidth: '95%',
+    display: '-webkit-box',
+    WebkitLineClamp: isMobile ? 2 : 3, // Limit text lines on mobile
+    WebkitBoxOrient: 'vertical',
+    overflow: 'hidden',
   };
 
   const listStyle: React.CSSProperties = {
     listStyle: 'none',
     padding: 0,
-    margin: '0 0 30px 0',
+    margin: isMobile ? '0 0 16px 0' : '0 0 24px 0',
     display: 'flex',
     flexDirection: 'column',
-    gap: '12px',
-    position: 'relative',
-    zIndex: 2,
+    gap: isMobile ? '6px' : '10px',
   };
 
-  const featureItemStyle = (index: number): React.CSSProperties => ({
+  const listItemStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
-    gap: '10px',
-    fontSize: '14px',
+    gap: '8px',
+    fontSize: isMobile ? '11px' : '14px',
     color: '#444',
-    fontWeight: '700',
-    animation: `slideRight 0.5s ease-out forwards ${0.5 + (index * 0.1)}s`,
-    opacity: 0,
-  });
-
-  const checkIconStyle: React.CSSProperties = {
-    minWidth: '18px',
-    height: '18px',
-    background: 'linear-gradient(135deg, #d53838 0%, #ff6b6b 100%)',
-    borderRadius: '4px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'white',
-    fontSize: '10px',
-    boxShadow: '0 2px 5px rgba(213, 56, 56, 0.3)',
+    fontWeight: '600',
   };
 
-  const buttonContainerStyle: React.CSSProperties = {
-    position: 'absolute',
-    bottom: '0',
-    left: '0',
-    width: '100%',
-    padding: '0',
-    zIndex: 3,
+  const buttonStyle = (index: number): React.CSSProperties => {
+    const isHovered = hoveredIndex === index;
+    return {
+      padding: isMobile ? '10px 16px' : '14px 28px',
+      background: isHovered ? '#111' : '#d53838',
+      color: 'white',
+      border: 'none',
+      borderRadius: '8px',
+      fontWeight: '700',
+      fontSize: isMobile ? '12px' : '14px',
+      textTransform: 'uppercase',
+      letterSpacing: '1px',
+      cursor: 'pointer',
+      transition: 'all 0.3s ease',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '8px',
+      width: 'fit-content',
+    };
   };
-
-  const buttonStyle = (isHovered: boolean): React.CSSProperties => ({
-    width: '100%',
-    padding: '20px',
-    background: isHovered ? '#111' : '#d53838',
-    color: 'white',
-    border: 'none',
-    fontWeight: '700',
-    fontSize: '16px',
-    textTransform: 'uppercase',
-    letterSpacing: '3px',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '10px',
-  });
-
-  const techLineStyle = (isHovered: boolean): React.CSSProperties => ({
-    position: 'absolute',
-    bottom: '60px',
-    right: '0',
-    width: isHovered ? '50%' : '10%', // Adjusted width animation
-    height: '3px',
-    background: '#d53838',
-    transition: 'width 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
-    zIndex: 3,
-    boxShadow: '0 0 15px #d53838',
-  });
 
   return (
     <section id="plans" style={containerStyle}>
       <div style={gridOverlayStyle}></div>
 
-      <div style={contentWrapperStyle}>
-        
-        {/* Header */}
-        <div style={headerStyle}>
-          <div style={{ 
-            display: 'inline-block', 
-            padding: '8px 20px', 
-            border: '1px solid #d53838', 
-            borderRadius: '100px', 
-            color: '#d53838', 
-            fontWeight: '600', 
-            fontSize: '14px', 
-            marginBottom: '20px',
-            background: 'rgba(213, 56, 56, 0.05)'
-          }}>
-            SYSTEM: ONLINE
-          </div>
-          <h2 style={titleStyle}>Select Module</h2>
-          <p style={{ color: '#666', fontSize: '18px', marginTop: '16px', maxWidth: '500px', marginInline: 'auto' }}>
-            Initialize your nutrition protocol. 
-            <br />Optimized for taste and efficiency.
-          </p>
+      {/* Header */}
+      <div style={headerStyle}>
+        <div style={{ 
+          display: 'inline-block', 
+          padding: '6px 16px', 
+          border: '1px solid #d53838', 
+          borderRadius: '50px', 
+          color: '#d53838', 
+          fontWeight: '700', 
+          fontSize: '12px', 
+          marginBottom: '16px',
+          background: 'rgba(255, 255, 255, 0.8)',
+          backdropFilter: 'blur(4px)'
+        }}>
+          MEAL SUBSCRIPTIONS
         </div>
+        <h2 style={titleStyle}>Choose Plan</h2>
+      </div>
 
-        {/* Grid */}
-        <div style={gridStyle}>
-          {plans.map((plan, index) => (
-            <div
-              key={plan.name}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
-              style={getCardStyle(index, plan.popular)}
-            >
-              {/* HD Image filling right half */}
-              <div style={imageContainerStyle(hoveredIndex === index)}>
-                <img src={plan.image} alt={plan.name} style={imageStyle(hoveredIndex === index)} />
-              </div>
+      {/* Grid */}
+      <div style={getGridStyle()}>
+        {plans.map((plan, index) => (
+          <div
+            key={plan.name}
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
+            style={getCardStyle(index, plan.popular)}
+          >
+            {/* 1. The Red Diagonal Border Line (Background Layer) */}
+            <div style={diagonalBorderWrapperStyle}></div>
 
-              {/* Popular Badge */}
-              {plan.popular && (
-                <div style={popularBadgeStyle}>
-                  Best Value
-                </div>
-              )}
-
-              {/* Inner Content - Left Half */}
-              <div style={cardInnerStyle}>
-                <h3 style={planNameStyle}>{plan.name}</h3>
-                <span style={priceStyle}>{plan.price}</span>
-                <p style={descStyle}>{plan.desc}</p>
-
-                <ul style={listStyle}>
-                  {plan.features.map((f, i) => (
-                    <li key={f} style={featureItemStyle(i)}>
-                      <span style={checkIconStyle}>✓</span>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Tech Decoration */}
-              <div style={techLineStyle(hoveredIndex === index)}></div>
-
-              {/* Action Button */}
-              <div style={buttonContainerStyle}>
-                <button style={buttonStyle(hoveredIndex === index)}>
-                  Activate
-                  <span style={{ 
-                    transform: hoveredIndex === index ? 'translateX(5px)' : 'translateX(0)', 
-                    transition: 'transform 0.3s' 
-                  }}>
-                    →
-                  </span>
-                </button>
-              </div>
+            {/* 2. The Image Section (Right Side) */}
+            <div style={imageSectionStyle}>
+              <img 
+                src={plan.image} 
+                alt={plan.name} 
+                style={imageStyle(hoveredIndex === index)} 
+              />
+              <div style={{
+                position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+                background: 'linear-gradient(to right, rgba(255,255,255,0.2), transparent)',
+                pointerEvents: 'none'
+              }}></div>
             </div>
-          ))}
-        </div>
+
+            {/* 3. The Content Section (Left Side) */}
+            <div style={contentSectionStyle}>
+              <div style={planNameStyle}>{plan.name}</div>
+              <div style={priceStyle}>
+                {plan.price}
+                {plan.popular && !isMobile && (
+                  <span style={{ 
+                    fontSize: '12px', 
+                    background: '#d53838', 
+                    color: 'white', 
+                    padding: '2px 8px', 
+                    borderRadius: '4px',
+                    verticalAlign: 'middle',
+                    marginLeft: '8px'
+                  }}>POPULAR</span>
+                )}
+              </div>
+              <p style={descStyle}>{plan.desc}</p>
+
+              <ul style={listStyle}>
+                {plan.features.map((f, i) => (
+                  <li key={i} style={listItemStyle}>
+                    <span style={{ color: '#d53838', fontSize: isMobile ? '10px' : '14px' }}>✓</span> {f}
+                  </li>
+                ))}
+              </ul>
+
+              <button style={buttonStyle(index)}>
+                Select <span>→</span>
+              </button>
+            </div>
+
+          </div>
+        ))}
       </div>
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700;800&display=swap');
-
         @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(40px); }
+          from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideRight {
-          from { opacity: 0; transform: translateX(-20px); }
-          to { opacity: 1; transform: translateX(0); }
         }
       `}</style>
     </section>

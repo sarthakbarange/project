@@ -1,12 +1,12 @@
 /* --- Color Variables --- */
 :root {
-    --primary-color: #E61500;
-    --secondary-color: #000000;
-    --text-dark: #333333;
+    --primary-color: #673200;
+    --secondary-color: #fde1af;
+    --text-dark: #673200;
     --text-light: #ffffff;
-    --card-bg: rgba(255, 255, 255, 0.98);
-    --input-border: #e2e8f0;
-    --input-focus: rgba(230, 21, 0, 0.15);
+    --card-bg: rgba(253, 225, 175, 0.98);
+    --input-border: #e2d8b8;
+    --input-focus: rgba(103, 50, 0, 0.15);
 }
 
 /* Global Container for the entire page */

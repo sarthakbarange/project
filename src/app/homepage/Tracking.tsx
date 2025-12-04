@@ -52,7 +52,8 @@ const Tracking: React.FC = () => {
     letterSpacing: '2px',
     textTransform: 'uppercase',
     marginBottom: '24px',
-    clipPath: 'polygon(0 0, 100% 0, 100% 70%, 90% 100%, 0 100%)', // Tech shape
+    clipPath: 'polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%)',
+    animation: 'glowPulse 3s ease-in-out infinite',
   };
 
   const titleStyle: React.CSSProperties = {
@@ -90,14 +91,16 @@ const Tracking: React.FC = () => {
   const checkBoxStyle: React.CSSProperties = {
     minWidth: '24px',
     height: '24px',
-    background: '#111',
+    background: 'linear-gradient(135deg, #111 0%, #1a1a1a 100%)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     color: '#d53838',
     fontSize: '14px',
-    clipPath: 'polygon(20% 0%, 100% 0%, 100% 80%, 80% 100%, 0% 100%, 0% 20%)',
+    clipPath: 'polygon(25% 0%, 100% 0%, 100% 75%, 75% 100%, 0% 100%, 0% 25%)',
     marginTop: '2px',
+    boxShadow: '0 0 10px rgba(213, 56, 56, 0.3)',
+    animation: 'rotateCheck 4s linear infinite',
   };
 
   const listTextStyle: React.CSSProperties = {
@@ -114,13 +117,26 @@ const Tracking: React.FC = () => {
   };
 
   const deviceCardStyle: React.CSSProperties = {
-    background: '#0f0f11', // Dark screen look
+    background: 'rgba(15, 15, 17, 0.85)', // Semi-transparent dark background
+    backdropFilter: 'blur(20px)',
     color: 'white',
     padding: '24px',
-    clipPath: 'polygon(0 0, 100% 0, 100% 85%, 90% 100%, 0 100%)', // Angled bottom right
+    clipPath: 'polygon(0 0, 100% 0, 100% 85%, 90% 100%, 0 100%)',
     border: '1px solid rgba(255, 255, 255, 0.1)',
     boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
     position: 'relative',
+    overflow: 'hidden',
+  };
+
+  const backgroundImageStyle: React.CSSProperties = {
+    position: 'absolute',
+    inset: 0,
+    backgroundImage: 'url("/tracking.png")',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    opacity: 0.15,
+    zIndex: 0,
+    filter: 'blur(1px)',
   };
 
   // Glowing red border effect
@@ -128,9 +144,11 @@ const Tracking: React.FC = () => {
     position: 'absolute',
     inset: 0,
     borderRadius: '0',
-    border: '1px solid rgba(213, 56, 56, 0.3)',
+    border: '1px solid rgba(213, 56, 56, 0.5)',
     clipPath: 'polygon(0 0, 100% 0, 100% 85%, 90% 100%, 0 100%)',
     pointerEvents: 'none',
+    animation: 'borderGlow 2s ease-in-out infinite',
+    zIndex: 2,
   };
 
   const deviceHeaderStyle: React.CSSProperties = {
@@ -140,6 +158,8 @@ const Tracking: React.FC = () => {
     marginBottom: '20px',
     borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
     paddingBottom: '12px',
+    position: 'relative',
+    zIndex: 1,
   };
 
   const statusBadgeStyle: React.CSSProperties = {
@@ -154,6 +174,8 @@ const Tracking: React.FC = () => {
     display: 'flex',
     alignItems: 'center',
     gap: '6px',
+    clipPath: 'polygon(10% 0, 100% 0, 90% 100%, 0 100%)',
+    animation: 'slideIn 1s ease-out',
   };
 
   // The Map Area
@@ -165,6 +187,7 @@ const Tracking: React.FC = () => {
     overflow: 'hidden',
     border: '1px solid rgba(255,255,255,0.05)',
     marginBottom: '24px',
+    zIndex: 1,
   };
 
   // Grid lines on the map
@@ -200,9 +223,10 @@ const Tracking: React.FC = () => {
     height: '12px',
     border: `2px solid ${color}`,
     background: '#000',
-    transform: 'translate(-50%, -50%) rotate(45deg)', // Diamond shape
+    transform: 'translate(-50%, -50%) rotate(45deg)',
     zIndex: 10,
-    boxShadow: `0 0 10px ${color}`,
+    boxShadow: `0 0 15px ${color}, 0 0 30px ${color}`,
+    animation: 'markerPulse 2s ease-in-out infinite',
   });
 
   const pathLineStyle: React.CSSProperties = {
@@ -211,16 +235,17 @@ const Tracking: React.FC = () => {
     left: '20%',
     width: '60%',
     height: '40%',
-    borderLeft: '2px dashed rgba(255, 255, 255, 0.2)',
-    borderBottom: '2px dashed rgba(255, 255, 255, 0.2)',
+    borderLeft: '2px dashed rgba(213, 56, 56, 0.4)',
+    borderBottom: '2px dashed rgba(213, 56, 56, 0.4)',
     pointerEvents: 'none',
+    animation: 'pathGlow 3s ease-in-out infinite',
   };
 
   // Rider icon moving
   const riderStyle: React.CSSProperties = {
     position: 'absolute',
     bottom: '20%',
-    left: '50%', // Positioned along the path roughly
+    left: '50%',
     transform: 'translate(-50%, 50%)',
     background: 'white',
     color: '#d53838',
@@ -242,6 +267,8 @@ const Tracking: React.FC = () => {
     gap: '12px',
     borderTop: '1px solid rgba(255, 255, 255, 0.1)',
     paddingTop: '20px',
+    position: 'relative',
+    zIndex: 1,
   };
 
   const statBoxStyle: React.CSSProperties = {
@@ -321,6 +348,9 @@ const Tracking: React.FC = () => {
           {/* Right Column: The Device */}
           <div style={deviceWrapperStyle}>
             <div style={deviceCardStyle}>
+              {/* Background Image Layer */}
+              <div style={backgroundImageStyle}></div>
+              
               <div style={borderGlowStyle}></div>
               
               {/* Header */}
@@ -344,10 +374,10 @@ const Tracking: React.FC = () => {
                 <div style={pathLineStyle}></div>
 
                 {/* Nodes */}
-                <div style={markerStyle('40%', '20%', '#ffffff')}></div> {/* Kitchen */}
+                <div style={markerStyle('40%', '20%', '#ffffff')}></div>
                 <span style={{ position:'absolute', top:'30%', left:'20%', fontSize:'10px', color:'#6b7280', transform:'translateX(-50%)' }}>ORIGIN</span>
                 
-                <div style={markerStyle('80%', '80%', '#d53838')}></div> {/* Office */}
+                <div style={markerStyle('80%', '80%', '#d53838')}></div>
                 <span style={{ position:'absolute', bottom:'8%', left:'80%', fontSize:'10px', color:'#d53838', transform:'translateX(-50%)' }}>TARGET</span>
 
                 {/* Moving Rider */}
@@ -399,7 +429,7 @@ const Tracking: React.FC = () => {
 
         @keyframes pulse {
           0% { box-shadow: 0 0 0 0 rgba(213, 56, 56, 0.7); }
-          70% { box-shadow: 0 0 0 6px rgba(213, 56, 56, 0); }
+          70% { box-shadow: 0 0 0 10px rgba(213, 56, 56, 0); }
           100% { box-shadow: 0 0 0 0 rgba(213, 56, 56, 0); }
         }
 
@@ -408,9 +438,68 @@ const Tracking: React.FC = () => {
         }
 
         @keyframes float {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-15px); }
-          100% { transform: translateY(0px); }
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        @keyframes glowPulse {
+          0%, 100% { 
+            box-shadow: 0 0 5px rgba(213, 56, 56, 0.3);
+            border-color: rgba(213, 56, 56, 0.8);
+          }
+          50% { 
+            box-shadow: 0 0 20px rgba(213, 56, 56, 0.6);
+            border-color: rgba(213, 56, 56, 1);
+          }
+        }
+
+        @keyframes borderGlow {
+          0%, 100% { 
+            border-color: rgba(213, 56, 56, 0.3);
+            filter: drop-shadow(0 0 5px rgba(213, 56, 56, 0.3));
+          }
+          50% { 
+            border-color: rgba(213, 56, 56, 0.8);
+            filter: drop-shadow(0 0 15px rgba(213, 56, 56, 0.6));
+          }
+        }
+
+        @keyframes rotateCheck {
+          0%, 100% { transform: rotate(0deg); }
+          25% { transform: rotate(90deg); }
+          50% { transform: rotate(180deg); }
+          75% { transform: rotate(270deg); }
+        }
+
+        @keyframes markerPulse {
+          0%, 100% { 
+            transform: translate(-50%, -50%) rotate(45deg) scale(1);
+          }
+          50% { 
+            transform: translate(-50%, -50%) rotate(45deg) scale(1.2);
+          }
+        }
+
+        @keyframes pathGlow {
+          0%, 100% { 
+            opacity: 0.4;
+            filter: drop-shadow(0 0 3px rgba(213, 56, 56, 0.3));
+          }
+          50% { 
+            opacity: 1;
+            filter: drop-shadow(0 0 8px rgba(213, 56, 56, 0.8));
+          }
+        }
+
+        @keyframes slideIn {
+          from {
+            transform: translateX(20px);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
         }
       `}</style>
     </section>

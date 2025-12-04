@@ -193,6 +193,10 @@ const HowItWorks: React.FC = () => {
               background: transparent;
           }
 
+          .step-content {
+              min-height: 190px;
+          }
+
           .glitch-animate {
               animation: contentGlitchIn 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
           }
@@ -234,7 +238,7 @@ const HowItWorks: React.FC = () => {
           }
 
           .tech-h3 {
-              font-size: 2.5rem; margin: 0; font-weight: 800;
+              font-size: clamp(1.6rem, 4vw, 2.5rem); margin: 0; font-weight: 800;
               text-transform: uppercase; color: var(--theme-dark);
               background: linear-gradient(90deg, var(--theme-dark) 50%, var(--theme-red) 50%);
               background-clip: text; -webkit-background-clip: text;
@@ -246,7 +250,7 @@ const HowItWorks: React.FC = () => {
          .holo-card:hover .tech-h3 { background-position: 10% 50%; }
 
           .tech-p {
-              font-size: 1.2rem; line-height: 1.7; color: #444;
+              font-size: clamp(0.95rem, 2.8vw, 1.2rem); line-height: 1.7; color: #444;
               margin-top: 25px;
               padding-left: 25px;
               border-left: 4px solid var(--theme-red);
@@ -302,6 +306,15 @@ const HowItWorks: React.FC = () => {
 
           .btn-cyberglow:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
 
+          .nav-controls {
+            display: flex;
+            gap: 25px;
+            margin-top: 60px;
+            z-index: 10;
+            justify-content: center;
+            align-items: center;
+          }
+
           @media (max-width: 900px) {
             .holo-card { 
               flex-direction: column; 
@@ -321,10 +334,34 @@ const HowItWorks: React.FC = () => {
               margin-left: 0;
               flex: none;
               clip-path: none;
-              padding: 40px 30px;
+              padding: 30px 20px 32px 20px;
               background: transparent;
             }
             .tech-h2 { font-size: 3rem; margin-bottom: 80px;}
+            .tech-h3 { font-size: 1.8rem; }
+            .tech-p {
+              font-size: 1rem;
+              margin-top: 20px;
+              padding-left: 18px;
+            }
+            .nav-controls {
+              margin-top: 40px;
+            }
+          }
+
+          @media (max-width: 600px) {
+            .nav-controls {
+              width: 100%;
+              justify-content: space-between;
+              gap: 12px;
+            }
+            .nav-controls .btn-cyberglow {
+              flex: 1;
+              max-width: none;
+              padding: 12px 10px;
+              font-size: 0.9rem;
+              text-align: center;
+            }
           }
         `}
       </style>
@@ -361,7 +398,7 @@ const HowItWorks: React.FC = () => {
             </div>
 
             {/* Title & Description with Glitch Transition Effect */}
-            <div className={isGlitching ? 'glitch-animate' : ''}>
+            <div className={`step-content ${isGlitching ? 'glitch-animate' : ''}`}>
                 <h3 className="tech-h3">
                 {currentStepData.title}
                 </h3>
@@ -382,7 +419,7 @@ const HowItWorks: React.FC = () => {
       </div>
 
       {/* Navigation Controls */}
-      <div style={{ display: 'flex', gap: 25, marginTop: 60, zIndex: 10 }}>
+      <div className="nav-controls">
         <button
           onClick={goPrev}
           disabled={activeStep === 0}

@@ -5,6 +5,13 @@ const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const scrollToSection = (href: string) => {
+    const target = document.querySelector(href);
+    if (target instanceof HTMLElement) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -17,9 +24,7 @@ const Navbar: React.FC = () => {
     { label: 'How It Works', href: '#how-it-works' },
     { label: 'Plans', href: '#plans' },
     { label: 'Hygiene', href: '#hygiene' },
-    { label: 'Testimonials', href: '#testimonials' },
-    { label: 'Become a Provider', href: '#become-a-provider' },
-    { label: 'Community', href: '#community' },
+    { label: 'Become a Provider', href: '#provider' },
   ];
 
   return (
@@ -229,42 +234,51 @@ const Navbar: React.FC = () => {
             justifyContent: 'flex-end',
           }}
         >
-          {navItems.map((item, index) => (
+          {navItems.map((item) => (
             <a
               key={item.label}
               href={item.href}
               className="nav-link-tech"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection(item.href);
+              }}
             >
               {item.label}
             </a>
           ))}
-          
           {/* Action Button */}
-          <a href="#order" style={{
-            marginLeft: '1rem',
-            padding: '0.6rem 1.5rem',
-            background: '#fff',
-            color: '#dc2626',
-            fontWeight: 800,
-            fontFamily: 'Rajdhani',
-            textTransform: 'uppercase',
-            textDecoration: 'none',
-            clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)',
-            transition: 'all 0.3s ease',
-            letterSpacing: '1px'
-          }}
-          onMouseEnter={(e) => {
-             e.currentTarget.style.background = '#000';
-             e.currentTarget.style.color = '#fff';
-             e.currentTarget.style.boxShadow = '0 0 15px rgba(255,255,255,0.5)';
-          }}
-          onMouseLeave={(e) => {
-             e.currentTarget.style.background = '#fff';
-             e.currentTarget.style.color = '#dc2626';
-             e.currentTarget.style.boxShadow = 'none';
-          }}
+          <a
+            href="#order"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection('#order');
+            }}
+            style={{
+              marginLeft: '1rem',
+              padding: '0.6rem 1.5rem',
+              background: '#fff',
+              color: '#dc2626',
+              fontWeight: 800,
+              fontFamily: 'Rajdhani',
+              textTransform: 'uppercase',
+              textDecoration: 'none',
+              clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)',
+              transition: 'all 0.3s ease',
+              letterSpacing: '1px'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#000';
+              e.currentTarget.style.color = '#fff';
+              e.currentTarget.style.boxShadow = '0 0 15px rgba(255,255,255,0.5)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#fff';
+              e.currentTarget.style.color = '#dc2626';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
           >
-            ORDER_NOW
+            MY_TIFFIN
           </a>
         </div>
 
@@ -297,19 +311,28 @@ const Navbar: React.FC = () => {
                 transition: 'all 0.2s',
                 textAlign: 'center',
               }}
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection(item.href);
+                setMenuOpen(false);
+              }}
               onMouseEnter={(e) => {
-                 e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+                e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
               }}
               onMouseLeave={(e) => {
-                 e.currentTarget.style.background = 'rgba(0,0,0,0.2)';
+                e.currentTarget.style.background = 'rgba(0,0,0,0.2)';
               }}
             >
               {item.label}
             </a>
           ))}
-
           <a
             href="#order"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection('#order');
+              setMenuOpen(false);
+            }}
             style={{
               marginTop: '0.5rem',
               padding: '0.9rem 1.2rem',
@@ -335,7 +358,7 @@ const Navbar: React.FC = () => {
               e.currentTarget.style.boxShadow = 'none';
             }}
           >
-            ORDER_NOW
+            MY_TIFFIN
           </a>
         </div>
       </div>

@@ -6,7 +6,8 @@ import { usePathname } from 'next/navigation';
 export default function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAuthPage = pathname.startsWith('/auth');
-  const isMyTiffinPage = pathname.startsWith('/mytiffin');
+  const isMyTiffinPage =
+    pathname.startsWith('/mytiffin') || pathname.startsWith('/user/mytiffin');
 
   return (
     <div className="min-h-full">

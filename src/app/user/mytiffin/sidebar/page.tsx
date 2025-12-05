@@ -1,7 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const MyTiffinSidebarPage: React.FC = () => {
+  const pathname = usePathname();
   const links = [
     { href: '/user/mytiffin/hygene', label: 'Hygene' },
     { href: '/user/mytiffin/orders', label: 'Orders' },
@@ -61,40 +63,51 @@ const MyTiffinSidebarPage: React.FC = () => {
             gap: 10,
           }}
         >
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '10px 14px',
-                borderRadius: 999,
-                textDecoration: 'none',
-                background: 'rgba(253, 225, 175, 0.08)',
-                border: '1px solid rgba(253, 225, 175, 0.45)',
-                color: '#fde1af',
-                fontSize: 13,
-                fontWeight: 700,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                boxShadow:
-                  '0 10px 18px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.06)',
-              }}
-            >
-              <span>{link.label}</span>
-              <span
+          {links.map((link) => {
+            const isActive = pathname === link.href;
+
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
                 style={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: '50%',
-                  background: '#fde1af',
-                  boxShadow: '0 0 10px rgba(253, 225, 175, 0.9)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '10px 14px',
+                  borderRadius: 999,
+                  textDecoration: 'none',
+                  background: isActive
+                    ? '#fde1af'
+                    : 'rgba(253, 225, 175, 0.08)',
+                  border: isActive
+                    ? '1px solid rgba(253, 225, 175, 0.95)'
+                    : '1px solid rgba(253, 225, 175, 0.45)',
+                  color: isActive ? '#673200' : '#fde1af',
+                  fontSize: 13,
+                  fontWeight: 800,
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  boxShadow: isActive
+                    ? '0 12px 20px rgba(0, 0, 0, 0.6)'
+                    : '0 10px 18px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.06)',
                 }}
-              />
-            </Link>
-          ))}
+              >
+                <span>{link.label}</span>
+                <span
+                  style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: '50%',
+                    background: isActive ? '#673200' : '#fde1af',
+                    boxShadow: isActive
+                      ? '0 0 10px rgba(103, 50, 0, 0.9)'
+                      : '0 0 10px rgba(253, 225, 175, 0.9)',
+                  }}
+                />
+              </Link>
+            );
+          })}
         </nav>
       </aside>
 

@@ -1,13 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   CheckCircle2,
   Clock4,
   PhoneCall,
   MessageCircle,
   MapPin,
-  CreditCard,
   ShieldCheck,
   RefreshCw,
   Star,
@@ -15,16 +14,26 @@ import {
   Flame,
   Activity,
   CalendarCheck,
-  ArrowRight,
+  ChevronRight,
+  Package,
+  Zap,
 } from "lucide-react";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 
+// --- Retro-Future Sand & Cocoa Palette ---
 const palette = {
-  sand: "#fde1af",
-  cocoa: "#673200",
-  cream: "#fff7eb",
-  accent: "rgba(103, 50, 0, 0.15)",
+  bg: "#fde1af", // User requested Background
+  surface: "rgba(255, 255, 255, 0.3)", // Glassy effect on top of sand
+  primary: "#673200", // User requested Text/Primary
+  primaryDark: "#4a2400",
+  text: "#673200",
+  textLight: "#fde1af", // Inverted for buttons
+  accent: "rgba(103, 50, 0, 0.1)", // Brown glow
+  border: "rgba(103, 50, 0, 0.25)", // Tech border
+  success: "#4a2400", // Dark brown for success to match theme
 };
 
+// --- Data ---
 const statusOptions = [
   "Preparing Your Meal",
   "Out for Delivery",
@@ -42,19 +51,18 @@ const timeline = [
 const orderItems = ["2 Rotis", "Dal", "Rice", "Sabzi", "Salad", "Pickle"];
 
 const supportIssues = [
-  "Food Quality Issue",
+  "Food Quality",
   "Missing Item",
   "Late Delivery",
-  "Wrong Delivery",
-  "Refund Request",
-  "Other Issue",
+  "Wrong Order",
+  "Refund",
 ];
 
 const nutritionStats = [
-  { label: "Calories", value: "520 kcal" },
-  { label: "Protein", value: "24 g" },
-  { label: "Carbs", value: "62 g" },
-  { label: "Fats", value: "18 g" },
+  { label: "Calories", value: "520", unit: "kcal" },
+  { label: "Protein", value: "24", unit: "g" },
+  { label: "Carbs", value: "62", unit: "g" },
+  { label: "Fats", value: "18", unit: "g" },
 ];
 
 const orderHistory = [
@@ -81,338 +89,496 @@ const orderHistory = [
   },
 ];
 
+// --- Animations ---
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { y: 20, opacity: 0, scale: 0.95 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    scale: 1,
+    transition: { type: "spring", stiffness: 100, damping: 15 },
+  },
+};
+
+const pulseGlow: Variants = {
+  animate: {
+    boxShadow: [
+      `0 0 0 0 rgba(103, 50, 0, 0)`,
+      `0 0 0 6px rgba(103, 50, 0, 0.2)`,
+      `0 0 0 0 rgba(103, 50, 0, 0)`,
+    ],
+    transition: { duration: 2, repeat: Infinity },
+  },
+};
+
 const OrderPage: React.FC = () => {
-  const currentStatus = statusOptions[2];
+  const currentStatus = statusOptions[2]; // Simulating "Delivered" state for visual
   const delivered = currentStatus === "Delivered";
 
   return (
-    <section
+    <div
       style={{
         minHeight: "100vh",
-        background: palette.sand,
+        background: palette.bg,
+        // Subtle grid pattern in brown over the sand background
+        backgroundImage: `
+          radial-gradient(circle at 10% 20%, ${palette.accent} 0%, transparent 20%),
+          radial-gradient(circle at 90% 80%, ${palette.accent} 0%, transparent 20%),
+          linear-gradient(${palette.border} 1px, transparent 1px),
+          linear-gradient(90deg, ${palette.border} 1px, transparent 1px)
+        `,
+        backgroundSize: "100% 100%, 100% 100%, 40px 40px, 40px 40px",
         padding: "48px 16px 72px",
         fontFamily: "'Rajdhani', 'Segoe UI', sans-serif",
-        color: palette.cocoa,
+        color: palette.text,
+        overflowX: "hidden",
       }}
     >
-      <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", flexDirection: "column", gap: 24 }}>
-        <header>
-          <p style={{ letterSpacing: 4, textTransform: "uppercase", fontWeight: 700, fontSize: 12 }}>Order Center</p>
-          <h1 style={{ fontSize: "clamp(2.25rem, 4vw, 3.2rem)", margin: "8px 0", fontWeight: 800 }}>Your Order Details</h1>
-          <p style={{ opacity: 0.8 }}>Track status, contact your rider, review your meal, and reorder with one tap.</p>
-        </header>
-
-        <section
-          style={{
-            background: "rgba(255,255,255,0.95)",
-            borderRadius: 26,
-            padding: 28,
-            border: `1px solid ${palette.accent}`,
-            display: "grid",
-            gap: 24,
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-          }}
-        >
-          <div>
-            <h3 style={{ marginTop: 0 }}>Current Status</h3>
-            <div
-              style={{
-                borderRadius: 18,
-                padding: 16,
-                background: palette.cream,
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                fontWeight: 700,
-              }}
-            >
-              <Clock4 /> {currentStatus}
-            </div>
-            <ul style={{ listStyle: "none", padding: 0, marginTop: 18, display: "flex", flexDirection: "column", gap: 14 }}>
-              {timeline.map((step, index) => (
-                <li key={step.label} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                  <span
-                    style={{
-                      width: 34,
-                      height: 34,
-                      borderRadius: "50%",
-                      background: step.done ? palette.cocoa : palette.accent,
-                      color: step.done ? palette.sand : palette.cocoa,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontWeight: 700,
-                    }}
-                  >
-                    {step.done ? "✔" : index + 1}
-                  </span>
-                  <div>
-                    <strong>{step.label}</strong>
-                    <p style={{ margin: 0, fontSize: 14, opacity: 0.75 }}>{step.label === "Arriving by" && !delivered ? `Arriving by ${step.time}` : step.time}</p>
-                  </div>
-                </li>
-              ))}
-              {delivered && (
-                <li style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                  <span
-                    style={{
-                      width: 34,
-                      height: 34,
-                      borderRadius: "50%",
-                      background: palette.cocoa,
-                      color: palette.sand,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontWeight: 700,
-                    }}
-                  >
-                    ✔
-                  </span>
-                  <div>
-                    <strong>Delivered at 1:12 PM</strong>
-                  </div>
-                </li>
-              )}
-            </ul>
-          </div>
-
+      <motion.div
+        style={{
+          maxWidth: 1100,
+          margin: "0 auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: 32,
+        }}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {/* Header */}
+        <motion.header variants={itemVariants} style={{ textAlign: "center" }}>
           <div
             style={{
-              borderRadius: 24,
-              background: palette.cream,
-              padding: 20,
-              border: `1px solid ${palette.accent}`,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "6px 16px",
+              borderRadius: 50,
+              background: palette.primary,
+              color: palette.textLight,
+              fontSize: 12,
+              fontWeight: 700,
+              letterSpacing: 2,
+              textTransform: "uppercase",
+              marginBottom: 16,
+              boxShadow: "0 4px 15px rgba(103, 50, 0, 0.2)",
             }}
           >
-            <h3 style={{ marginTop: 0 }}>Delivery Partner</h3>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
-              <ShieldCheck size={24} /> Rahul S.
-            </div>
-            <p style={{ margin: 0 }}>Vehicle: MH 31 AB 0921</p>
-            <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
-              <button style={buttonGhost}><PhoneCall size={16} /> Call Rider</button>
-              <button style={buttonGhost}><MessageCircle size={16} /> Message Rider</button>
-            </div>
+            <Zap size={12} fill="currentColor" /> Live Tracking
           </div>
-        </section>
+          <h1
+            style={{
+              fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
+              margin: 0,
+              fontWeight: 800,
+              letterSpacing: -1,
+              color: palette.primary,
+            }}
+          >
+            ORDER #DB-8921
+          </h1>
+          <p style={{ opacity: 0.7, fontSize: 18, marginTop: 8, fontWeight: 600 }}>
+            Estimated Arrival: <strong>1:15 PM</strong>
+          </p>
+        </motion.header>
 
-        <section
+        {/* Hero Section: Status & Map */}
+        <div
           style={{
             display: "grid",
             gap: 24,
-            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
           }}
         >
-          <div style={cardStyle}>
-            <h3 style={{ marginTop: 0 }}>Order Summary</h3>
-            <p><strong>Tiffin Provider:</strong> Home Kitchen by Asha</p>
-            <p><strong>Meal Type:</strong> Lunch (Regular Veg Thali)</p>
-            <p><strong>Items Included:</strong></p>
-            <ul style={{ margin: 0, paddingLeft: 18, lineHeight: 1.6 }}>
-              {orderItems.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div style={cardStyle}>
-            <h3 style={{ marginTop: 0 }}>Delivery Details</h3>
-            <p><MapPin size={16} style={{ marginRight: 6 }} /> <strong>Address:</strong> Flat 204, Balaji Residency, Nagpur</p>
-            <p><Clock4 size={16} style={{ marginRight: 6 }} /> <strong>Delivery Window:</strong> 1:00 PM – 1:30 PM</p>
-            <p><strong>Special Instructions:</strong> “Call on arrival.”</p>
-          </div>
-
-          <div style={cardStyle}>
-            <h3 style={{ marginTop: 0 }}>Payment Details</h3>
-            <div style={{ display: "grid", gap: 8 }}>
-              <PaymentRow label="Meal Price" value="₹90" />
-              <PaymentRow label="Delivery Charge" value="Free" />
-              <PaymentRow label="Taxes" value="₹5" />
-              <PaymentRow label="Total Paid" value="₹95" bold />
-              <PaymentRow label="Payment Mode" value="UPI (Razorpay)" />
-              <PaymentRow label="Transaction ID" value="RPX892312ND" />
-            </div>
-          </div>
-        </section>
-
-        <section style={cardStyle}>
-          <h3 style={{ marginTop: 0 }}>Need Support?</h3>
-          <p>If something went wrong, we’re here to help.</p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 12 }}>
-            {supportIssues.map((issue) => (
-              <button key={issue} style={chipStyle}>{issue}</button>
-            ))}
-          </div>
-          <button style={{ ...primaryButton, marginTop: 18 }}>Get Help</button>
-        </section>
-
-        <section
-          style={{
-            display: "grid",
-            gap: 24,
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          }}
-        >
-          <div style={cardStyle}>
-            <h3 style={{ marginTop: 0 }}>Provider Contact</h3>
-            <p>Need to contact the provider? Message or call directly for specific concerns.</p>
-            <div style={{ display: "flex", gap: 12 }}>
-              <button style={buttonGhost}><PhoneCall size={16} /> Call Provider</button>
-              <button style={buttonGhost}><MessageCircle size={16} /> Message Provider</button>
-            </div>
-          </div>
-
-          {delivered && (
-            <div style={cardStyle}>
-              <h3 style={{ marginTop: 0 }}>Rate Your Meal</h3>
-              <div style={{ display: "flex", gap: 8, fontSize: 22 }}>
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star key={star} fill={palette.cocoa} color={palette.cocoa} />
-                ))}
-              </div>
-              <textarea placeholder="How was your meal today?" rows={3} style={{ ...inputStyle, marginTop: 12, resize: "vertical" }} />
-              <button style={{ ...primaryButton, marginTop: 12 }}>Submit Rating</button>
-            </div>
-          )}
-        </section>
-
-        <section
-          style={{
-            background: "rgba(255,255,255,0.95)",
-            borderRadius: 24,
-            padding: 24,
-            border: `1px solid ${palette.accent}`,
-            display: "grid",
-            gap: 20,
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-          }}
-        >
-          <div style={{ borderRadius: 20, padding: 16, background: palette.cream }}>
-            <h4>Delivery Map Tracking</h4>
-            <p style={{ fontSize: 14, opacity: 0.8 }}>Live location with ETA</p>
-            <div style={{ height: 140, background: "rgba(0,0,0,0.05)", borderRadius: 16, position: "relative" }}>
-              <Navigation style={{ position: "absolute", top: "50%", left: "45%" }} />
-            </div>
-          </div>
-          <div style={{ borderRadius: 20, padding: 16, background: palette.cream }}>
-            <h4>Nutrition Info</h4>
-            <div style={{ display: "grid", gap: 6 }}>
-              {nutritionStats.map((stat) => (
-                <p key={stat.label} style={{ margin: 0 }}>
-                  <strong>{stat.label}:</strong> {stat.value}
-                </p>
-              ))}
-            </div>
-          </div>
-          <div style={{ borderRadius: 20, padding: 16, background: palette.cream }}>
-            <h4>Your Daily Streak</h4>
-            <p>You’ve ordered 3 meals this week from this provider!</p>
-            <div style={{ display: "flex", gap: 8 }}>
-              <Activity /> <CalendarCheck /> <Flame />
-            </div>
-          </div>
-          <div style={{ borderRadius: 20, padding: 16, background: palette.cream }}>
-            <h4>Save More</h4>
-            <p>Save more with Weekly/Monthly Plans →</p>
-            <button style={buttonGhost}><RefreshCw size={16} /> Explore Plans</button>
-          </div>
-        </section>
-
-        <section style={cardStyle}>
-          <h3 style={{ marginTop: 0 }}>Order History</h3>
-          <p style={{ opacity: 0.8 }}>Quick snapshot of your recent meals.</p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 16 }}>
-            {orderHistory.map((order) => (
-              <div
-                key={order.date + order.provider}
+          {/* Status HUD */}
+          <motion.section variants={itemVariants} style={glassCard}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 24,
+              }}
+            >
+              <h3 style={{ margin: 0, fontSize: 22, fontWeight: 700 }}>
+                Status Protocol
+              </h3>
+              <motion.div
+                variants={pulseGlow}
+                animate="animate"
                 style={{
-                  borderRadius: 18,
-                  border: `1px solid ${palette.accent}`,
-                  padding: 16,
-                  background: palette.cream,
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: 12,
-                  justifyContent: "space-between",
+                  width: 12,
+                  height: 12,
+                  borderRadius: "50%",
+                  background: palette.primary,
+                }}
+              />
+            </div>
+
+            <div
+              style={{
+                background: "rgba(103, 50, 0, 0.05)",
+                border: `1px solid ${palette.border}`,
+                borderRadius: "16px 4px 16px 4px", // Futuristic Shape
+                padding: 20,
+                display: "flex",
+                alignItems: "center",
+                gap: 16,
+                marginBottom: 24,
+              }}
+            >
+              <div
+                style={{
+                  background: palette.primary,
+                  color: palette.textLight,
+                  padding: 10,
+                  borderRadius: 12,
                 }}
               >
-                <div>
-                  <p style={{ margin: 0, fontWeight: 700 }}>{order.provider}</p>
-                  <p style={{ margin: 0 }}>{order.meal}</p>
-                </div>
-                <div style={{ textAlign: "right" }}>
-                  <p style={{ margin: 0 }}>{order.date}</p>
-                  <p style={{ margin: 0 }}><strong>{order.status}</strong> • {order.amount}</p>
+                <Clock4 size={24} />
+              </div>
+              <div>
+                <span
+                  style={{ fontSize: 12, textTransform: "uppercase", opacity: 0.6, fontWeight: 700, letterSpacing: 1 }}
+                >
+                  Current Phase
+                </span>
+                <div style={{ fontSize: 20, fontWeight: 800 }}>
+                  {currentStatus}
                 </div>
               </div>
+            </div>
+
+            <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 0 }}>
+              {timeline.map((step, index) => (
+                <li key={step.label} style={{ display: "flex", gap: 16, position: "relative", paddingBottom: index === timeline.length - 1 ? 0 : 24 }}>
+                  {/* Timeline Line */}
+                  {index !== timeline.length - 1 && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        left: 11,
+                        top: 24,
+                        bottom: 0,
+                        width: 2,
+                        background: step.done ? palette.primary : "rgba(103, 50, 0, 0.1)",
+                      }}
+                    />
+                  )}
+                  
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.3 + index * 0.1 }}
+                    style={{
+                      width: 24,
+                      height: 24,
+                      borderRadius: "50%",
+                      background: step.done ? palette.primary : palette.bg,
+                      border: `2px solid ${step.done ? palette.primary : palette.border}`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      zIndex: 1,
+                      color: palette.textLight,
+                      fontSize: 10,
+                    }}
+                  >
+                    {step.done && <CheckCircle2 size={14} />}
+                  </motion.div>
+                  
+                  <div style={{ opacity: step.done ? 1 : 0.5 }}>
+                    <strong style={{ display: "block", fontSize: 16 }}>{step.label}</strong>
+                    <span style={{ fontSize: 13, fontFamily: "monospace", opacity: 0.8 }}>{step.time}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </motion.section>
+
+          {/* Map & Rider HUD */}
+          <motion.div variants={itemVariants} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {/* Map */}
+            <div
+              style={{
+                ...glassCard,
+                padding: 0,
+                height: 240,
+                position: "relative",
+                overflow: "hidden",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "#fdf6e9", // Slightly lighter than main bg for map area
+              }}
+            >
+              <div style={{ position: "absolute", inset: 0, opacity: 0.3, backgroundImage: `linear-gradient(${palette.border} 1px, transparent 1px), linear-gradient(90deg, ${palette.border} 1px, transparent 1px)`, backgroundSize: "20px 20px" }}></div>
+              
+              {/* Radar Scan Effect */}
+              <motion.div 
+                 animate={{ rotate: 360 }}
+                 transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                 style={{
+                   width: 300, height: 300,
+                   background: `conic-gradient(from 0deg, transparent 0deg, ${palette.accent} 360deg)`,
+                   borderRadius: "50%",
+                   position: "absolute",
+                   opacity: 0.6
+                 }}
+              />
+              
+              <div style={{ zIndex: 2, background: palette.primary, color: palette.textLight, padding: 12, borderRadius: "50%", boxShadow: "0 0 20px rgba(103, 50, 0, 0.4)" }}>
+                <Navigation size={32} fill="currentColor" />
+              </div>
+              
+              <div style={{ position: "absolute", bottom: 16, left: 16, right: 16, background: "rgba(255,255,255,0.6)", backdropFilter: "blur(10px)", padding: "12px", borderRadius: 12, display: "flex", justifyContent: "space-between", alignItems: "center", border: `1px solid ${palette.border}` }}>
+                 <span style={{ fontSize: 12, fontWeight: 700 }}>LIVE GPS</span>
+                 <span style={{ fontSize: 12, color: palette.primary, fontWeight: 700 }}>Update: Just now</span>
+              </div>
+            </div>
+
+            {/* Rider Card */}
+            <div style={{ ...glassCard, display: "flex", flexDirection: "column", gap: 16 }}>
+               <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                  <div style={{ width: 50, height: 50, borderRadius: 14, background: palette.primary, display: "flex", alignItems: "center", justifyContent: "center", color: palette.textLight }}>
+                    <ShieldCheck />
+                  </div>
+                  <div>
+                    <h4 style={{ margin: 0, fontSize: 18 }}>Rahul S.</h4>
+                    <p style={{ margin: 0, fontSize: 13, opacity: 0.6 }}>Vehicle: MH 31 AB 0921</p>
+                  </div>
+               </div>
+               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                 <FuturisticButton icon={<PhoneCall size={16}/>} label="Call" outline />
+                 <FuturisticButton icon={<MessageCircle size={16}/>} label="Message" outline />
+               </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Stats Grid */}
+        <motion.section 
+          variants={containerVariants}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+            gap: 16
+          }}
+        >
+          {nutritionStats.map((stat, i) => (
+             <motion.div 
+               key={stat.label}
+               variants={itemVariants}
+               whileHover={{ y: -5, boxShadow: "0 10px 30px rgba(103, 50, 0, 0.15)" }}
+               style={{
+                 ...glassCard,
+                 padding: 20,
+                 textAlign: "center",
+                 display: "flex",
+                 flexDirection: "column",
+                 alignItems: "center",
+                 justifyContent: "center"
+               }}
+             >
+                <span style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: 1, opacity: 0.6 }}>{stat.label}</span>
+                <div style={{ fontSize: 32, fontWeight: 800, color: palette.primary, lineHeight: 1 }}>{stat.value}</div>
+                <span style={{ fontSize: 12, fontWeight: 600 }}>{stat.unit}</span>
+             </motion.div>
+          ))}
+        </motion.section>
+
+        {/* Order Details & Summary */}
+        <motion.section variants={containerVariants} style={{ display: "grid", gap: 24, gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))" }}>
+          
+          <motion.div variants={itemVariants} style={glassCard}>
+            <SectionHeader title="Order Manifest" icon={<Package size={18} />} />
+            <div style={{ marginTop: 16, background: "rgba(103, 50, 0, 0.03)", borderRadius: 16, padding: 16 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
+                 <strong>Home Kitchen by Asha</strong>
+                 <span style={{ color: palette.primary, fontWeight: 700 }}>Lunch</span>
+              </div>
+              <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                 {orderItems.map(item => (
+                   <li key={item} style={{ fontSize: 14, display: "flex", alignItems: "center", gap: 6 }}>
+                     <div style={{ width: 4, height: 4, background: palette.primary, borderRadius: "50%" }} /> {item}
+                   </li>
+                 ))}
+              </ul>
+            </div>
+          </motion.div>
+
+          <motion.div variants={itemVariants} style={glassCard}>
+            <SectionHeader title="Payment Data" icon={<CheckCircle2 size={18} />} />
+            <div style={{ display: "grid", gap: 12, marginTop: 16 }}>
+               <PaymentRow label="Meal Price" value="₹90" />
+               <PaymentRow label="Delivery" value="Free" highlight />
+               <PaymentRow label="Taxes" value="₹5" />
+               <div style={{ height: 1, background: palette.border, margin: "4px 0" }} />
+               <div style={{ display: "flex", justifyContent: "space-between", fontSize: 18, fontWeight: 800 }}>
+                 <span>Total Paid</span>
+                 <span style={{ color: palette.primary }}>₹95</span>
+               </div>
+            </div>
+          </motion.div>
+
+        </motion.section>
+
+        {/* Support Section */}
+        <motion.section variants={itemVariants} style={glassCard}>
+          <SectionHeader title="System Support" icon={<Activity size={18} />} />
+          <p style={{ opacity: 0.7, margin: "8px 0 16px" }}>Detected an anomaly with your order? Initiate a protocol.</p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+            {supportIssues.map(issue => (
+              <motion.button 
+                key={issue}
+                whileHover={{ scale: 1.05, backgroundColor: palette.primary, color: palette.textLight, borderColor: palette.primary }}
+                whileTap={{ scale: 0.95 }}
+                style={{
+                  background: "transparent",
+                  border: `1px solid ${palette.border}`,
+                  padding: "8px 16px",
+                  borderRadius: 20,
+                  fontSize: 14,
+                  fontWeight: 600,
+                  color: palette.text,
+                  cursor: "pointer",
+                  transition: "0.2s"
+                }}
+              >
+                {issue}
+              </motion.button>
             ))}
           </div>
-        </section>
+        </motion.section>
 
-        <section style={{ textAlign: "center", padding: 28, background: palette.cocoa, color: palette.sand, borderRadius: 26 }}>
-          <h2>Loved it? Order Again →</h2>
-          <p>Reorder your favorite thali in less than 10 seconds.</p>
-          <button style={{ ...primaryButton, background: palette.sand, color: palette.cocoa }}>Order Again</button>
-        </section>
-      </div>
-    </section>
+        {/* History (Compact) */}
+        <motion.section variants={itemVariants} style={{ ...glassCard, background: palette.primary, color: palette.textLight }}>
+           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+             <h3 style={{ margin: 0, color: palette.textLight }}>Recent Logs</h3>
+             <button style={{ background: "rgba(255,255,255,0.1)", border: "none", color: palette.textLight, padding: "6px 12px", borderRadius: 8, fontSize: 12, cursor: "pointer" }}>View All</button>
+           </div>
+           <div style={{ display: "grid", gap: 12 }}>
+             {orderHistory.map((order, i) => (
+               <motion.div 
+                key={i}
+                whileHover={{ x: 5, backgroundColor: "rgba(255,255,255,0.1)" }}
+                style={{ 
+                  display: "flex", 
+                  justifyContent: "space-between", 
+                  padding: 12, 
+                  borderRadius: 12, 
+                  background: "rgba(0,0,0,0.2)",
+                  borderLeft: `3px solid ${order.status === 'Cancelled' ? '#ff6b6b' : palette.textLight}`
+                }}
+               >
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: 14 }}>{order.provider}</div>
+                    <div style={{ fontSize: 12, opacity: 0.6 }}>{order.meal}</div>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{ fontWeight: 700 }}>{order.amount}</div>
+                    <div style={{ fontSize: 10, opacity: 0.6 }}>{order.date}</div>
+                  </div>
+               </motion.div>
+             ))}
+           </div>
+        </motion.section>
+
+        {/* Sticky Action Bar */}
+        <motion.div 
+          variants={itemVariants}
+          style={{ 
+            position: "sticky", 
+            bottom: 24, 
+            background: "rgba(255, 255, 255, 0.5)", 
+            backdropFilter: "blur(20px)",
+            borderRadius: 24,
+            padding: 16,
+            border: `1px solid ${palette.border}`,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            boxShadow: "0 20px 40px rgba(103, 50, 0, 0.15)"
+          }}
+        >
+           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+              <div style={{ padding: 10, background: palette.accent, borderRadius: "50%", color: palette.primary }}>
+                 <Flame size={20} fill="currentColor" />
+              </div>
+              <div>
+                <div style={{ fontWeight: 800, fontSize: 14 }}>Love this meal?</div>
+                <div style={{ fontSize: 12, opacity: 0.6 }}>Reorder instantly</div>
+              </div>
+           </div>
+           <FuturisticButton label="Repeat Order" icon={<RefreshCw size={16} />} />
+        </motion.div>
+
+      </motion.div>
+    </div>
   );
 };
 
-const cardStyle: React.CSSProperties = {
-  background: "rgba(255,255,255,0.95)",
-  borderRadius: 24,
-  padding: 24,
-  border: `1px solid ${palette.accent}`,
-};
+// --- Components ---
 
-const buttonGhost: React.CSSProperties = {
-  padding: "10px 16px",
-  borderRadius: 16,
-  border: `1px solid ${palette.cocoa}`,
-  background: "transparent",
-  display: "flex",
-  alignItems: "center",
-  gap: 8,
-  fontWeight: 600,
-  cursor: "pointer",
-};
-
-const primaryButton: React.CSSProperties = {
-  padding: "12px 20px",
-  borderRadius: 18,
-  border: "none",
-  background: palette.cocoa,
-  color: palette.sand,
-  fontWeight: 700,
-  cursor: "pointer",
-};
-
-const chipStyle: React.CSSProperties = {
-  padding: "10px 16px",
-  borderRadius: 18,
-  border: `1px solid ${palette.cocoa}`,
-  background: "transparent",
-  cursor: "pointer",
-  fontWeight: 600,
-};
-
-const inputStyle: React.CSSProperties = {
-  width: "100%",
-  padding: "12px 14px",
-  borderRadius: 14,
-  border: `1px solid ${palette.accent}`,
-  fontFamily: "'Rajdhani', 'Segoe UI', sans-serif",
-  fontSize: 15,
-  background: "rgba(0,0,0,0.02)",
-};
-
-const PaymentRow = ({ label, value, bold }: { label: string; value: string; bold?: boolean }) => (
-  <div style={{ display: "flex", justifyContent: "space-between", fontWeight: bold ? 700 : 500 }}>
-    <span>{label}</span>
-    <span>{value}</span>
+const SectionHeader = ({ title, icon }: { title: string, icon: React.ReactNode }) => (
+  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 0, borderBottom: `1px solid ${palette.border}`, paddingBottom: 12 }}>
+    <span style={{ color: palette.primary }}>{icon}</span>
+    <h3 style={{ margin: 0, fontSize: 16, textTransform: "uppercase", letterSpacing: 1 }}>{title}</h3>
   </div>
 );
+
+const PaymentRow = ({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) => (
+  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15 }}>
+    <span style={{ opacity: 0.7 }}>{label}</span>
+    <span style={{ fontWeight: 600, color: highlight ? palette.primary : "inherit" }}>{value}</span>
+  </div>
+);
+
+const FuturisticButton = ({ label, icon, outline }: { label: string; icon?: React.ReactNode; outline?: boolean }) => (
+  <motion.button
+    whileHover={{ scale: 1.02, boxShadow: outline ? "none" : `0 0 20px ${palette.accent}` }}
+    whileTap={{ scale: 0.95 }}
+    style={{
+      flex: 1,
+      padding: "12px 20px",
+      borderRadius: "12px 4px 12px 4px", // Tech shape
+      border: outline ? `1px solid ${palette.border}` : "none",
+      background: outline ? "transparent" : palette.primary,
+      color: outline ? palette.text : palette.textLight,
+      fontWeight: 700,
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8,
+      fontSize: 14,
+      fontFamily: "'Rajdhani', sans-serif"
+    }}
+  >
+    {icon} {label}
+  </motion.button>
+);
+
+// --- CSS Objects ---
+
+const glassCard: React.CSSProperties = {
+  background: palette.surface,
+  backdropFilter: "blur(12px)",
+  borderRadius: "24px 6px 24px 6px", // Asymmetric tech corners
+  padding: 24,
+  border: `1px solid ${palette.border}`,
+  boxShadow: "0 8px 32px rgba(103, 50, 0, 0.05)",
+  position: "relative",
+  overflow: "hidden",
+};
 
 export default OrderPage;

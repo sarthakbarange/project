@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   ShieldCheck,
   ClipboardCheck,
@@ -14,42 +14,52 @@ import {
   Camera,
   History,
   Info,
+  ChevronDown,
 } from "lucide-react";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 
+// --- Configuration & Data ---
 const palette = {
   sand: "#fde1af",
   cocoa: "#673200",
   cream: "#fff7eb",
-  accent: "rgba(103, 50, 0, 0.12)",
+  glass: "rgba(255, 247, 235, 0.45)", // Semi-transparent for glassmorphism
+  glassBorder: "rgba(103, 50, 0, 0.15)",
+  accent: "#8a4b00",
 };
 
 const promises = [
   {
     title: "Verified Home Kitchens",
     desc: "All tiffin providers go through a strict verification process before joining our platform.",
+    icon: ShieldCheck,
   },
   {
     title: "Daily Cleanliness Checks",
     desc: "Providers must maintain kitchen cleanliness and upload daily hygiene reports.",
+    icon: Sparkles,
   },
   {
     title: "Safe Food Handling",
     desc: "Meals are cooked with gloves, hair caps, sanitized utensils, and clean workspaces.",
+    icon: Droplet,
   },
   {
     title: "Fresh Ingredients Only",
     desc: "We ensure all providers use fresh vegetables, filtered water, and quality grains and oils.",
+    icon: Star,
   },
   {
-    title: "Contactless Preparation & Packing",
+    title: "Contactless Preparation",
     desc: "Food is prepared with minimum contact and sealed properly to maintain safety.",
+    icon: Users,
   },
 ];
 
 const hygieneCheckpoints = [
   "Kitchen Cleanliness",
   "Food Storage Safety",
-  "Hand Hygiene & Protective Gear",
+  "Hand Hygiene & Gear",
   "Fresh Ingredient Usage",
   "Utensil Sanitation",
   "Packing Quality",
@@ -58,7 +68,7 @@ const hygieneCheckpoints = [
 const checklist = [
   "Government ID Verification",
   "Address Verification",
-  "Kitchen Photos (Work area, stove, storage, sink)",
+  "Kitchen Photos (Work area, stove, storage)",
   "Food Safety Checklist Submission",
   "Ingredient & Water Source Declaration",
 ];
@@ -75,7 +85,7 @@ const deliveryStandards = [
   "Sealed-food handling",
   "Regular sanitization",
   "No open-food transport",
-  "Contactless doorstep handover",
+  "Contactless handover",
 ];
 
 const transparencyTools = [
@@ -83,7 +93,7 @@ const transparencyTools = [
   "Verified hygiene score",
   "Last date of hygiene check",
   "Provider’s hygiene history",
-  "Customer reviews on cleanliness",
+  "Cleanliness reviews",
 ];
 
 const reportIssues = [
@@ -113,213 +123,506 @@ const faqs = [
   },
 ];
 
+// --- Animations (FIXED TYPES) ---
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { type: "spring", stiffness: 100, damping: 12 },
+  },
+};
+
 const HygienePage: React.FC = () => {
   return (
-    <section
+    <div
       style={{
         minHeight: "100vh",
         background: palette.sand,
-        padding: "48px 16px 72px",
+        backgroundImage: `radial-gradient(circle at 10% 20%, rgba(255,255,255,0.4) 0%, transparent 20%), radial-gradient(circle at 90% 80%, rgba(103, 50, 0, 0.05) 0%, transparent 20%)`,
+        padding: "48px 16px 96px",
         fontFamily: "'Rajdhani', 'Segoe UI', sans-serif",
         color: palette.cocoa,
+        overflowX: "hidden",
       }}
     >
-      <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexDirection: "column", gap: 32 }}>
-        <header>
-          <p style={{ letterSpacing: 4, textTransform: "uppercase", fontWeight: 700, fontSize: 12 }}>Hygiene & Safety</p>
-          <h1 style={{ fontSize: "clamp(2.6rem, 4vw, 3.6rem)", margin: "8px 0", fontWeight: 800 }}>Your Safety, Our Priority</h1>
-          <p style={{ opacity: 0.85, maxWidth: 700 }}>
-            We ensure every meal is prepared with the highest hygiene standards so you can enjoy fresh, clean, and healthy food—every single day.
-          </p>
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+        style={{
+          maxWidth: 1200,
+          margin: "0 auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: 48,
+        }}
+      >
+        {/* Header */}
+        <header style={{ textAlign: "center", marginBottom: 20 }}>
+          <motion.div variants={itemVariants}>
+            <p
+              style={{
+                letterSpacing: 8,
+                textTransform: "uppercase",
+                fontWeight: 700,
+                fontSize: 14,
+                opacity: 0.7,
+                marginBottom: 8,
+              }}
+            >
+              System // Hygiene & Safety
+            </p>
+          </motion.div>
+          <motion.h1
+            variants={itemVariants}
+            style={{
+              fontSize: "clamp(3rem, 6vw, 5rem)",
+              margin: "0",
+              fontWeight: 900,
+              lineHeight: 0.9,
+              letterSpacing: -1,
+              textTransform: "uppercase",
+            }}
+          >
+            Your Safety
+            <br />
+            <span style={{ color: "transparent", WebkitTextStroke: `2px ${palette.cocoa}` }}>
+              Our Protocol
+            </span>
+          </motion.h1>
+          <motion.p
+            variants={itemVariants}
+            style={{
+              opacity: 0.85,
+              maxWidth: 600,
+              margin: "24px auto 0",
+              fontSize: "1.1rem",
+              lineHeight: 1.6,
+            }}
+          >
+            Executing high-standard verification algorithms. Ensuring every meal is prepared
+            clean, fresh, and healthy.
+          </motion.p>
         </header>
 
-        <section style={cardSection}>
-          <h2>Hygiene Promise</h2>
+        {/* Promises Grid */}
+        <Section title="Core Protocols">
           <div style={gridFive}>
-            {promises.map((promise) => (
-              <article key={promise.title} style={promiseCard}>
-                <ShieldCheck size={26} />
-                <div>
-                  <h3>{promise.title}</h3>
-                  <p>{promise.desc}</p>
+            {promises.map((p, i) => (
+              <GlassCard key={p.title} index={i}>
+                <div
+                  style={{
+                    background: palette.cocoa,
+                    color: palette.sand,
+                    width: 48,
+                    height: 48,
+                    borderRadius: "12px 0 12px 0", // Tech shape
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: 16,
+                  }}
+                >
+                  <p.icon size={24} />
                 </div>
-              </article>
+                <h3 style={{ fontSize: "1.2rem", fontWeight: 800, marginBottom: 8 }}>
+                  {p.title}
+                </h3>
+                <p style={{ fontSize: "0.95rem", opacity: 0.8, lineHeight: 1.4 }}>{p.desc}</p>
+              </GlassCard>
             ))}
           </div>
-        </section>
+        </Section>
 
-        <section style={cardSection}>
-          <h2>Hygiene Score System</h2>
-          <p>Every provider on TiffinConnect receives a Hygiene Score based on 6 core checkpoints:</p>
-          <div style={gridTwo}>
-            <ul style={listStyle}>
-              {hygieneCheckpoints.map((item) => (
-                <li key={item}><Star size={16} /> {item}</li>
+        {/* Score System - Split Layout */}
+        <div style={gridTwo}>
+          <Section title="Hygiene Metrics" delay={0.2}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {hygieneCheckpoints.map((item, i) => (
+                <motion.div
+                  key={item}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    padding: "12px 16px",
+                    background: palette.glass,
+                    border: `1px solid ${palette.glassBorder}`,
+                    borderLeft: `4px solid ${palette.cocoa}`,
+                  }}
+                >
+                  <Star size={16} fill={palette.cocoa} />
+                  <span style={{ fontWeight: 600, letterSpacing: 1 }}>{item.toUpperCase()}</span>
+                </motion.div>
               ))}
-            </ul>
-            <div style={{ background: palette.cream, borderRadius: 20, padding: 20 }}>
-              <p><strong>Score Levels:</strong></p>
-              <p>5 ★ Excellent – Verified & Regular Audits</p>
-              <p>4 ★ Very Good – All checks passed</p>
-              <p>3 ★ Good – Meets basic requirements</p>
-              <p style={{ marginTop: 12 }}>Providers with lower ratings are removed until they improve safety.</p>
             </div>
-          </div>
-        </section>
+          </Section>
 
-        <section style={cardSection}>
-          <h2>Kitchen Verification Checklist</h2>
-          <p>To join the platform, a provider must complete:</p>
-          <ul style={listStyle}>
-            {checklist.map((item) => (
-              <li key={item}><ClipboardCheck size={16} /> {item}</li>
-            ))}
-          </ul>
-          <p>Only approved providers are made visible to users.</p>
-        </section>
-
-        <section style={cardSection}>
-          <h2>On-Ground Hygiene Monitoring</h2>
-          <div style={gridTwo}>
-            <div>
-              <h3>Weekly Monitoring</h3>
-              <p>Quality officers check:</p>
-              <ul style={listStyle}>
-                {monitoring.map((item) => (
-                  <li key={item}><Eye size={16} /> {item}</li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3>Monthly Deep Review</h3>
-              <p>Detailed reassessment of all hygiene parameters.</p>
-              <div style={{ display: "flex", gap: 12 }}>
-                <Camera /> <History /> <Info />
+          <Section title="Score Calibration" delay={0.4}>
+            <div
+              style={{
+                background: palette.cocoa,
+                color: palette.sand,
+                padding: 32,
+                height: "100%",
+                clipPath: "polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%)", // Futuristic cut corner
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
+              <div style={{ fontSize: "4rem", fontWeight: 900, lineHeight: 1 }}>
+                5.0<span style={{ fontSize: "1.5rem" }}>★</span>
+              </div>
+              <p style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: 24 }}>
+                Target Standard
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, opacity: 0.9 }}>
+                <p>
+                  <strong>4.0 - 5.0:</strong> Optimized Safety
+                </p>
+                <p>
+                  <strong>3.0 - 3.9:</strong> Standard Compliance
+                </p>
+                <p style={{ color: "#ff8f8f" }}>
+                  <strong>&lt; 3.0:</strong> Access Denied
+                </p>
               </div>
             </div>
+          </Section>
+        </div>
+
+        {/* Verification Checklist */}
+        <Section title="Initialisation Sequence">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
+             {checklist.map((item, i) => (
+                <motion.div
+                    key={item}
+                    whileHover={{ scale: 1.02, backgroundColor: palette.cream }}
+                    style={{
+                        padding: 20,
+                        border: `1px dashed ${palette.cocoa}`,
+                        borderRadius: 8,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 16
+                    }}
+                >
+                    <div style={{ padding: 8, background: palette.cocoa, borderRadius: '50%' }}>
+                        <ClipboardCheck size={16} color={palette.sand} />
+                    </div>
+                    <span style={{ fontWeight: 600 }}>{item}</span>
+                </motion.div>
+             ))}
           </div>
-        </section>
+        </Section>
 
-        <section style={cardSection}>
-          <h2>Delivery Hygiene Standards</h2>
-          <p>Our delivery partners follow strict hygiene:</p>
-          <ul style={listStyle}>
-            {deliveryStandards.map((item) => (
-              <li key={item}><Package size={16} /> {item}</li>
-            ))}
-          </ul>
-        </section>
+        {/* Monitoring & Standards Grid */}
+        <div style={gridTwo}>
+            <Section title="Live Monitoring">
+                <div style={{ display: 'grid', gap: 16 }}>
+                    {monitoring.map((m, i) => (
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: `1px solid ${palette.glassBorder}`, paddingBottom: 8 }}>
+                            <span>{m}</span>
+                            <Eye size={16} style={{ opacity: 0.5 }} />
+                        </div>
+                    ))}
+                    <div style={{ marginTop: 16, display: 'flex', gap: 12 }}>
+                        <TechBadge icon={Camera} label="VISUAL" />
+                        <TechBadge icon={History} label="LOGS" />
+                        <TechBadge icon={Info} label="DATA" />
+                    </div>
+                </div>
+            </Section>
 
-        <section style={cardSection}>
-          <h2>User Transparency Tools</h2>
-          <p>Users can view:</p>
-          <ul style={listStyle}>
-            {transparencyTools.map((item) => (
-              <li key={item}><Eye size={16} /> {item}</li>
-            ))}
-          </ul>
-        </section>
+            <Section title="Logistics Hygiene">
+                 <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
+                    {deliveryStandards.map((d, i) => (
+                        <motion.li 
+                            key={i}
+                            initial={{ x: 20, opacity: 0 }}
+                            whileInView={{ x: 0, opacity: 1 }}
+                            transition={{ delay: i * 0.1 }}
+                            style={{ display: 'flex', alignItems: 'center', gap: 12 }}
+                        >
+                            <Package size={20} />
+                            <span style={{ fontSize: '1.1rem' }}>{d}</span>
+                        </motion.li>
+                    ))}
+                 </ul>
+            </Section>
+        </div>
 
-        <section style={cardSection}>
-          <h2>If You Face a Hygiene Issue</h2>
-          <p>We take hygiene complaints very seriously. You can report:</p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
-            {reportIssues.map((issue) => (
-              <button key={issue} style={chipStyle}><AlertTriangle size={16} /> {issue}</button>
-            ))}
-          </div>
-          <button style={{ ...primaryButton, marginTop: 16 }}>Report a Hygiene Issue</button>
-          <p style={{ marginTop: 8 }}>We respond within 15 minutes.</p>
-        </section>
+        {/* Transparency Tools */}
+        <Section title="User Visibility">
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+                {transparencyTools.map((tool, i) => (
+                     <motion.div
+                        key={i}
+                        whileHover={{ y: -5, boxShadow: `0 10px 20px -5px ${palette.glassBorder}` }}
+                        style={{
+                            padding: "12px 24px",
+                            background: palette.cream,
+                            borderRadius: 30,
+                            border: `1px solid ${palette.cocoa}`,
+                            fontWeight: 700,
+                            fontSize: '0.9rem',
+                            cursor: 'default'
+                        }}
+                     >
+                        {tool}
+                     </motion.div>
+                ))}
+            </div>
+        </Section>
 
-        <section style={cardSection}>
-          <h2>Hygiene FAQ</h2>
-          <div style={{ display: "grid", gap: 12 }}>
-            {faqs.map(({ q, a }) => (
-              <details key={q} style={faqStyle}>
-                <summary>{q}</summary>
-                <p>{a}</p>
-              </details>
-            ))}
-          </div>
-        </section>
+        {/* Report Issue & FAQ */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 32 }}>
+            <Section title="Incident Report">
+                <p style={{ marginBottom: 16 }}>Select incident type to initiate protocol:</p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 24 }}>
+                    {reportIssues.map(r => (
+                        <button key={r} style={glitchButton}>{r}</button>
+                    ))}
+                </div>
+                <motion.button 
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    style={{
+                        width: '100%',
+                        padding: 20,
+                        background: palette.cocoa,
+                        color: palette.sand,
+                        border: 'none',
+                        clipPath: "polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)",
+                        fontWeight: 900,
+                        textTransform: 'uppercase',
+                        letterSpacing: 2,
+                        cursor: 'pointer'
+                    }}
+                >
+                    <AlertTriangle size={18} style={{ marginBottom: -3, marginRight: 8 }} />
+                    Transmit Report
+                </motion.button>
+            </Section>
 
-        <section style={{ textAlign: "center", padding: 32, background: palette.cocoa, color: palette.sand, borderRadius: 28 }}>
-          <h2>Final Safety Commitment</h2>
-          <p>
-            We promise clean kitchens, safe meals, and total transparency. Your health matters — and every tiffin on TiffinConnect is prepared with care and hygiene.
-          </p>
-        </section>
-      </div>
-    </section>
+            <Section title="Database // FAQ">
+                 <div style={{ display: 'grid', gap: 12 }}>
+                    {faqs.map((f, i) => (
+                        <FaqItem key={i} q={f.q} a={f.a} />
+                    ))}
+                 </div>
+            </Section>
+        </div>
+
+        {/* Footer Banner */}
+        <motion.section
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            style={{
+                textAlign: "center",
+                padding: "64px 32px",
+                background: palette.cocoa,
+                color: palette.sand,
+                clipPath: "polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%)", // Chevron bottom
+                marginTop: 48
+            }}
+        >
+            <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: 16, textTransform: 'uppercase' }}>Commitment Verified</h2>
+            <p style={{ maxWidth: 600, margin: '0 auto', fontSize: '1.2rem', opacity: 0.8 }}>
+                We promise clean kitchens, safe meals, and total transparency.
+            </p>
+            <div style={{ marginTop: 32, display: 'flex', justifyContent: 'center', gap: 8 }}>
+                {[1,2,3].map(i => (
+                    <motion.div 
+                        key={i}
+                        animate={{ opacity: [0.3, 1, 0.3] }}
+                        transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+                        style={{ width: 8, height: 8, background: palette.sand, borderRadius: '50%' }} 
+                    />
+                ))}
+            </div>
+        </motion.section>
+
+      </motion.div>
+    </div>
   );
 };
 
-const cardSection: React.CSSProperties = {
-  background: "rgba(255,255,255,0.95)",
-  borderRadius: 26,
-  padding: 28,
-  border: `1px solid ${palette.accent}`,
-};
+// --- Sub-Components & Styles ---
 
-const promiseCard: React.CSSProperties = {
-  display: "flex",
-  gap: 12,
-  alignItems: "flex-start",
-  background: palette.cream,
-  borderRadius: 20,
-  padding: 18,
-};
+const Section: React.FC<{ title: string; children: React.ReactNode; delay?: number }> = ({ title, children, delay = 0 }) => (
+    <motion.section
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6, delay }}
+        style={{
+            background: "rgba(255, 255, 255, 0.4)",
+            backdropFilter: "blur(12px)",
+            padding: 32,
+            borderTop: `1px solid ${palette.glassBorder}`,
+            borderLeft: `1px solid ${palette.glassBorder}`,
+            boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.05)",
+            borderRadius: "4px", // Sharper corners for tech feel
+            position: 'relative'
+        }}
+    >
+        {/* Decorative Tech Lines */}
+        <div style={{ position: 'absolute', top: 0, left: 0, width: 20, height: 20, borderTop: `3px solid ${palette.cocoa}`, borderLeft: `3px solid ${palette.cocoa}` }} />
+        <div style={{ position: 'absolute', bottom: 0, right: 0, width: 20, height: 20, borderBottom: `3px solid ${palette.cocoa}`, borderRight: `3px solid ${palette.cocoa}` }} />
+        
+        <h2 style={{ 
+            fontSize: "1.8rem", 
+            fontWeight: 800, 
+            marginBottom: 24, 
+            textTransform: "uppercase", 
+            borderBottom: `2px solid ${palette.cocoa}`, 
+            display: 'inline-block',
+            paddingRight: 20
+        }}>
+            {title}
+        </h2>
+        {children}
+    </motion.section>
+);
+
+const GlassCard: React.FC<{ children: React.ReactNode; index: number }> = ({ children, index }) => (
+  <motion.article
+    variants={itemVariants}
+    whileHover={{ 
+        y: -10, 
+        backgroundColor: "rgba(255, 247, 235, 0.8)",
+        boxShadow: `0 15px 30px -10px ${palette.glassBorder}`
+    }}
+    style={{
+      padding: 24,
+      background: palette.glass,
+      backdropFilter: "blur(10px)",
+      border: `1px solid ${palette.glassBorder}`,
+      position: 'relative',
+      overflow: 'hidden'
+    }}
+  >
+    {children}
+    {/* Animated Scanner Line */}
+    <motion.div 
+        animate={{ top: ['-100%', '200%'] }}
+        transition={{ duration: 3, repeat: Infinity, delay: index * 1, ease: 'linear' }}
+        style={{
+            position: 'absolute',
+            left: 0,
+            width: '100%',
+            height: '20%',
+            background: `linear-gradient(to bottom, transparent, ${palette.glassBorder}, transparent)`,
+            pointerEvents: 'none',
+            opacity: 0.3
+        }}
+    />
+  </motion.article>
+);
+
+const TechBadge: React.FC<{ icon: React.ElementType; label: string }> = ({ icon: Icon, label }) => (
+    <div style={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        gap: 6, 
+        padding: '6px 12px', 
+        background: palette.cocoa, 
+        color: palette.sand, 
+        fontSize: '0.7rem', 
+        fontWeight: 800,
+        letterSpacing: 1 
+    }}>
+        <Icon size={12} /> {label}
+    </div>
+)
+
+const FaqItem: React.FC<{ q: string; a: string }> = ({ q, a }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+        <motion.div 
+            style={{ border: `1px solid ${palette.cocoa}`, background: isOpen ? palette.cream : 'transparent', transition: '0.3s' }}
+            animate={{ height: 'auto' }}
+        >
+            <button 
+                onClick={() => setIsOpen(!isOpen)}
+                style={{
+                    width: '100%',
+                    padding: 16,
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    background: 'transparent',
+                    border: 'none',
+                    fontFamily: 'inherit',
+                    fontWeight: 700,
+                    fontSize: '1rem',
+                    color: palette.cocoa,
+                    cursor: 'pointer'
+                }}
+            >
+                {q}
+                <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
+                    <ChevronDown size={20} />
+                </motion.div>
+            </button>
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        style={{ overflow: 'hidden' }}
+                    >
+                        <p style={{ padding: '0 16px 16px', opacity: 0.8, lineHeight: 1.5 }}>{a}</p>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </motion.div>
+    )
+}
 
 const gridFive: React.CSSProperties = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-  gap: 16,
+  gap: 24,
 };
 
 const gridTwo: React.CSSProperties = {
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-  gap: 20,
-  alignItems: "flex-start",
+  gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+  gap: 32,
+  alignItems: "stretch",
 };
 
-const listStyle: React.CSSProperties = {
-  listStyle: "none",
-  padding: 0,
-  margin: 0,
-  display: "flex",
-  flexDirection: "column",
-  gap: 10,
-};
-
-const chipStyle: React.CSSProperties = {
-  borderRadius: 18,
-  border: `1px solid ${palette.cocoa}`,
-  padding: "10px 16px",
-  background: "transparent",
-  cursor: "pointer",
-  fontWeight: 600,
-  display: "flex",
-  alignItems: "center",
-  gap: 6,
-};
-
-const primaryButton: React.CSSProperties = {
-  padding: "12px 22px",
-  borderRadius: 20,
-  border: "none",
-  background: palette.cocoa,
-  color: palette.sand,
-  fontWeight: 700,
-  cursor: "pointer",
-};
-
-const faqStyle: React.CSSProperties = {
-  background: palette.cream,
-  borderRadius: 18,
-  padding: 16,
-  border: `1px solid ${palette.accent}`,
+const glitchButton: React.CSSProperties = {
+    padding: "8px 16px",
+    background: "transparent",
+    border: `1px solid ${palette.glassBorder}`,
+    borderRadius: 0,
+    cursor: "pointer",
+    fontSize: "0.85rem",
+    fontWeight: 600,
+    color: palette.cocoa,
+    fontFamily: 'inherit',
+    position: 'relative',
+    overflow: 'hidden'
 };
 
 export default HygienePage;

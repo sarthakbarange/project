@@ -7,7 +7,7 @@ import LayoutContent from './LayoutContent';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Authentication App',
+  title: 'myTiffin',
   description: 'Secure authentication system with login and signup functionality',
   viewport: 'width=device-width, initial-scale=1',
   themeColor: '#ffffff',
